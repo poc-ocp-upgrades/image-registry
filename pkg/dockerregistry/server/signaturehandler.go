@@ -12,6 +12,8 @@ import (
 func RegisterSignatureHandler(app *handlers.App, isImageClient client.ImageStreamImagesNamespacer) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	extensionsRouter := app.NewRoute().PathPrefix(api.ExtensionsPrefix).Subrouter()
 	var (
 		getSignatureAccess	= func(r *http.Request) []auth.Access {

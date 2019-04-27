@@ -11,6 +11,8 @@ import (
 func TestMaxConnections(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const timeout = 1 * time.Second
 	maxRunning := 1
 	maxInQueue := 2

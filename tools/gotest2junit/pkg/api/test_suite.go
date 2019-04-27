@@ -5,6 +5,8 @@ import "time"
 func (t *TestSuite) AddProperty(name, value string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, property := range t.Properties {
 		if property.Name == name {
 			property.Value = value
@@ -14,6 +16,8 @@ func (t *TestSuite) AddProperty(name, value string) {
 	t.Properties = append(t.Properties, &TestSuiteProperty{Name: name, Value: value})
 }
 func (t *TestSuite) AddTestCase(testCase *TestCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.NumTests += 1
@@ -33,6 +37,8 @@ func (t *TestSuite) AddTestCase(testCase *TestCase) {
 func (t *TestSuite) SetDuration(duration string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsedDuration, err := time.ParseDuration(duration)
 	if err != nil {
 		return err
@@ -46,14 +52,20 @@ type ByName []*TestSuite
 func (n ByName) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(n)
 }
 func (n ByName) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n[i], n[j] = n[j], n[i]
 }
 func (n ByName) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return n[i].Name < n[j].Name

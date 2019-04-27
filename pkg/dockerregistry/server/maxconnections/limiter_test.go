@@ -10,6 +10,8 @@ import (
 func TestLimiter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const timeout = 1 * time.Second
 	maxRunning := 2
 	maxInQueue := 3
@@ -69,6 +71,8 @@ func TestLimiter(t *testing.T) {
 	}
 }
 func TestLimiterContext(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const timeout = 1 * time.Second

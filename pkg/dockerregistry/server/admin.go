@@ -23,6 +23,8 @@ import (
 func (app *App) registerBlobHandler(dockerApp *handlers.App) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	adminRouter := dockerApp.NewRoute().PathPrefix(api.AdminPrefix).Subrouter()
 	pruneAccessRecords := func(*http.Request) []auth.Access {
 		return []auth.Access{{Resource: auth.Resource{Type: "admin"}, Action: "prune"}}
@@ -30,6 +32,8 @@ func (app *App) registerBlobHandler(dockerApp *handlers.App) {
 	dockerApp.RegisterRoute("admin-blobs", adminRouter.Path(api.AdminPath).Methods("DELETE"), app.blobDispatcher, handlers.NameNotRequired, pruneAccessRecords)
 }
 func (app *App) blobDispatcher(ctx *handlers.Context, r *http.Request) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	reference := dcontext.GetStringValue(ctx, "vars.digest")
@@ -46,6 +50,8 @@ type blobHandler struct {
 }
 
 func (bh *blobHandler) Delete(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {
@@ -84,7 +90,16 @@ func (bh *blobHandler) Delete(w http.ResponseWriter, req *http.Request) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

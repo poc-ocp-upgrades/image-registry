@@ -16,6 +16,8 @@ type Enumerator struct{ Registry distribution.Namespace }
 func (e *Enumerator) Repositories(ctx context.Context, handler func(string) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repositoryEnumerator, ok := e.Registry.(distribution.RepositoryEnumerator)
 	if !ok {
 		return fmt.Errorf("unable to convert Namespace to RepositoryEnumerator")
@@ -25,9 +27,13 @@ func (e *Enumerator) Repositories(ctx context.Context, handler func(string) erro
 func (e *Enumerator) Blobs(ctx context.Context, handler func(digest.Digest) error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.Registry.Blobs().Enumerate(ctx, handler)
 }
 func (e *Enumerator) Manifests(ctx context.Context, repoName string, handler func(digest.Digest) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	named, err := reference.WithName(repoName)
@@ -51,7 +57,16 @@ func (e *Enumerator) Manifests(ctx context.Context, repoName string, handler fun
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

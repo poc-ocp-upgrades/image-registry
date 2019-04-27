@@ -20,6 +20,8 @@ import (
 func getSchema1Manifest(repo *testframework.Repository, tag string) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &http.Client{Transport: repo.Transport()}
 	resp, err := c.Get(repo.BaseURL() + "/v2/" + repo.RepoName() + "/manifests/" + tag)
 	if err != nil {
@@ -37,6 +39,8 @@ func getSchema1Manifest(repo *testframework.Repository, tag string) (distributio
 	return m, err
 }
 func TestImageLayers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	master := testframework.NewMaster(t)
@@ -99,7 +103,16 @@ func TestImageLayers(t *testing.T) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

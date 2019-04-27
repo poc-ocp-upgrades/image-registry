@@ -61,14 +61,20 @@ var _ ImageStream = &imageStream{}
 func New(ctx context.Context, namespace, name string, client client.Interface) ImageStream {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStream{namespace: namespace, name: name, registryOSClient: client, imageClient: newCachedImageGetter(client), imageStreamGetter: &cachedImageStreamGetter{namespace: namespace, name: name, isNamespacer: client}}
 }
 func (is *imageStream) Reference() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s", is.namespace, is.name)
 }
 func (is *imageStream) getImage(ctx context.Context, dgst digest.Digest) (*imageapiv1.Image, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	image, err := is.imageClient.Get(ctx, dgst)
@@ -81,6 +87,8 @@ func (is *imageStream) getImage(ctx context.Context, dgst digest.Digest) (*image
 	return image, nil
 }
 func (is *imageStream) ResolveImageID(ctx context.Context, dgst digest.Digest) (*imageapiv1.TagEvent, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stream, rErr := is.imageStreamGetter.get()
@@ -100,6 +108,8 @@ func (is *imageStream) ResolveImageID(ctx context.Context, dgst digest.Digest) (
 func (is *imageStream) getStoredImageOfImageStream(ctx context.Context, dgst digest.Digest) (*imageapiv1.Image, *imageapiv1.TagEvent, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tagEvent, err := is.ResolveImageID(ctx, dgst)
 	if err != nil {
 		return nil, nil, err
@@ -113,6 +123,8 @@ func (is *imageStream) getStoredImageOfImageStream(ctx context.Context, dgst dig
 func (is *imageStream) GetImageOfImageStream(ctx context.Context, dgst digest.Digest) (*imageapiv1.Image, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image, tagEvent, err := is.getStoredImageOfImageStream(ctx, dgst)
 	if err != nil {
 		return nil, err
@@ -124,6 +136,8 @@ func (is *imageStream) GetImageOfImageStream(ctx context.Context, dgst digest.Di
 func (is *imageStream) GetSecrets() ([]corev1.Secret, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secrets, err := is.registryOSClient.ImageStreamSecrets(is.namespace).Secrets(is.name, metav1.GetOptions{})
 	if err != nil {
 		return nil, rerrors.NewError(ErrImageStreamUnknownErrorCode, fmt.Sprintf("GetSecrets: error getting secrets for repository %s", is.Reference()), err)
@@ -131,6 +145,8 @@ func (is *imageStream) GetSecrets() ([]corev1.Secret, *rerrors.Error) {
 	return secrets.Items, nil
 }
 func (is *imageStream) TagIsInsecure(ctx context.Context, tag string, dgst digest.Digest) (bool, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stream, err := is.imageStreamGetter.get()
@@ -155,6 +171,8 @@ func (is *imageStream) TagIsInsecure(ctx context.Context, tag string, dgst diges
 func (is *imageStream) Exists(ctx context.Context) (bool, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, rErr := is.imageStreamGetter.get()
 	if rErr != nil {
 		if rErr.Code == ErrImageStreamGetterNotFoundCode {
@@ -165,6 +183,8 @@ func (is *imageStream) Exists(ctx context.Context) (bool, *rerrors.Error) {
 	return true, nil
 }
 func (is *imageStream) localRegistry(ctx context.Context) ([]string, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stream, rErr := is.imageStreamGetter.get()
@@ -191,6 +211,8 @@ func (is *imageStream) localRegistry(ctx context.Context) ([]string, *rerrors.Er
 func (is *imageStream) IdentifyCandidateRepositories(ctx context.Context, primary bool) ([]string, map[string]ImagePullthroughSpec, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream, err := is.imageStreamGetter.get()
 	if err != nil {
 		return nil, nil, convertImageStreamGetterError(err, fmt.Sprintf("IdentifyCandidateRepositories: failed to get image stream %s", is.Reference()))
@@ -200,6 +222,8 @@ func (is *imageStream) IdentifyCandidateRepositories(ctx context.Context, primar
 	return repositoryCandidates, search, nil
 }
 func (is *imageStream) Tags(ctx context.Context) (map[string]digest.Digest, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	stream, err := is.imageStreamGetter.get()
@@ -222,6 +246,8 @@ func (is *imageStream) Tags(ctx context.Context) (map[string]digest.Digest, *rer
 	return m, nil
 }
 func (is *imageStream) CreateImageStreamMapping(ctx context.Context, userClient client.Interface, tag string, image *imageapiv1.Image) *rerrors.Error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ism := imageapiv1.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Namespace: is.namespace, Name: is.name}, Image: *image, Tag: tag}
@@ -271,6 +297,8 @@ func (is *imageStream) CreateImageStreamMapping(ctx context.Context, userClient 
 func (is *imageStream) GetLimitRangeList(ctx context.Context, cache ProjectObjectListStore) (*corev1.LimitRangeList, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cache != nil {
 		obj, exists, _ := cache.Get(is.namespace)
 		if exists {
@@ -291,6 +319,8 @@ func (is *imageStream) GetLimitRangeList(ctx context.Context, cache ProjectObjec
 	return lrs, nil
 }
 func convertImageStreamGetterError(err *rerrors.Error, msg string) *rerrors.Error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	code := ErrImageStreamUnknownErrorCode

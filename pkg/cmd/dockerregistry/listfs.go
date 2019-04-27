@@ -24,6 +24,8 @@ type ListOptions struct {
 func ExecuteListFS(configFile io.Reader, opts *ListOptions) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, _, err := registryconfig.Parse(configFile)
 	if err != nil {
 		log.Fatalf("error parsing configuration file: %s", err)

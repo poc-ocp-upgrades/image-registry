@@ -9,6 +9,8 @@ import (
 func TestGetBoolOption(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		envName		string
@@ -37,6 +39,8 @@ func TestGetBoolOption(t *testing.T) {
 	}
 }
 func TestGetDurationOption(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {

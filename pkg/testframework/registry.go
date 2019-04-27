@@ -22,6 +22,8 @@ type DisableMirroring struct{}
 func (o DisableMirroring) Apply(dockerConfig *configuration.Configuration, extraConfig *registryconfig.Configuration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	extraConfig.Pullthrough.Mirror = false
 }
 
@@ -30,10 +32,14 @@ type EnableMetrics struct{ Secret string }
 func (o EnableMetrics) Apply(dockerConfig *configuration.Configuration, extraConfig *registryconfig.Configuration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	extraConfig.Metrics.Enabled = true
 	extraConfig.Metrics.Secret = o.Secret
 }
 func StartTestRegistry(t *testing.T, kubeConfigPath string, options ...RegistryOption) (net.Listener, CloseFunc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	localIPv4, err := DefaultLocalIP4()
@@ -82,6 +88,8 @@ type Registry struct {
 func (r *Registry) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := r.closeFn(); err != nil {
 		r.t.Fatalf("failed to close the registry's listener: %v", err)
 	}
@@ -89,14 +97,20 @@ func (r *Registry) Close() {
 func (r *Registry) Addr() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.listener.Addr().String()
 }
 func (r *Registry) BaseURL() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "http://" + r.listener.Addr().String()
 }
 func (r *Registry) Repository(namespace string, imagestream string, user *User) *Repository {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	creds := testutil.NewBasicCredentialStore(user.Name, user.Token)

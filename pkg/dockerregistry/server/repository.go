@@ -21,6 +21,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secureTransport = http.DefaultTransport
 	var err error
 	insecureTransport, err = restclient.TransportFor(&restclient.Config{TLSClientConfig: restclient.TLSClientConfig{Insecure: true}})
@@ -42,6 +44,8 @@ type repository struct {
 func (app *App) Repository(ctx context.Context, repo distribution.Repository, crossmount bool) (distribution.Repository, distribution.BlobDescriptorServiceFactory, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	registryOSClient, err := app.registryClient.Client()
 	if err != nil {
 		return nil, nil, err
@@ -58,6 +62,8 @@ func (app *App) Repository(ctx context.Context, repo distribution.Repository, cr
 	return repo, bdsf, nil
 }
 func (r *repository) Manifests(ctx context.Context, options ...distribution.ManifestServiceOption) (distribution.ManifestService, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := append(options, registrystorage.SkipLayerVerification())
@@ -78,6 +84,8 @@ func (r *repository) Manifests(ctx context.Context, options ...distribution.Mani
 func (r *repository) Blobs(ctx context.Context) distribution.BlobStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bs := r.Repository.Blobs(ctx)
 	if r.app.quotaEnforcing.enforcementEnabled {
 		bs = &quotaRestrictedBlobStore{BlobStore: bs, repo: r}
@@ -92,6 +100,8 @@ func (r *repository) Blobs(ctx context.Context) distribution.BlobStore {
 func (r *repository) Tags(ctx context.Context) distribution.TagService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ts := r.Repository.Tags(ctx)
 	ts = &tagService{TagService: ts, imageStream: r.imageStream}
 	ts = newPendingErrorsTagService(ts, r)
@@ -103,12 +113,16 @@ func (r *repository) Tags(ctx context.Context) distribution.TagService {
 func (r *repository) BlobDescriptorService(svc distribution.BlobDescriptorService) distribution.BlobDescriptorService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svc = &cache.RepositoryScopedBlobDescriptor{Repo: r.Named().String(), Cache: r.app.cache, Svc: svc}
 	svc = &blobDescriptorService{svc, r}
 	svc = newPendingErrorsBlobDescriptorService(svc, r)
 	return svc
 }
 func (r *repository) checkPendingErrors(ctx context.Context) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !authPerformed(ctx) {

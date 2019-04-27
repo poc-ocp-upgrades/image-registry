@@ -21,14 +21,20 @@ var (
 func Kind(kind string) schema.GroupKind {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SchemeGroupVersion.WithKind(kind).GroupKind()
 }
 func Resource(resource string) schema.GroupResource {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
 func TestIsErrorQuotaExceeded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {
@@ -46,6 +52,8 @@ func TestIsErrorQuotaExceeded(t *testing.T) {
 	}
 }
 func TestIsErrorLimitExceeded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, tc := range []struct {

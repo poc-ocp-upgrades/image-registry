@@ -25,14 +25,20 @@ type log struct{ records []string }
 func (l *log) Reset() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.records = nil
 }
 func (l *log) Record(format string, v ...interface{}) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.records = append(l.records, fmt.Sprintf(format, v...))
 }
 func (l *log) Compare(expected []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(l.records) == 0 && len(expected) == 0 {
@@ -47,6 +53,8 @@ func (l *log) Compare(expected []string) error {
 type testAccessController struct{ log *log }
 
 func (ac *testAccessController) Authorized(ctx context.Context, access ...auth.Access) (context.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var args []string
@@ -65,6 +73,8 @@ type testRegistry struct {
 func (reg *testRegistry) Repository(ctx context.Context, named reference.Named) (distribution.Repository, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	reg.log.Record("%s: enter Registry.Repository", named)
 	defer reg.log.Record("%s: leave Registry.Repository", named)
 	return reg.Namespace.Repository(ctx, named)
@@ -75,9 +85,13 @@ type testApp struct{ log *log }
 func (app *testApp) Auth(options map[string]interface{}) (auth.AccessController, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testAccessController{log: app.log}, nil
 }
 func (app *testApp) Storage(driver storagedriver.StorageDriver, options map[string]interface{}) (storagedriver.StorageDriver, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return driver, nil
@@ -85,9 +99,13 @@ func (app *testApp) Storage(driver storagedriver.StorageDriver, options map[stri
 func (app *testApp) Registry(registry distribution.Namespace, options map[string]interface{}) (distribution.Namespace, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testRegistry{Namespace: registry, log: app.log}, nil
 }
 func (app *testApp) Repository(ctx context.Context, repo distribution.Repository, crossmount bool) (distribution.Repository, distribution.BlobDescriptorServiceFactory, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	name := "regular"
@@ -108,9 +126,13 @@ func (app *testApp) Repository(ctx context.Context, repo distribution.Repository
 func (app *testApp) CacheProvider(ctx context.Context, options map[string]interface{}) (cache.BlobDescriptorCacheProvider, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func TestApp(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log := &log{}

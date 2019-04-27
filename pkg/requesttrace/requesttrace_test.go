@@ -11,6 +11,8 @@ import (
 func TestRequests(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	ctx = testutil.WithTestLogger(ctx, t)
 	var req *http.Request
@@ -27,6 +29,8 @@ func TestRequests(t *testing.T) {
 	}
 }
 func TestLoopRequests(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := context.Background()

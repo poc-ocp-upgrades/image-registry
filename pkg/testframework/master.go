@@ -43,6 +43,8 @@ type MasterProcess struct{ kubeconfig string }
 func StartMasterProcess(kubeconfig string) (MasterInterface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := os.Setenv("KUBECONFIG", kubeconfig); err != nil {
 		return nil, err
 	}
@@ -51,14 +53,20 @@ func StartMasterProcess(kubeconfig string) (MasterInterface, error) {
 func (p *MasterProcess) AdminKubeConfigPath() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.kubeconfig
 }
 func (p *MasterProcess) Stop() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (p *MasterProcess) WaitHealthz(configDir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	config, err := ConfigFromFile(p.kubeconfig)
@@ -82,6 +90,8 @@ type MasterContainer struct {
 }
 
 func StartMasterContainer(configDir string) (MasterInterface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cli, err := client.NewEnvClient()
@@ -135,9 +145,13 @@ func StartMasterContainer(configDir string) (MasterInterface, error) {
 func (m *MasterContainer) AdminKubeConfigPath() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.KubeConfigPath
 }
 func (c *MasterContainer) WriteConfigs(configDir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cli, err := client.NewEnvClient()
@@ -160,6 +174,8 @@ func (c *MasterContainer) WriteConfigs(configDir string) error {
 func (c *MasterContainer) WaitHealthz(configDir string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caBundlePath := path.Join(configDir, "master", "ca-bundle.crt")
 	caBundle, err := ioutil.ReadFile(caBundlePath)
 	if err != nil {
@@ -172,6 +188,8 @@ func (c *MasterContainer) WaitHealthz(configDir string) error {
 	return WaitHTTP(rt, fmt.Sprintf("https://%s:%d/healthz", c.NetworkSettings.IPAddress, c.Port))
 }
 func (c *MasterContainer) Stop() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cli, err := client.NewEnvClient()
@@ -194,6 +212,8 @@ type User struct {
 func (u *User) KubeConfig() *rest.Config {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return u.kubeConfig
 }
 
@@ -207,14 +227,20 @@ type Repository struct {
 func (r *Repository) BaseURL() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.baseURL
 }
 func (r *Repository) RepoName() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.repoName
 }
 func (r *Repository) Transport() http.RoundTripper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.transport
@@ -229,6 +255,8 @@ type Master struct {
 }
 
 func NewMaster(t *testing.T) *Master {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tmpDir, err := ioutil.TempDir("", "image-registry-test-")
@@ -259,6 +287,8 @@ func NewMaster(t *testing.T) *Master {
 func (m *Master) WaitForRoles() error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.Poll(time.Second, time.Minute, func() (bool, error) {
 		kubeClient, err := kubeclient.NewForConfig(m.AdminKubeConfig())
 		if err != nil {
@@ -286,6 +316,8 @@ func (m *Master) WaitForRoles() error {
 func (m *Master) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if kubeClient, err := kubeclient.NewForConfig(m.AdminKubeConfig()); err == nil {
 		for _, ns := range m.namespaces {
 			if err := kubeClient.Core().Namespaces().Delete(ns, nil); err != nil {
@@ -303,6 +335,8 @@ func (m *Master) Close() {
 func (m *Master) AdminKubeConfig() *rest.Config {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m.adminKubeConfig != nil {
 		return m.adminKubeConfig
 	}
@@ -316,10 +350,14 @@ func (m *Master) AdminKubeConfig() *rest.Config {
 func (m *Master) StartRegistry(t *testing.T, options ...RegistryOption) *Registry {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ln, closeFn := StartTestRegistry(t, m.container.AdminKubeConfigPath(), options...)
 	return &Registry{t: t, listener: ln, closeFn: closeFn}
 }
 func (m *Master) CreateUser(username string, password string) *User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, user, err := GetClientForUser(m.AdminKubeConfig(), username)
@@ -331,6 +369,8 @@ func (m *Master) CreateUser(username string, password string) *User {
 func (m *Master) GrantPrunerRole(user *User) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizationClient := authorizationv1.NewForConfigOrDie(m.AdminKubeConfig())
 	_, err := authorizationClient.ClusterRoleBindings().Create(&authorizationapiv1.ClusterRoleBinding{ObjectMeta: metav1.ObjectMeta{Name: "image-registry-test-pruner-" + uuid.NewRandom().String()}, UserNames: []string{user.Name}, RoleRef: corev1.ObjectReference{Name: "system:image-pruner"}})
 	if err != nil {
@@ -338,6 +378,8 @@ func (m *Master) GrantPrunerRole(user *User) {
 	}
 }
 func (m *Master) CreateProject(namespace, user string) *projectapiv1.Project {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.namespaces = append(m.namespaces, namespace)

@@ -24,6 +24,8 @@ type mockRetriever struct {
 func (r *mockRetriever) Repository(ctx context.Context, registry *url.URL, repoName string, insecure bool) (distribution.Repository, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.insecure = insecure
 	return r.repo, r.err
 }
@@ -38,9 +40,13 @@ type mockRepository struct {
 func (r *mockRepository) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test"
 }
 func (r *mockRepository) Named() reference.Named {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	named, _ := reference.WithName("test")
@@ -49,9 +55,13 @@ func (r *mockRepository) Named() reference.Named {
 func (r *mockRepository) Manifests(ctx context.Context, options ...distribution.ManifestServiceOption) (distribution.ManifestService, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r, r.repoErr
 }
 func (r *mockRepository) Blobs(ctx context.Context) distribution.BlobStore {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.blobs
@@ -59,9 +69,13 @@ func (r *mockRepository) Blobs(ctx context.Context) distribution.BlobStore {
 func (r *mockRepository) Exists(ctx context.Context, dgst godigest.Digest) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false, r.getErr
 }
 func (r *mockRepository) Get(ctx context.Context, dgst godigest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, option := range options {
@@ -74,14 +88,20 @@ func (r *mockRepository) Get(ctx context.Context, dgst godigest.Digest, options 
 func (r *mockRepository) Delete(ctx context.Context, dgst godigest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("not implemented")
 }
 func (r *mockRepository) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (godigest.Digest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", fmt.Errorf("not implemented")
 }
 func (r *mockRepository) Tags(ctx context.Context) distribution.TagService {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &mockTagService{repo: r}
@@ -96,9 +116,13 @@ type mockBlobStore struct {
 func (r *mockBlobStore) Stat(ctx context.Context, dgst godigest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return distribution.Descriptor{}, r.statErr
 }
 func (r *mockBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, req *http.Request, dgst godigest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.serveErr
@@ -106,9 +130,13 @@ func (r *mockBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, re
 func (r *mockBlobStore) Open(ctx context.Context, dgst godigest.Digest) (distribution.ReadSeekCloser, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, r.openErr
 }
 func (r *mockBlobStore) Get(ctx context.Context, dgst godigest.Digest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b, exists := r.blobs[dgst]
@@ -126,6 +154,8 @@ type mockTagService struct {
 func (r *mockTagService) Get(ctx context.Context, tag string) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v, ok := r.repo.tags[tag]
 	if !ok {
 		return distribution.Descriptor{}, r.repo.getTagErr
@@ -139,10 +169,14 @@ func (r *mockTagService) Get(ctx context.Context, tag string) (distribution.Desc
 func (r *mockTagService) Tag(ctx context.Context, tag string, desc distribution.Descriptor) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.repo.tags[tag] = desc.Digest.String()
 	return r.repo.tagErr
 }
 func (r *mockTagService) Untag(ctx context.Context, tag string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if _, ok := r.repo.tags[tag]; ok {
@@ -151,6 +185,8 @@ func (r *mockTagService) Untag(ctx context.Context, tag string) error {
 	return r.repo.untagErr
 }
 func (r *mockTagService) All(ctx context.Context) (res []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = r.repo.allTagErr
@@ -162,9 +198,13 @@ func (r *mockTagService) All(ctx context.Context) (res []string, err error) {
 func (r *mockTagService) Lookup(ctx context.Context, digest distribution.Descriptor) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("not implemented")
 }
 func TestPing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	retriever := NewContext(http.DefaultTransport, http.DefaultTransport).WithCredentials(NoCredentials)
@@ -227,9 +267,13 @@ type temporaryError struct{}
 func (temporaryError) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "temporary"
 }
 func (temporaryError) Timeout() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return false
@@ -237,9 +281,13 @@ func (temporaryError) Timeout() bool {
 func (temporaryError) Temporary() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func TestShouldRetry(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r := NewRetryRepository(nil, 1, 0).(*retryRepository)
@@ -309,6 +357,8 @@ func TestShouldRetry(t *testing.T) {
 	}
 }
 func TestRetryFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	repo := &mockRepository{repoErr: fmt.Errorf("does not support v2 API")}

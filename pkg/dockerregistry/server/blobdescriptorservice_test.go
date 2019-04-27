@@ -27,12 +27,16 @@ type appMiddlewareChain []appMiddleware
 func (m appMiddlewareChain) Apply(app supermiddleware.App) supermiddleware.App {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, am := range m {
 		app = am.Apply(app)
 	}
 	return app
 }
 func TestBlobDescriptorServiceIsApplied(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := context.Background()
@@ -153,11 +157,15 @@ type testBlobDescriptorManager struct {
 func NewTestBlobDescriptorManager() *testBlobDescriptorManager {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := &testBlobDescriptorManager{stats: make(map[string]int)}
 	m.cond = sync.NewCond(&m.mu)
 	return m
 }
 func (m *testBlobDescriptorManager) clearStats() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	m.mu.Lock()
@@ -169,6 +177,8 @@ func (m *testBlobDescriptorManager) clearStats() {
 func (m *testBlobDescriptorManager) methodInvoked(methodName string) int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.mu.Lock()
 	defer m.mu.Unlock()
 	newCount := m.stats[methodName] + 1
@@ -177,6 +187,8 @@ func (m *testBlobDescriptorManager) methodInvoked(methodName string) int {
 	return newCount
 }
 func (m *testBlobDescriptorManager) getStats(minimumLimits map[string]int, timeout time.Duration) (map[string]int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	end := time.Now().Add(timeout)
@@ -214,6 +226,8 @@ func (m *testBlobDescriptorManager) getStats(minimumLimits map[string]int, timeo
 func statsGreaterThanOrEqual(stats, minimumLimits map[string]int) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for key, val := range minimumLimits {
 		if val > stats[key] {
 			return false
@@ -230,6 +244,8 @@ type fakeBlobDescriptorServiceMiddleware struct {
 func (m *fakeBlobDescriptorServiceMiddleware) Apply(app supermiddleware.App) supermiddleware.App {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeBlobDescriptorServiceApp{App: app, t: m.t, m: m.m}
 }
 
@@ -240,6 +256,8 @@ type fakeBlobDescriptorServiceApp struct {
 }
 
 func (app *fakeBlobDescriptorServiceApp) Repository(ctx context.Context, repo distribution.Repository, crossmount bool) (distribution.Repository, distribution.BlobDescriptorServiceFactory, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	repo, bdsf, err := app.App.Repository(ctx, repo, crossmount)
@@ -258,6 +276,8 @@ type testBlobDescriptorServiceFactory struct {
 func (bf *testBlobDescriptorServiceFactory) BlobAccessController(svc distribution.BlobDescriptorService) distribution.BlobDescriptorService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svc = bf.upstream.BlobAccessController(svc)
 	return &testBlobDescriptorService{BlobDescriptorService: svc, t: bf.t, m: bf.m}
 }
@@ -271,12 +291,16 @@ type testBlobDescriptorService struct {
 func (bs *testBlobDescriptorService) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if bs.m != nil {
 		bs.m.methodInvoked("Stat")
 	}
 	return bs.BlobDescriptorService.Stat(ctx, dgst)
 }
 func (bs *testBlobDescriptorService) Clear(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if bs.m != nil {
@@ -293,6 +317,8 @@ type fakeAccessControllerMiddleware struct {
 func (m *fakeAccessControllerMiddleware) Apply(app supermiddleware.App) supermiddleware.App {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeAccessControllerApp{App: app, t: m.t, userClient: m.userClient}
 }
 
@@ -305,6 +331,8 @@ type fakeAccessControllerApp struct {
 func (app *fakeAccessControllerApp) Auth(map[string]interface{}) (registryauth.AccessController, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeAccessController{t: app.t, userClient: app.userClient}, nil
 }
 
@@ -314,6 +342,8 @@ type fakeAccessController struct {
 }
 
 func (f *fakeAccessController) Authorized(ctx context.Context, access ...registryauth.Access) (context.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, access := range access {

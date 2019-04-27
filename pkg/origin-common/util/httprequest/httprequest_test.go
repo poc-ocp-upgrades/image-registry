@@ -10,6 +10,8 @@ import (
 func TestSchemeHost(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		req		*http.Request
 		expectedScheme	string

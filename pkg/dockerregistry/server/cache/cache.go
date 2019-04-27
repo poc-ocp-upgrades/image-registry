@@ -39,6 +39,8 @@ type digestCache struct {
 func NewBlobDigest(digestSize, repoSize int, itemTTL time.Duration, metrics metrics.DigestCache) (DigestCache, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lru, err := simplelru.NewLRU(digestSize, nil)
 	if err != nil {
 		return nil, err
@@ -46,6 +48,8 @@ func NewBlobDigest(digestSize, repoSize int, itemTTL time.Duration, metrics metr
 	return &digestCache{ttl: itemTTL, repoSize: repoSize, metrics: metrics, clock: clock.RealClock{}, lru: lru}, nil
 }
 func (gbd *digestCache) get(dgst digest.Digest, reuse bool) *DigestItem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if value, ok := gbd.lru.Get(dgst); ok {
@@ -66,6 +70,8 @@ func (gbd *digestCache) get(dgst digest.Digest, reuse bool) *DigestItem {
 func (gbd *digestCache) peek(dgst digest.Digest) *DigestItem {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if value, ok := gbd.lru.Peek(dgst); ok {
 		d, _ := value.(*DigestItem)
 		return d
@@ -73,6 +79,8 @@ func (gbd *digestCache) peek(dgst digest.Digest) *DigestItem {
 	return nil
 }
 func (gbd *digestCache) Get(dgst digest.Digest) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {
@@ -94,6 +102,8 @@ func (gbd *digestCache) Get(dgst digest.Digest) (distribution.Descriptor, error)
 func (gbd *digestCache) ScopedGet(dgst digest.Digest, repository string) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {
 		return distribution.Descriptor{}, err
 	}
@@ -111,6 +121,8 @@ func (gbd *digestCache) ScopedGet(dgst digest.Digest, repository string) (distri
 	return *value.desc, nil
 }
 func (gbd *digestCache) Repositories(dgst digest.Digest) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {
@@ -135,6 +147,8 @@ func (gbd *digestCache) Repositories(dgst digest.Digest) []string {
 func (gbd *digestCache) Remove(dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {
 		return err
 	}
@@ -147,6 +161,8 @@ func (gbd *digestCache) Remove(dgst digest.Digest) error {
 	return nil
 }
 func (gbd *digestCache) ScopedRemove(dgst digest.Digest, repository string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {
@@ -165,6 +181,8 @@ func (gbd *digestCache) ScopedRemove(dgst digest.Digest, repository string) erro
 	return nil
 }
 func (gbd *digestCache) Add(dgst digest.Digest, item *DigestValue) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := dgst.Validate(); err != nil {

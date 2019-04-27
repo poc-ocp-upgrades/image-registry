@@ -18,6 +18,8 @@ import (
 func getEnv(key string) (string, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := os.Getenv(key)
 	if len(val) == 0 {
 		return "", false
@@ -37,6 +39,8 @@ type Config struct {
 func NewConfig() *Config {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Config{MasterAddr: Addr{Value: "localhost:8080", DefaultScheme: "http", DefaultPort: 8080, AllowPrefix: true}.Default(), KubernetesAddr: Addr{Value: "localhost:8080", DefaultScheme: "http", DefaultPort: 8080}.Default(), CommonConfig: restclient.Config{}}
 }
 
@@ -50,6 +54,8 @@ const (
 var recommendedHomeFile = path.Join(homedir.HomeDir(), openShiftConfigHomeDirFileName)
 
 func (cfg *Config) BindToFile(configPath string) *Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defaultOverrides := &kclientcmd.ConfigOverrides{ClusterDefaults: kclientcmdapi.Cluster{Server: os.Getenv("KUBERNETES_MASTER")}}
@@ -68,6 +74,8 @@ func (cfg *Config) BindToFile(configPath string) *Config {
 	return cfg
 }
 func (cfg *Config) bindEnv() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if cfg.SkipEnv {
@@ -142,6 +150,8 @@ func (cfg *Config) bindEnv() error {
 	return err
 }
 func (cfg *Config) KubeConfig() *restclient.Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := cfg.bindEnv()

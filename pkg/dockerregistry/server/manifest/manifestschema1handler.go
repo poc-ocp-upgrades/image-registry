@@ -10,6 +10,8 @@ import (
 func unmarshalManifestSchema1(content []byte, signatures [][]byte) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := libtrust.ParsePrettySignature(content, "signatures"); err == nil {
 		sm := schema1.SignedManifest{Canonical: content}
 		if err = json.Unmarshal(content, &sm); err == nil {

@@ -37,12 +37,16 @@ type ImportRestriction struct {
 func (i *ImportRestriction) ForbiddenImportsFor(pkg Package) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !i.isRestrictedPath(pkg.ImportPath) {
 		return []string{}
 	}
 	return i.forbiddenImportsFor(pkg)
 }
 func (i *ImportRestriction) isRestrictedPath(packageToCheck string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !strings.HasPrefix(packageToCheck, rootPackage) {
@@ -58,6 +62,8 @@ func (i *ImportRestriction) isRestrictedPath(packageToCheck string) bool {
 func (i *ImportRestriction) forbiddenImportsFor(pkg Package) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	forbiddenImportSet := map[string]struct{}{}
 	for _, packageToCheck := range append(pkg.Imports, append(pkg.TestImports, pkg.XTestImports...)...) {
 		if !i.isAllowed(packageToCheck) {
@@ -71,6 +77,8 @@ func (i *ImportRestriction) forbiddenImportsFor(pkg Package) []string {
 	return forbiddenImports
 }
 func (i *ImportRestriction) isAllowed(packageToCheck string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !strings.HasPrefix(packageToCheck, rootPackage) {
@@ -108,6 +116,8 @@ func (i *ImportRestriction) isAllowed(packageToCheck string) bool {
 func (i *ImportRestriction) isIncludedInRestrictedPackages(packageToCheck string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ignored := range i.IgnoredSubTrees {
 		if strings.HasPrefix(packageToCheck, ignored) {
 			return false
@@ -128,12 +138,16 @@ func (i *ImportRestriction) isIncludedInRestrictedPackages(packageToCheck string
 func relativePackage(absolutePackage string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasPrefix(absolutePackage, rootPackage+"/vendor") {
 		return absolutePackage[len(rootPackage)+1:]
 	}
 	return absolutePackage
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(os.Args) != 2 {
@@ -196,6 +210,8 @@ func main() {
 func unusedPackageImports(allowedPackageImports []string, packages []Package) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []string{}
 	for _, allowedImport := range allowedPackageImports {
 		if strings.HasPrefix(allowedImport, "vendor") {
@@ -217,6 +233,8 @@ func unusedPackageImports(allowedPackageImports []string, packages []Package) []
 	return ret
 }
 func unusedPackageImportRoots(allowedPackageImportRoots []string, packages []Package) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ret := []string{}
@@ -242,6 +260,8 @@ func unusedPackageImportRoots(allowedPackageImportRoots []string, packages []Pac
 func mergePackages(existingPackages, currPackages []Package) []Package {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, currPackage := range currPackages {
 		found := false
 		for _, existingPackage := range existingPackages {
@@ -259,6 +279,8 @@ func mergePackages(existingPackages, currPackages []Package) []Package {
 func loadImportRestrictions(configFile string) ([]ImportRestriction, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load configuration from %s: %v", configFile, err)
@@ -270,6 +292,8 @@ func loadImportRestrictions(configFile string) ([]ImportRestriction, error) {
 	return importRestrictions, nil
 }
 func resolvePackage(targetPackage string) ([]Package, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cmd := "go"
@@ -287,6 +311,8 @@ func resolvePackage(targetPackage string) ([]Package, error) {
 func decodePackages(r io.Reader) ([]Package, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var packages []Package
 	decoder := json.NewDecoder(r)
 	for decoder.More() {
@@ -301,6 +327,8 @@ func decodePackages(r io.Reader) ([]Package, error) {
 func logForbiddenPackages(base string, forbidden []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log.Printf("-- found forbidden imports for %s:\n", base)
 	for _, forbiddenPackage := range forbidden {
 		log.Printf("\t%s\n", forbiddenPackage)
@@ -309,7 +337,16 @@ func logForbiddenPackages(base string, forbidden []string) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

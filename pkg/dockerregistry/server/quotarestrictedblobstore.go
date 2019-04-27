@@ -15,6 +15,8 @@ import (
 func newQuotaEnforcingConfig(ctx context.Context, quotaCfg *configuration.Quota) *quotaEnforcingConfig {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !quotaCfg.Enabled {
 		dcontext.GetLogger(ctx).Info("quota enforcement disabled")
 		return &quotaEnforcingConfig{}
@@ -41,6 +43,8 @@ var _ distribution.BlobStore = &quotaRestrictedBlobStore{}
 func (bs *quotaRestrictedBlobStore) Create(ctx context.Context, options ...distribution.BlobCreateOption) (distribution.BlobWriter, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debug("(*quotaRestrictedBlobStore).Create: starting")
 	bw, err := bs.BlobStore.Create(ctx, options...)
 	if err != nil {
@@ -51,6 +55,8 @@ func (bs *quotaRestrictedBlobStore) Create(ctx context.Context, options ...distr
 	return &quotaRestrictedBlobWriter{BlobWriter: bw, repo: &repo}, nil
 }
 func (bs *quotaRestrictedBlobStore) Resume(ctx context.Context, id string) (distribution.BlobWriter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debug("(*quotaRestrictedBlobStore).Resume: starting")
@@ -71,6 +77,8 @@ type quotaRestrictedBlobWriter struct {
 func (bw *quotaRestrictedBlobWriter) Commit(ctx context.Context, provisional distribution.Descriptor) (canonical distribution.Descriptor, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debug("(*quotaRestrictedBlobWriter).Commit: starting")
 	if err := admitBlobWrite(ctx, bw.repo, provisional.Size); err != nil {
 		return distribution.Descriptor{}, err
@@ -78,6 +86,8 @@ func (bw *quotaRestrictedBlobWriter) Commit(ctx context.Context, provisional dis
 	return bw.BlobWriter.Commit(ctx, provisional)
 }
 func admitBlobWrite(ctx context.Context, repo *repository, size int64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if size < 1 {
@@ -99,6 +109,8 @@ func admitBlobWrite(ctx context.Context, repo *repository, size int64) error {
 	return nil
 }
 func admitImage(size int64, limit corev1.LimitRangeItem) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if limit.Type != imageapi.LimitTypeImage {

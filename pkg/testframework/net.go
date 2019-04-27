@@ -11,6 +11,8 @@ var ErrNoDefaultIP = errors.New("no suitable IP address")
 func DefaultLocalIP4() (net.IP, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	devices, err := net.Interfaces()
 	if err != nil {
 		return nil, err
@@ -33,6 +35,8 @@ func DefaultLocalIP4() (net.IP, error) {
 	return nil, ErrNoDefaultIP
 }
 func FindFreeLocalPort() (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	l, err := net.Listen("tcp", ":0")

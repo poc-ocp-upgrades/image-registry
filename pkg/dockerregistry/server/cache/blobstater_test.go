@@ -13,6 +13,8 @@ import (
 func TestBlobStatter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := time.Now()
 	clock := clock.NewFakeClock(now)
 	cache, err := NewBlobDigest(5, 3, ttl1m, metrics.NewNoopMetrics())
@@ -50,6 +52,8 @@ func TestBlobStatter(t *testing.T) {
 	}
 }
 func TestBlobStatterFail(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")

@@ -11,6 +11,8 @@ import (
 func RegisterMetricHandler(app *handlers.App) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	getMetricsAccess := func(r *http.Request) []auth.Access {
 		return []auth.Access{{Resource: auth.Resource{Type: "metrics"}, Action: "get"}}
 	}

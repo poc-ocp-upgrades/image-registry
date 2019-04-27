@@ -13,14 +13,20 @@ type fakeRegistryClient struct {
 func NewFakeRegistryClient(imageclient imageclientv1.ImageV1Interface) RegistryClient {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeRegistryClient{RegistryClient: &registryClient{}, images: imageclient}
 }
 func (c *fakeRegistryClient) Client() (Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newAPIClient(nil, nil, c.images, nil), nil
 }
 func NewFakeRegistryAPIClient(kc coreclientv1.CoreV1Interface, imageclient imageclientv1.ImageV1Interface) Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return newAPIClient(nil, nil, imageclient, nil)

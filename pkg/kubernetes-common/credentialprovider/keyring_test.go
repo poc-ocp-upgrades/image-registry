@@ -11,6 +11,8 @@ import (
 func TestUrlsMatch(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		globUrl		string
 		targetUrl	string
@@ -24,6 +26,8 @@ func TestUrlsMatch(t *testing.T) {
 	}
 }
 func TestDockerKeyringForGlob(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -67,6 +71,8 @@ func TestDockerKeyringForGlob(t *testing.T) {
 func TestKeyringMiss(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		globUrl		string
 		lookupUrl	string
@@ -97,6 +103,8 @@ func TestKeyringMiss(t *testing.T) {
 func TestKeyringMissWithDockerHubCredentials(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url := defaultRegistryKey
 	email := "foo@bar.baz"
 	username := "foo"
@@ -120,6 +128,8 @@ func TestKeyringMissWithDockerHubCredentials(t *testing.T) {
 	}
 }
 func TestKeyringHitWithUnqualifiedDockerHub(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	url := defaultRegistryKey
@@ -161,6 +171,8 @@ func TestKeyringHitWithUnqualifiedDockerHub(t *testing.T) {
 func TestKeyringHitWithUnqualifiedLibraryDockerHub(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url := defaultRegistryKey
 	email := "foo@bar.baz"
 	username := "foo"
@@ -198,6 +210,8 @@ func TestKeyringHitWithUnqualifiedLibraryDockerHub(t *testing.T) {
 	}
 }
 func TestKeyringHitWithQualifiedDockerHub(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	url := defaultRegistryKey
@@ -239,6 +253,8 @@ func TestKeyringHitWithQualifiedDockerHub(t *testing.T) {
 func TestIsDefaultRegistryMatch(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	samples := []map[bool]string{{true: "foo/bar"}, {true: "docker.io/foo/bar"}, {true: "index.docker.io/foo/bar"}, {true: "foo"}, {false: ""}, {false: "registry.tld/foo/bar"}, {false: "registry:5000/foo/bar"}, {false: "myhostdocker.io/foo/bar"}}
 	for _, sample := range samples {
 		for expected, imageName := range sample {
@@ -254,9 +270,13 @@ type testProvider struct{ Count int }
 func (d *testProvider) Enabled() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (d *testProvider) LazyProvide() *DockerConfigEntry {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -264,10 +284,14 @@ func (d *testProvider) LazyProvide() *DockerConfigEntry {
 func (d *testProvider) Provide() DockerConfig {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.Count += 1
 	return DockerConfig{}
 }
 func TestLazyKeyring(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	provider := &testProvider{Count: 0}
@@ -291,6 +315,8 @@ func TestLazyKeyring(t *testing.T) {
 func TestDockerKeyringLookup(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ada := LazyAuthConfiguration{AuthConfig: dockertypes.AuthConfig{Username: "ada", Password: "smash", Email: "ada@example.com"}}
 	grace := LazyAuthConfiguration{AuthConfig: dockertypes.AuthConfig{Username: "grace", Password: "squash", Email: "grace@example.com"}}
 	dk := &BasicDockerKeyring{}
@@ -311,6 +337,8 @@ func TestDockerKeyringLookup(t *testing.T) {
 	}
 }
 func TestIssue3797(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rex := LazyAuthConfiguration{AuthConfig: dockertypes.AuthConfig{Username: "rex", Password: "tiny arms", Email: "rex@example.com"}}

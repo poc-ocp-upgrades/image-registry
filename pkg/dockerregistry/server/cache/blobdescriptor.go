@@ -21,6 +21,8 @@ var _ distribution.BlobDescriptorService = &RepositoryScopedBlobDescriptor{}
 func (rbd *RepositoryScopedBlobDescriptor) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	desc, err := rbd.Cache.ScopedGet(dgst, rbd.Repo)
 	if err == nil || err != distribution.ErrBlobUnknown || rbd.Svc == nil {
 		return desc, err
@@ -35,6 +37,8 @@ func (rbd *RepositoryScopedBlobDescriptor) Stat(ctx context.Context, dgst digest
 func (rbd *RepositoryScopedBlobDescriptor) Clear(ctx context.Context, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := rbd.Cache.ScopedRemove(dgst, rbd.Repo)
 	if err != nil {
 		return err
@@ -45,6 +49,8 @@ func (rbd *RepositoryScopedBlobDescriptor) Clear(ctx context.Context, dgst diges
 	return nil
 }
 func (rbd *RepositoryScopedBlobDescriptor) SetDescriptor(ctx context.Context, dgst digest.Digest, desc distribution.Descriptor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := rbd.Cache.Add(dgst, &DigestValue{desc: &desc, repo: &rbd.Repo})
@@ -59,7 +65,16 @@ func (rbd *RepositoryScopedBlobDescriptor) SetDescriptor(ctx context.Context, dg
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

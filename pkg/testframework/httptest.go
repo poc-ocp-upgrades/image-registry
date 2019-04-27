@@ -18,6 +18,8 @@ type HTTPServer struct {
 func NewHTTPServer(t *testing.T, handler http.Handler) *HTTPServer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localIPv4, err := DefaultLocalIP4()
 	if err != nil {
 		t.Fatal(err)
@@ -41,6 +43,8 @@ func NewHTTPServer(t *testing.T, handler http.Handler) *HTTPServer {
 	return hs
 }
 func (hs *HTTPServer) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	atomic.StoreInt32(&hs.closed, 1)

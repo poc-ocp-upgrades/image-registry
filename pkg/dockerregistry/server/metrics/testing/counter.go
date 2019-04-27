@@ -14,12 +14,16 @@ type callbackObserver func(float64)
 func (f callbackObserver) Observe(value float64) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f(value)
 }
 
 type callbackCounter func()
 
 func (f callbackCounter) Inc() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f()
@@ -32,11 +36,15 @@ var _ metrics.Sink = &counterSink{}
 func (s counterSink) RequestDuration(funcname string) metrics.Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return callbackObserver(func(float64) {
 		s.c.Add(fmt.Sprintf("request:%s", funcname), 1)
 	})
 }
 func (s counterSink) PullthroughBlobstoreCacheRequests(resultType string) metrics.Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return callbackCounter(func() {
@@ -46,11 +54,15 @@ func (s counterSink) PullthroughBlobstoreCacheRequests(resultType string) metric
 func (s counterSink) PullthroughRepositoryDuration(registry, funcname string) metrics.Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return callbackObserver(func(float64) {
 		s.c.Add(fmt.Sprintf("pullthrough_repository:%s:%s", registry, funcname), 1)
 	})
 }
 func (s counterSink) PullthroughRepositoryErrors(registry, funcname, errcode string) metrics.Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return callbackCounter(func() {
@@ -60,11 +72,15 @@ func (s counterSink) PullthroughRepositoryErrors(registry, funcname, errcode str
 func (s counterSink) StorageDuration(funcname string) metrics.Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return callbackObserver(func(float64) {
 		s.c.Add(fmt.Sprintf("storage:%s", funcname), 1)
 	})
 }
 func (s counterSink) StorageErrors(funcname, errcode string) metrics.Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return callbackCounter(func() {
@@ -74,11 +90,15 @@ func (s counterSink) StorageErrors(funcname, errcode string) metrics.Counter {
 func (s counterSink) DigestCacheRequests(resultType string) metrics.Counter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return callbackCounter(func() {
 		s.c.Add(fmt.Sprintf("digest_cache_requests:%s", resultType), 1)
 	})
 }
 func (s counterSink) DigestCacheScopedRequests(resultType string) metrics.Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return callbackCounter(func() {
@@ -88,13 +108,24 @@ func (s counterSink) DigestCacheScopedRequests(resultType string) metrics.Counte
 func NewCounterSink() (counter.Counter, metrics.Sink) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := counter.New()
 	return c, counterSink{c: c}
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

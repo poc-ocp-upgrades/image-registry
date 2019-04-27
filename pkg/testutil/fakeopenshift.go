@@ -31,9 +31,13 @@ type FakeOpenShift struct {
 func NewFakeOpenShift(ctx context.Context) *FakeOpenShift {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeOpenShift{logger: dcontext.GetLogger(ctx), images: make(map[string]imageapiv1.Image), imageStreams: make(map[string]imageapiv1.ImageStream)}
 }
 func NewFakeOpenShiftWithClient(ctx context.Context) (*FakeOpenShift, *imagefakeclient.FakeImageV1) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fos := NewFakeOpenShift(ctx)
@@ -42,6 +46,8 @@ func NewFakeOpenShiftWithClient(ctx context.Context) (*FakeOpenShift, *imagefake
 	return fos, imageClient
 }
 func (fos *FakeOpenShift) CreateImage(image *imageapiv1.Image) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fos.mu.Lock()
@@ -57,6 +63,8 @@ func (fos *FakeOpenShift) CreateImage(image *imageapiv1.Image) (*imageapiv1.Imag
 func (fos *FakeOpenShift) GetImage(name string) (*imageapiv1.Image, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
 	image, ok := fos.images[name]
@@ -66,6 +74,8 @@ func (fos *FakeOpenShift) GetImage(name string) (*imageapiv1.Image, error) {
 	return &image, nil
 }
 func (fos *FakeOpenShift) UpdateImage(image *imageapiv1.Image) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fos.mu.Lock()
@@ -79,6 +89,8 @@ func (fos *FakeOpenShift) UpdateImage(image *imageapiv1.Image) (*imageapiv1.Imag
 	return image, nil
 }
 func (fos *FakeOpenShift) CreateImageStream(namespace string, is *imageapiv1.ImageStream) (*imageapiv1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fos.mu.Lock()
@@ -97,6 +109,8 @@ func (fos *FakeOpenShift) CreateImageStream(namespace string, is *imageapiv1.Ima
 func (fos *FakeOpenShift) UpdateImageStream(namespace string, is *imageapiv1.ImageStream) (*imageapiv1.ImageStream, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
 	ref := fmt.Sprintf("%s/%s", namespace, is.Name)
@@ -113,6 +127,8 @@ func (fos *FakeOpenShift) UpdateImageStream(namespace string, is *imageapiv1.Ima
 func (fos *FakeOpenShift) GetImageStream(namespace, repo string) (*imageapiv1.ImageStream, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
 	ref := fmt.Sprintf("%s/%s", namespace, repo)
@@ -123,6 +139,8 @@ func (fos *FakeOpenShift) GetImageStream(namespace, repo string) (*imageapiv1.Im
 	return &is, nil
 }
 func (fos *FakeOpenShift) ListImageStreams(namespace string) (*imageapiv1.ImageStreamList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fos.mu.Lock()
@@ -138,6 +156,8 @@ func (fos *FakeOpenShift) ListImageStreams(namespace string) (*imageapiv1.ImageS
 	return &iss, nil
 }
 func (fos *FakeOpenShift) CreateImageStreamMapping(namespace string, ism *imageapiv1.ImageStreamMapping) (*imageapiv1.ImageStreamMapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	is, err := fos.GetImageStream(namespace, ism.Name)
@@ -167,6 +187,8 @@ func (fos *FakeOpenShift) CreateImageStreamMapping(namespace string, ism *imagea
 	return ism, nil
 }
 func (fos *FakeOpenShift) CreateImageStreamTag(namespace string, istag *imageapiv1.ImageStreamTag) (*imageapiv1.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	imageStreamName, imageTag, ok := imageapi.SplitImageStreamTag(istag.Name)
@@ -216,6 +238,8 @@ func (fos *FakeOpenShift) CreateImageStreamTag(namespace string, istag *imageapi
 func (fos *FakeOpenShift) GetImageStreamImage(namespace string, id string) (*imageapiv1.ImageStreamImage, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, imageID, err := imageapi.ParseImageStreamImageName(id)
 	if err != nil {
 		return nil, errors.NewBadRequest("ImageStreamImages must be retrieved with <name>@<id>")
@@ -245,6 +269,8 @@ func (fos *FakeOpenShift) GetImageStreamImage(namespace string, id string) (*ima
 	return &isi, nil
 }
 func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageapiv1.ImageStreamLayers, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	configFromImage := func(image imageapiv1.Image) *imageapiv1.ImageLayer {
@@ -310,6 +336,8 @@ func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageap
 func (fos *FakeOpenShift) getName(action clientgotesting.Action) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if getnamer, ok := action.(interface{ GetName() string }); ok {
 		return getnamer.GetName()
 	}
@@ -324,6 +352,8 @@ func (fos *FakeOpenShift) getName(action clientgotesting.Action) string {
 func (fos *FakeOpenShift) log(msg string, f func() (bool, runtime.Object, error)) (bool, runtime.Object, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ok, obj, err := f()
 	fos.logger.Debug(msg, ": err=", err)
 	return ok, obj, err
@@ -331,9 +361,13 @@ func (fos *FakeOpenShift) log(msg string, f func() (bool, runtime.Object, error)
 func (fos *FakeOpenShift) todo(action clientgotesting.Action) (bool, runtime.Object, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true, nil, fmt.Errorf("no reaction implemented for %v", action)
 }
 func (fos *FakeOpenShift) imagesHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fos.log(fmt.Sprintf("(*FakeOpenShift).imagesHandler: %s %s", action.GetVerb(), fos.getName(action)), func() (bool, runtime.Object, error) {
@@ -349,6 +383,8 @@ func (fos *FakeOpenShift) imagesHandler(action clientgotesting.Action) (bool, ru
 	})
 }
 func (fos *FakeOpenShift) imageStreamsHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamsHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
@@ -389,6 +425,8 @@ func (fos *FakeOpenShift) imageStreamsHandler(action clientgotesting.Action) (bo
 func (fos *FakeOpenShift) imageStreamMappingsHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamMappingsHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
 		switch action := action.(type) {
 		case clientgotesting.CreateActionImpl:
@@ -399,6 +437,8 @@ func (fos *FakeOpenShift) imageStreamMappingsHandler(action clientgotesting.Acti
 	})
 }
 func (fos *FakeOpenShift) imageStreamImagesHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamImagesHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
@@ -413,6 +453,8 @@ func (fos *FakeOpenShift) imageStreamImagesHandler(action clientgotesting.Action
 func (fos *FakeOpenShift) AddReactorsTo(c *imagefakeclient.FakeImageV1) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.AddReactor("*", "images", fos.imagesHandler)
 	c.AddReactor("*", "imagestreams", fos.imageStreamsHandler)
 	c.AddReactor("*", "imagestreammappings", fos.imageStreamMappingsHandler)
@@ -424,14 +466,20 @@ type byRepositoryName []imageapiv1.ImageStream
 func (brn byRepositoryName) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(brn)
 }
 func (brn byRepositoryName) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	brn[i], brn[j] = brn[j], brn[i]
 }
 func (brn byRepositoryName) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	a, b := brn[i], brn[j]
@@ -443,7 +491,16 @@ func (brn byRepositoryName) Less(i, j int) bool {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

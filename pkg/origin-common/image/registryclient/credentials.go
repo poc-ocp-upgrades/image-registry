@@ -22,6 +22,8 @@ type RefreshTokenStore interface {
 func NewRefreshTokenStore() RefreshTokenStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &refreshTokenStore{}
 }
 
@@ -37,11 +39,15 @@ type refreshTokenStore struct {
 func (s *refreshTokenStore) RefreshToken(url *url.URL, service string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	return s.store[refreshTokenKey{url: url.String(), service: service}]
 }
 func (s *refreshTokenStore) SetRefreshToken(url *url.URL, service string, token string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.lock.Lock()
@@ -57,9 +63,13 @@ type noopCredentialStore struct{}
 func (s *noopCredentialStore) Basic(url *url.URL) (string, string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", ""
 }
 func (s *noopCredentialStore) RefreshToken(url *url.URL, service string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return ""
@@ -67,8 +77,12 @@ func (s *noopCredentialStore) RefreshToken(url *url.URL, service string) string 
 func (s *noopCredentialStore) SetRefreshToken(url *url.URL, service string, token string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func NewBasicCredentials() *BasicCredentials {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &BasicCredentials{refreshTokenStore: &refreshTokenStore{}}
@@ -86,9 +100,13 @@ type BasicCredentials struct {
 func (c *BasicCredentials) Add(url *url.URL, username, password string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.creds = append(c.creds, basicForURL{*url, username, password})
 }
 func (c *BasicCredentials) Basic(url *url.URL) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, cred := range c.creds {
@@ -110,9 +128,13 @@ var (
 func NewCredentialsForSecrets(secrets []corev1.Secret) *SecretCredentialStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SecretCredentialStore{secrets: secrets, RefreshTokenStore: NewRefreshTokenStore()}
 }
 func NewLazyCredentialsForSecrets(secretsFn func() ([]corev1.Secret, error)) *SecretCredentialStore {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &SecretCredentialStore{secretsFn: secretsFn, RefreshTokenStore: NewRefreshTokenStore()}
@@ -130,9 +152,13 @@ type SecretCredentialStore struct {
 func (s *SecretCredentialStore) Basic(url *url.URL) (string, string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return basicCredentialsFromKeyring(s.init(), url)
 }
 func (s *SecretCredentialStore) Err() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.lock.Lock()
@@ -140,6 +166,8 @@ func (s *SecretCredentialStore) Err() error {
 	return s.err
 }
 func (s *SecretCredentialStore) init() credentialprovider.DockerKeyring {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.lock.Lock()
@@ -162,6 +190,8 @@ func (s *SecretCredentialStore) init() credentialprovider.DockerKeyring {
 	return keyring
 }
 func basicCredentialsFromKeyring(keyring credentialprovider.DockerKeyring, target *url.URL) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var value string

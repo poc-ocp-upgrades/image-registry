@@ -48,12 +48,16 @@ type DigestCache interface {
 func dockerErrorCode(err error) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e, ok := err.(errcode.Error); ok {
 		return e.ErrorCode().String()
 	}
 	return "UNKNOWN"
 }
 func pullthroughRepositoryWrapper(ctx context.Context, sink Sink, registry string, funcname string, f func(ctx context.Context) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	registry = strings.ToLower(registry)
@@ -73,6 +77,8 @@ type repositoryRetriever struct {
 func (rr repositoryRetriever) Repository(ctx context.Context, registry *url.URL, repoName string, insecure bool) (repo distribution.Repository, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = pullthroughRepositoryWrapper(ctx, rr.sink, registry.Host, "Init", func(ctx context.Context) error {
 		repo, err = rr.retriever.Repository(ctx, registry, repoName, insecure)
 		return err
@@ -87,6 +93,8 @@ func (rr repositoryRetriever) Repository(ctx context.Context, registry *url.URL,
 func storageSentinelError(err error) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == io.EOF {
 		return true
 	}
@@ -96,6 +104,8 @@ func storageSentinelError(err error) bool {
 	return false
 }
 func storageErrorCode(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch err.(type) {
@@ -118,9 +128,13 @@ var _ Metrics = &metrics{}
 func NewMetrics(sink Sink) Metrics {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &metrics{sink: sink}
 }
 func (m *metrics) Repository(r distribution.Repository, reponame string) distribution.Repository {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return wrapped.NewRepository(r, func(ctx context.Context, funcname string, f func(ctx context.Context) error) error {
@@ -131,14 +145,20 @@ func (m *metrics) Repository(r distribution.Repository, reponame string) distrib
 func (m *metrics) RepositoryRetriever(retriever registryclient.RepositoryRetriever) registryclient.RepositoryRetriever {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return repositoryRetriever{retriever: retriever, sink: m.sink}
 }
 func (m *metrics) DigestBlobStoreCache() Cache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cache{hitCounter: m.sink.PullthroughBlobstoreCacheRequests("Hit"), missCounter: m.sink.PullthroughBlobstoreCacheRequests("Miss")}
 }
 func (m *metrics) StorageDriver(driver storagedriver.StorageDriver) storagedriver.StorageDriver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return wrapped.NewStorageDriver(driver, func(funcname string, f func() error) error {
@@ -153,9 +173,13 @@ func (m *metrics) StorageDriver(driver storagedriver.StorageDriver) storagedrive
 func (m *metrics) DigestCache() Cache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cache{hitCounter: m.sink.DigestCacheRequests("Hit"), missCounter: m.sink.DigestCacheRequests("Miss")}
 }
 func (m *metrics) DigestCacheScoped() Cache {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &cache{hitCounter: m.sink.DigestCacheScopedRequests("Hit"), missCounter: m.sink.DigestCacheScopedRequests("Miss")}
@@ -168,9 +192,13 @@ var _ Metrics = noopMetrics{}
 func NewNoopMetrics() Metrics {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return noopMetrics{}
 }
 func (m noopMetrics) Repository(r distribution.Repository, reponame string) distribution.Repository {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r
@@ -178,9 +206,13 @@ func (m noopMetrics) Repository(r distribution.Repository, reponame string) dist
 func (m noopMetrics) RepositoryRetriever(retriever registryclient.RepositoryRetriever) registryclient.RepositoryRetriever {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return retriever
 }
 func (m noopMetrics) DigestBlobStoreCache() Cache {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return noopCache{}
@@ -188,14 +220,20 @@ func (m noopMetrics) DigestBlobStoreCache() Cache {
 func (m noopMetrics) StorageDriver(driver storagedriver.StorageDriver) storagedriver.StorageDriver {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return driver
 }
 func (m noopMetrics) DigestCache() Cache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return noopCache{}
 }
 func (m noopMetrics) DigestCacheScoped() Cache {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return noopCache{}

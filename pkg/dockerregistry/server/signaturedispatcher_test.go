@@ -27,6 +27,8 @@ import (
 func TestSignatureGet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testSignature := imageapiv1.ImageSignature{ObjectMeta: metav1.ObjectMeta{Name: "sha256:4028782c08eae4a8c9a28bf661c0a8d1c2fc8e19dbaae2b018b21011197e1484@cddeb7006d914716e2728000746a0b23"}, Type: "atomic", Content: []byte("owGbwMvMwMQorp341GLVgXeMpw9kJDFE1LxLq1ZKLsosyUxOzFGyqlbKTEnNK8ksqQSxU/KTs1OLdItS01KLUvOSU5WslHLygeoy8otLrEwNDAz0S1KLS8CEVU4iiFKq1VHKzE1MT0XSnpuYl5kGlNNNyUwHKbFSKs5INDI1szIxMLIwtzBKNrBITUw1SbRItkw0skhKMzMzTDZItEgxTDZKS7ZINbRMSUpMTDVKMjC0SDIyNDA0NLQ0TzU0sTABWVZSWQByVmJJfm5mskJyfl5JYmZeapFCcWZ6XmJJaVE")}
 	testImage, err := testutil.NewImageForManifest("user/app", testutil.SampleImageManifestSchema1, "", false)
 	if err != nil {
@@ -91,6 +93,8 @@ func TestSignatureGet(t *testing.T) {
 	}
 }
 func TestSignaturePut(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	imageClient := &imagefakeclient.FakeImageV1{Fake: &clientgotesting.Fake{}}

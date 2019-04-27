@@ -22,9 +22,13 @@ var _ WaitableDriver = &driver{}
 func NewWaitableDriver(sd storagedriver.StorageDriver) WaitableDriver {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &driver{StorageDriver: sd, demands: make(map[string]chan struct{})}
 }
 func (d *driver) WaitFor(ctx context.Context, paths ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	type pending struct {
@@ -59,6 +63,8 @@ func (d *driver) WaitFor(ctx context.Context, paths ...string) error {
 	return nil
 }
 func (d *driver) PutContent(ctx context.Context, path string, content []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := d.StorageDriver.PutContent(ctx, path, content)

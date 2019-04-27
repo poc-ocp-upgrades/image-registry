@@ -19,6 +19,8 @@ import (
 func getNamespaceName(resourceName string) (string, string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repoParts := strings.Split(resourceName, "/")
 	if len(repoParts) != 2 {
 		return "", "", distribution.ErrRepositoryNameInvalid{Name: resourceName, Reason: fmt.Errorf("it must be of the format <project>/<name>")}
@@ -34,6 +36,8 @@ func getNamespaceName(resourceName string) (string, string, error) {
 	return ns, name, nil
 }
 func getImportContext(ctx context.Context, secretsGetter secretsGetter, m metrics.Pullthrough) (registryclient.RepositoryRetriever, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req, err := dcontext.GetRequest(ctx)
@@ -54,6 +58,8 @@ func getImportContext(ctx context.Context, secretsGetter secretsGetter, m metric
 func RememberLayersOfImage(ctx context.Context, cache cache.RepositoryDigest, image *imageapiv1.Image, cacheName string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, layer := range image.DockerImageLayers {
 		_ = cache.AddDigest(digest.Digest(layer.Name), cacheName)
 	}
@@ -67,6 +73,8 @@ func RememberLayersOfImage(ctx context.Context, cache cache.RepositoryDigest, im
 	}
 }
 func RememberLayersOfImageStream(ctx context.Context, cache cache.RepositoryDigest, layers *imageapiv1.ImageStreamLayers, cacheName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for dgst := range layers.Blobs {

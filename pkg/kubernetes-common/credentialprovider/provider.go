@@ -18,6 +18,8 @@ type DockerConfigProvider interface {
 func LazyProvide(creds LazyAuthConfiguration) dockertypes.AuthConfig {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if creds.Provider != nil {
 		entry := *creds.Provider.LazyProvide()
 		return DockerConfigEntryToLazyAuthConfiguration(entry).AuthConfig
@@ -29,6 +31,8 @@ func LazyProvide(creds LazyAuthConfiguration) dockertypes.AuthConfig {
 type defaultDockerConfigProvider struct{}
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	RegisterCredentialProvider(".dockercfg", &CachingDockerConfigProvider{Provider: &defaultDockerConfigProvider{}, Lifetime: 5 * time.Minute})
@@ -45,9 +49,13 @@ type CachingDockerConfigProvider struct {
 func (d *defaultDockerConfigProvider) Enabled() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (d *defaultDockerConfigProvider) Provide() DockerConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if cfg, err := ReadDockerConfigFile(); err == nil {
@@ -60,9 +68,13 @@ func (d *defaultDockerConfigProvider) Provide() DockerConfig {
 func (d *defaultDockerConfigProvider) LazyProvide() *DockerConfigEntry {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (d *CachingDockerConfigProvider) Enabled() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return d.Provider.Enabled()
@@ -70,9 +82,13 @@ func (d *CachingDockerConfigProvider) Enabled() bool {
 func (d *CachingDockerConfigProvider) LazyProvide() *DockerConfigEntry {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (d *CachingDockerConfigProvider) Provide() DockerConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	d.mu.Lock()

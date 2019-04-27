@@ -13,6 +13,8 @@ import (
 func TestRepoDigest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	digests := []struct {
 		Digest	digest.Digest
 		Repo	string
@@ -43,6 +45,8 @@ func TestRepoDigest(t *testing.T) {
 	}
 }
 func TestRepoDigestRemove(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2")

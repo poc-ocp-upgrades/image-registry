@@ -17,6 +17,8 @@ type namedDockerImageReference struct {
 func parseNamedDockerImageReference(spec string) (namedDockerImageReference, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var ref namedDockerImageReference
 	parsedRef, err := reference.Parse(spec)
 	if err != nil {

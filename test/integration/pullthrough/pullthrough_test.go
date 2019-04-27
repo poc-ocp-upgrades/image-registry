@@ -21,6 +21,8 @@ var gzippedEmptyTar = []byte{31, 139, 8, 0, 0, 9, 110, 136, 0, 255, 98, 24, 5, 1
 func testPullThroughGetManifest(baseURL string, stream *imageapiv1.ImageStreamImport, user, token, urlPart string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url := fmt.Sprintf("%s/v2/%s/%s/manifests/%s", baseURL, stream.Namespace, stream.Name, urlPart)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -48,6 +50,8 @@ func testPullThroughGetManifest(baseURL string, stream *imageapiv1.ImageStreamIm
 func testPullThroughStatBlob(baseURL string, stream *imageapiv1.ImageStreamImport, user, token, digest string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url := fmt.Sprintf("%s/v2/%s/%s/blobs/%s", baseURL, stream.Namespace, stream.Name, digest)
 	req, err := http.NewRequest("HEAD", url, nil)
 	if err != nil {
@@ -68,6 +72,8 @@ func testPullThroughStatBlob(baseURL string, stream *imageapiv1.ImageStreamImpor
 	return nil
 }
 func TestPullThroughInsecure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	master := testframework.NewMaster(t)

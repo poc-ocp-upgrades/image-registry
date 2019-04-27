@@ -14,6 +14,8 @@ type byInsecureFlag struct {
 func (by *byInsecureFlag) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(by.specs) < len(by.repositories) {
 		return len(by.specs)
 	}
@@ -22,10 +24,14 @@ func (by *byInsecureFlag) Len() int {
 func (by *byInsecureFlag) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	by.repositories[i], by.repositories[j] = by.repositories[j], by.repositories[i]
 	by.specs[i], by.specs[j] = by.specs[j], by.specs[i]
 }
 func (by *byInsecureFlag) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if by.specs[i].Insecure == by.specs[j].Insecure {
@@ -43,6 +49,8 @@ func (by *byInsecureFlag) Less(i, j int) bool {
 func stringListContains(list []string, val string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, x := range list {
 		if x == val {
 			return true
@@ -51,6 +59,8 @@ func stringListContains(list []string, val string) bool {
 	return false
 }
 func identifyCandidateRepositories(is *imageapiv1.ImageStream, localRegistry []string, primary bool) ([]string, map[string]ImagePullthroughSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	insecureByDefault := false

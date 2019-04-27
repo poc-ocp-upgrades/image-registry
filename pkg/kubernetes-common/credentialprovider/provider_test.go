@@ -8,6 +8,8 @@ import (
 func TestCachingProvider(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	provider := &testProvider{Count: 0}
 	cache := &CachingDockerConfigProvider{Provider: provider, Lifetime: 1 * time.Second}
 	if provider.Count != 0 {

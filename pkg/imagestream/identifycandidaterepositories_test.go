@@ -13,6 +13,8 @@ import (
 func TestIdentifyCandidateRepositories(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name			string
 		is			*imageapiv1.ImageStream
@@ -42,6 +44,8 @@ func TestIdentifyCandidateRepositories(t *testing.T) {
 	}
 }
 func makeTestImagePullthroughSpec(t *testing.T, ref string, insecure bool) ImagePullthroughSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, err := imageapi.ParseDockerImageReference(ref)

@@ -32,6 +32,8 @@ const (
 func MakeSchema1Manifest(name, tag string, layers []distribution.Descriptor) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := schema1.Manifest{Versioned: manifest.Versioned{SchemaVersion: 1}, FSLayers: make([]schema1.FSLayer, 0, len(layers)), History: make([]schema1.History, 0, len(layers)), Name: name, Tag: tag}
 	for _, layer := range layers {
 		m.FSLayers = append(m.FSLayers, schema1.FSLayer{BlobSum: layer.Digest})
@@ -50,6 +52,8 @@ func MakeSchema1Manifest(name, tag string, layers []distribution.Descriptor) (di
 func MakeSchema2Manifest(config distribution.Descriptor, layers []distribution.Descriptor) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := schema2.Manifest{Versioned: schema2.SchemaVersion, Config: config, Layers: make([]distribution.Descriptor, 0, len(layers))}
 	m.Config.MediaType = schema2.MediaTypeImageConfig
 	for _, layer := range layers {
@@ -63,6 +67,8 @@ func MakeSchema2Manifest(config distribution.Descriptor, layers []distribution.D
 	return manifest, nil
 }
 func CanonicalManifest(m distribution.Manifest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch m := m.(type) {
@@ -80,6 +86,8 @@ func CanonicalManifest(m distribution.Manifest) ([]byte, error) {
 func MakeRandomLayer() ([]byte, distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	content, err := CreateRandomTarFile()
 	if err != nil {
 		return nil, distribution.Descriptor{}, fmt.Errorf("failed to generate data for a random layer: %v", err)
@@ -87,6 +95,8 @@ func MakeRandomLayer() ([]byte, distribution.Descriptor, error) {
 	return content, distribution.Descriptor{MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", Size: int64(len(content)), Digest: digest.FromBytes(content)}, nil
 }
 func MakeManifestConfig() (ConfigPayload, distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := imageapi.DockerImageConfig{}
@@ -100,6 +110,8 @@ func MakeManifestConfig() (ConfigPayload, distribution.Descriptor, error) {
 	return jsonBytes, cfgDesc, nil
 }
 func CreateAndUploadTestManifest(ctx context.Context, schemaVersion ManifestSchemaVersion, layerCount int, serverURL *url.URL, creds auth.CredentialStore, repoName, tag string) (dgst digest.Digest, canonical, manifestConfig string, manifest distribution.Manifest, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -156,6 +168,8 @@ func CreateAndUploadTestManifest(ctx context.Context, schemaVersion ManifestSche
 func AssertManifestsEqual(t *testing.T, description string, ma distribution.Manifest, mb distribution.Manifest) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ma == mb {
 		return
 	}
@@ -202,6 +216,8 @@ func AssertManifestsEqual(t *testing.T, description string, ma distribution.Mani
 	}
 }
 func NewImageForManifest(repoName string, rawManifest string, manifestConfig string, managedByOpenShift bool) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var versioned manifest.Versioned

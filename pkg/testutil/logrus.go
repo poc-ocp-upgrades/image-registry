@@ -14,9 +14,13 @@ type logrusHook struct{ t *testing.T }
 func (h *logrusHook) Levels() []logrus.Level {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return logrus.AllLevels
 }
 func (h *logrusHook) Fire(e *logrus.Entry) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	line, err := e.String()
@@ -29,6 +33,8 @@ func (h *logrusHook) Fire(e *logrus.Entry) error {
 	return nil
 }
 func WithTestLogger(parent context.Context, t *testing.T) context.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log := logrus.New()

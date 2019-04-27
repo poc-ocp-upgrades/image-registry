@@ -29,9 +29,13 @@ type LazyAuthConfiguration struct {
 func DockerConfigEntryToLazyAuthConfiguration(ident DockerConfigEntry) LazyAuthConfiguration {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return LazyAuthConfiguration{AuthConfig: dockertypes.AuthConfig{Username: ident.Username, Password: ident.Password, Email: ident.Email}}
 }
 func (dk *BasicDockerKeyring) Add(cfg DockerConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if dk.index == nil {
@@ -80,6 +84,8 @@ const (
 func isDefaultRegistryMatch(image string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(image, "/", 2)
 	if len(parts[0]) == 0 {
 		return false
@@ -95,6 +101,8 @@ func isDefaultRegistryMatch(image string) bool {
 func parseSchemelessUrl(schemelessUrl string) (*url.URL, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := url.Parse("https://" + schemelessUrl)
 	if err != nil {
 		return nil, err
@@ -105,6 +113,8 @@ func parseSchemelessUrl(schemelessUrl string) (*url.URL, error) {
 func splitUrl(url *url.URL) (parts []string, port string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host, port, err := net.SplitHostPort(url.Host)
 	if err != nil {
 		host, port = url.Host, ""
@@ -112,6 +122,8 @@ func splitUrl(url *url.URL) (parts []string, port string) {
 	return strings.Split(host, "."), port
 }
 func urlsMatchStr(glob string, target string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	globUrl, err := parseSchemelessUrl(glob)
@@ -125,6 +137,8 @@ func urlsMatchStr(glob string, target string) (bool, error) {
 	return urlsMatch(globUrl, targetUrl)
 }
 func urlsMatch(globUrl *url.URL, targetUrl *url.URL) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	globUrlParts, globPort := splitUrl(globUrl)
@@ -153,6 +167,8 @@ func urlsMatch(globUrl *url.URL, targetUrl *url.URL) (bool, error) {
 func (dk *BasicDockerKeyring) Lookup(image string) ([]LazyAuthConfiguration, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []LazyAuthConfiguration{}
 	for _, k := range dk.index {
 		if matched, _ := urlsMatchStr(k, image); !matched {
@@ -173,6 +189,8 @@ func (dk *BasicDockerKeyring) Lookup(image string) ([]LazyAuthConfiguration, boo
 func (dk *lazyDockerKeyring) Lookup(image string) ([]LazyAuthConfiguration, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keyring := &BasicDockerKeyring{}
 	for _, p := range dk.Providers {
 		keyring.Add(p.Provide())
@@ -188,12 +206,16 @@ type FakeKeyring struct {
 func (f *FakeKeyring) Lookup(image string) ([]LazyAuthConfiguration, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.auth, f.ok
 }
 
 type unionDockerKeyring struct{ keyrings []DockerKeyring }
 
 func (k *unionDockerKeyring) Lookup(image string) ([]LazyAuthConfiguration, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	authConfigs := []LazyAuthConfiguration{}
@@ -207,6 +229,8 @@ func (k *unionDockerKeyring) Lookup(image string) ([]LazyAuthConfiguration, bool
 	return authConfigs, (len(authConfigs) > 0)
 }
 func MakeDockerKeyring(passedSecrets []v1.Secret, defaultKeyring DockerKeyring) (DockerKeyring, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	passedCredentials := []DockerConfig{}

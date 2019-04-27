@@ -13,6 +13,8 @@ import (
 func TestRepositoryScopedBlobDescriptor(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repo := "foo"
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
 	now := time.Now()
@@ -53,6 +55,8 @@ func TestRepositoryScopedBlobDescriptor(t *testing.T) {
 func TestRepositoryScopedBlobDescriptorFail(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repo := "foo"
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
 	now := time.Now()
@@ -70,6 +74,8 @@ func TestRepositoryScopedBlobDescriptorFail(t *testing.T) {
 	}
 }
 func TestRepositoryScopedBlobDescriptorClear(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
@@ -108,6 +114,8 @@ func TestRepositoryScopedBlobDescriptorClear(t *testing.T) {
 	}
 }
 func TestRepositoryScopedBlobDescriptorAdd(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")

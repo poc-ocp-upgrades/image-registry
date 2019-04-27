@@ -11,6 +11,8 @@ import (
 func AddImageStream(t *testing.T, fos *FakeOpenShift, namespace, name string, annotations map[string]string) *imageapiv1.ImageStream {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is := &imageapiv1.ImageStream{}
 	is.Name = name
 	is.Annotations = annotations
@@ -23,6 +25,8 @@ func AddImageStream(t *testing.T, fos *FakeOpenShift, namespace, name string, an
 func AddUntaggedImage(t *testing.T, fos *FakeOpenShift, image *imageapiv1.Image) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := fos.CreateImage(image)
 	if err != nil {
 		t.Fatal(err)
@@ -31,12 +35,16 @@ func AddUntaggedImage(t *testing.T, fos *FakeOpenShift, image *imageapiv1.Image)
 func AddImage(t *testing.T, fos *FakeOpenShift, image *imageapiv1.Image, namespace, name, tag string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := fos.CreateImageStreamMapping(namespace, &imageapiv1.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}, Image: *image, Tag: tag})
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 func AddRandomImage(t *testing.T, fos *FakeOpenShift, namespace, name, tag string) *imageapiv1.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	image, err := CreateRandomImage(namespace, name)
@@ -51,6 +59,8 @@ func AddRandomImage(t *testing.T, fos *FakeOpenShift, namespace, name, tag strin
 	return image
 }
 func AddImageStreamTag(t *testing.T, fos *FakeOpenShift, image *imageapiv1.Image, namespace, name string, tag *imageapiv1.TagReference) *imageapiv1.ImageStreamTag {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	istag, err := fos.CreateImageStreamTag(namespace, &imageapiv1.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("%s:%s", name, tag.Name)}, Tag: tag, Image: *image})

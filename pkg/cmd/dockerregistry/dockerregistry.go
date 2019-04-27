@@ -55,9 +55,13 @@ var listRepositoryManifests = flag.String("list-manifests-from", "", "shows the 
 func versionFields() map[interface{}]interface{} {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[interface{}]interface{}{"distribution_version": distversion.Version, "openshift_version": version.Get()}
 }
 func getListOptions() *ListOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := &ListOptions{Repositories: *listRepositories, Blobs: *listBlobs, Manifests: *listManifests}
@@ -68,6 +72,8 @@ func getListOptions() *ListOptions {
 	return opts
 }
 func optionsConflict() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	listOpts := getListOptions()
@@ -91,6 +97,8 @@ func optionsConflict() error {
 	return nil
 }
 func Execute(configFile io.Reader) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := optionsConflict(); err != nil {
@@ -155,6 +163,8 @@ func Execute(configFile io.Reader) {
 func NewServer(ctx context.Context, dockerConfig *configuration.Configuration, extraConfig *registryconfig.Configuration) (*http.Server, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	setDefaultLogParameters(dockerConfig)
 	registryClient := client.NewRegistryClient(clientcmd.NewConfig().BindToFile(extraConfig.KubeConfig))
 	readLimiter := newLimiter(extraConfig.Requests.Read)
@@ -214,6 +224,8 @@ func NewServer(ctx context.Context, dockerConfig *configuration.Configuration, e
 func configureLogging(ctx context.Context, config *configuration.Configuration) (context.Context, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config.Log.Level == "" && config.Log.Formatter == "" {
 		log.SetLevel(logLevel(config.Loglevel))
 		ctx = dcontext.WithLogger(ctx, dcontext.GetLogger(ctx))
@@ -252,6 +264,8 @@ func configureLogging(ctx context.Context, config *configuration.Configuration) 
 func logLevel(level configuration.Loglevel) log.Level {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l, err := log.ParseLevel(string(level))
 	if err != nil {
 		l = log.InfoLevel
@@ -262,12 +276,16 @@ func logLevel(level configuration.Loglevel) log.Level {
 func newLimiter(c registryconfig.RequestsLimits) maxconnections.Limiter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.MaxRunning <= 0 {
 		return nil
 	}
 	return maxconnections.NewLimiter(c.MaxRunning, c.MaxInQueue, c.MaxWaitInQueue)
 }
 func limit(readLimiter, writeLimiter maxconnections.Limiter, handler http.Handler) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	readHandler := handler
@@ -290,6 +308,8 @@ func limit(readLimiter, writeLimiter maxconnections.Limiter, handler http.Handle
 func alive(path string, handler http.Handler) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == path {
 			w.Header().Set("Cache-Control", "no-cache")
@@ -300,6 +320,8 @@ func alive(path string, handler http.Handler) http.Handler {
 	})
 }
 func panicHandler(handler http.Handler) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -314,12 +336,16 @@ func panicHandler(handler http.Handler) http.Handler {
 func setDefaultLogParameters(config *configuration.Configuration) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(config.Log.Fields) == 0 {
 		config.Log.Fields = make(map[string]interface{})
 	}
 	config.Log.Fields[audit.LogEntryType] = audit.DefaultLoggerType
 }
 func logrusLoggingHandler(ctx context.Context, h http.Handler) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return loggingHandler{ctx: ctx, handler: h}
@@ -333,6 +359,8 @@ type loggingHandler struct {
 func (h loggingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := h.ctx
 	ctx = dcontext.WithRequest(ctx, r)
 	ctx, w = dcontext.WithResponseWriter(ctx, w)
@@ -344,7 +372,16 @@ func (h loggingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

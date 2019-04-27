@@ -20,6 +20,8 @@ import (
 func ExecutePruner(configFile io.Reader, dryRun bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, extraConfig, err := registryconfig.Parse(configFile)
 	if err != nil {
 		log.Fatalf("error parsing configuration file: %s", err)

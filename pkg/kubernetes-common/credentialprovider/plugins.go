@@ -11,6 +11,8 @@ var providers = make(map[string]DockerConfigProvider)
 func RegisterCredentialProvider(name string, provider DockerConfigProvider) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	providersMutex.Lock()
 	defer providersMutex.Unlock()
 	_, found := providers[name]
@@ -21,6 +23,8 @@ func RegisterCredentialProvider(name string, provider DockerConfigProvider) {
 	providers[name] = provider
 }
 func NewDockerKeyring() DockerKeyring {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	keyring := &lazyDockerKeyring{Providers: make([]DockerConfigProvider, 0)}

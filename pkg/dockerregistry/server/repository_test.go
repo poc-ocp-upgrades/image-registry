@@ -39,6 +39,8 @@ const (
 func TestRepositoryBlobStat(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backgroundCtx := context.Background()
 	backgroundCtx = testutil.WithTestLogger(backgroundCtx, t)
 	req, err := http.NewRequest("GET", "https://localhost:5000/nm/is", nil)
@@ -148,6 +150,8 @@ func TestRepositoryBlobStat(t *testing.T) {
 	}
 }
 func TestRepositoryBlobStatCacheEviction(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const blobRepoCacheTTL = time.Millisecond * 500
@@ -268,6 +272,8 @@ type clientAction struct {
 func storeTestImage(ctx context.Context, reg distribution.Namespace, imageReference reference.NamedTagged, schemaVersion int, managedByOpenShift bool) (*imageapiv1.Image, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repo, err := reg.Repository(ctx, imageReference)
 	if err != nil {
 		return nil, fmt.Errorf("unexpected error getting repo %q: %v", imageReference.Name(), err)
@@ -351,6 +357,8 @@ func storeTestImage(ctx context.Context, reg distribution.Namespace, imageRefere
 func populateTestStorage(ctx context.Context, t *testing.T, driver driver.StorageDriver, setManagedByOpenShift bool, schemaVersion int, repoImages map[string]int, testImages map[string][]*imageapiv1.Image) (map[string][]*imageapiv1.Image, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	reg, err := storage.NewRegistry(ctx, driver)
 	if err != nil {
 		t.Fatalf("error creating registry: %v", err)
@@ -389,9 +397,13 @@ func populateTestStorage(ctx context.Context, t *testing.T, driver driver.Storag
 func testNewDescriptorForLayer(layer imageapiv1.ImageLayer) distribution.Descriptor {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return distribution.Descriptor{Digest: digest.Digest(layer.Name), MediaType: "application/octet-stream", Size: layer.LayerSize}
 }
 func compareActions(t *testing.T, testCaseName string, actions []clientgotesting.Action, expectedActions []clientAction) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.Helper()

@@ -27,6 +27,8 @@ var _ ManifestHandler = &manifestSchema2Handler{}
 func (h *manifestSchema2Handler) Config(ctx context.Context) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if h.cachedConfig == nil {
 		blob, err := h.blobStore.Get(ctx, h.manifest.Config.Digest)
 		if err != nil {
@@ -40,6 +42,8 @@ func (h *manifestSchema2Handler) Config(ctx context.Context) ([]byte, error) {
 func (h *manifestSchema2Handler) Digest() (digest.Digest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, p, err := h.manifest.Payload()
 	if err != nil {
 		return "", err
@@ -49,9 +53,13 @@ func (h *manifestSchema2Handler) Digest() (digest.Digest, error) {
 func (h *manifestSchema2Handler) Manifest() distribution.Manifest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.manifest
 }
 func (h *manifestSchema2Handler) Layers(ctx context.Context) (string, []imageapiv1.ImageLayer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	layers := make([]imageapiv1.ImageLayer, len(h.manifest.Layers))
@@ -65,10 +73,14 @@ func (h *manifestSchema2Handler) Layers(ctx context.Context) (string, []imageapi
 func (h *manifestSchema2Handler) Payload() (mediaType string, payload []byte, canonical []byte, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mt, p, err := h.manifest.Payload()
 	return mt, p, p, err
 }
 func (h *manifestSchema2Handler) verifyLayer(ctx context.Context, fsLayer distribution.Descriptor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if fsLayer.MediaType == schema2.MediaTypeForeignLayer {
@@ -90,6 +102,8 @@ func (h *manifestSchema2Handler) verifyLayer(ctx context.Context, fsLayer distri
 	return nil
 }
 func (h *manifestSchema2Handler) Verify(ctx context.Context, skipDependencyVerification bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var errs distribution.ErrManifestVerification

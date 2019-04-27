@@ -26,6 +26,8 @@ var _ distribution.BlobStore = &pullthroughBlobStore{}
 func (pbs *pullthroughBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*pullthroughBlobStore).Stat: starting with dgst=%s", dgst.String())
 	desc, err := pbs.BlobStore.Stat(ctx, dgst)
 	switch {
@@ -39,6 +41,8 @@ func (pbs *pullthroughBlobStore) Stat(ctx context.Context, dgst digest.Digest) (
 	return pbs.remoteBlobGetter.Stat(ctx, dgst)
 }
 func (pbs *pullthroughBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, req *http.Request, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*pullthroughBlobStore).ServeBlob: starting with dgst=%s", dgst.String())
@@ -69,6 +73,8 @@ func (pbs *pullthroughBlobStore) ServeBlob(ctx context.Context, w http.ResponseW
 func (pbs *pullthroughBlobStore) Get(ctx context.Context, dgst digest.Digest) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*pullthroughBlobStore).Get: starting with dgst=%s", dgst.String())
 	data, originalErr := pbs.BlobStore.Get(ctx, dgst)
 	if originalErr == nil {
@@ -79,11 +85,15 @@ func (pbs *pullthroughBlobStore) Get(ctx context.Context, dgst digest.Digest) ([
 func setResponseHeaders(w http.ResponseWriter, length int64, mediaType string, digest digest.Digest) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", mediaType)
 	w.Header().Set("Docker-Content-Digest", digest.String())
 	w.Header().Set("Etag", digest.String())
 }
 func serveRemoteContent(rw http.ResponseWriter, req *http.Request, desc distribution.Descriptor, remoteReader io.ReadSeeker) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	setResponseHeaders(rw, desc.Size, desc.MediaType, desc.Digest)
@@ -104,6 +114,8 @@ var inflight = make(map[digest.Digest]struct{})
 var mu sync.Mutex
 
 func copyContent(ctx context.Context, store BlobGetterService, dgst digest.Digest, writer io.Writer, req *http.Request) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	desc, err := store.Stat(ctx, dgst)
@@ -133,6 +145,8 @@ func copyContent(ctx context.Context, store BlobGetterService, dgst digest.Diges
 func (pbs *pullthroughBlobStore) storeLocalInBackground(ctx context.Context, dgst digest.Digest) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newCtx := dcontext.WithLogger(context.Background(), dcontext.GetLogger(ctx))
 	localBlobStore := pbs.newLocalBlobStore(newCtx)
 	writeLimiter := pbs.writeLimiter
@@ -154,6 +168,8 @@ func (pbs *pullthroughBlobStore) storeLocalInBackground(ctx context.Context, dgs
 	}(dgst)
 }
 func storeLocal(ctx context.Context, localBlobStore distribution.BlobStore, remoteGetter BlobGetterService, dgst digest.Digest) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defer func() {

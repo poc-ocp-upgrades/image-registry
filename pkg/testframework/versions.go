@@ -11,6 +11,8 @@ var (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	version := os.Getenv("ORIGIN_VERSION")
 	if len(version) != 0 {
 		originImageRef = "docker.io/openshift/origin:" + version

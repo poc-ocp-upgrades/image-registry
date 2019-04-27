@@ -22,6 +22,8 @@ type ManifestHandler interface {
 func NewManifestHandler(serverAddr string, blobStore distribution.BlobStore, manifest distribution.Manifest) (ManifestHandler, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := manifest.(type) {
 	case *schema1.SignedManifest:
 		return &manifestSchema1Handler{serverAddr: serverAddr, blobStore: blobStore, manifest: t}, nil

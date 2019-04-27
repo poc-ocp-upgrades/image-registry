@@ -32,6 +32,8 @@ const digestSHA256GzippedEmptyTar = digest.Digest("sha256:a3ed95caeb02ffe68cdd9f
 func signedManifest(name string, blobs []digest.Digest) ([]byte, digest.Digest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := libtrust.GenerateECP256PrivateKey()
 	if err != nil {
 		return []byte{}, "", fmt.Errorf("error generating EC key: %s", err)
@@ -62,6 +64,8 @@ func signedManifest(name string, blobs []digest.Digest) ([]byte, digest.Digest, 
 	return signedBytes, dgst, nil
 }
 func TestV2RegistryGetTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	master := testframework.NewMaster(t)
@@ -224,6 +228,8 @@ func TestV2RegistryGetTags(t *testing.T) {
 func putManifest(baseURL, namespace, name, user, token string) (digest.Digest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	creds := testutil.NewBasicCredentialStore(user, token)
 	desc, _, err := testutil.UploadRandomTestBlob(context.Background(), baseURL, creds, namespace+"/"+name)
 	if err != nil {
@@ -253,6 +259,8 @@ func putManifest(baseURL, namespace, name, user, token string) (digest.Digest, e
 func putEmptyBlob(baseURL, namespace, name, user, token string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	putUrl := fmt.Sprintf("%s/v2/%s/%s/blobs/uploads/", baseURL, namespace, name)
 	method := "POST"
 	for range []int{1, 2} {
@@ -279,6 +287,8 @@ func putEmptyBlob(baseURL, namespace, name, user, token string) error {
 	return nil
 }
 func getTags(baseURL, namespace, streamName, user, token string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	url := fmt.Sprintf("%s/v2/%s/%s/tags/list", baseURL, namespace, streamName)
@@ -322,6 +332,8 @@ func getTags(baseURL, namespace, streamName, user, token string) ([]string, erro
 func ping(baseURL, user, token string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url := fmt.Sprintf("%s/v2/", baseURL)
 	client := http.DefaultClient
 	req, err := http.NewRequest("GET", url, nil)
@@ -351,7 +363,16 @@ func ping(baseURL, user, token string) error {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

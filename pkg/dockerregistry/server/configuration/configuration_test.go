@@ -35,6 +35,8 @@ openshift:
 func TestConfigurationParser(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configFile := bytes.NewBufferString(configYamlV0_1)
 	dockerConfig, extraConfig, err := Parse(configFile)
 	if err != nil {
@@ -76,6 +78,8 @@ func TestConfigurationParser(t *testing.T) {
 func testConfigurationOverwriteEnv(t *testing.T, config string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv("REGISTRY_OPENSHIFT_SERVER_ADDR", ":5000")
 	defer os.Unsetenv("REGISTRY_OPENSHIFT_SERVER_ADDR")
 	os.Setenv("REGISTRY_OPENSHIFT_METRICS_ENABLED", "false")
@@ -97,6 +101,8 @@ func testConfigurationOverwriteEnv(t *testing.T, config string) {
 func TestConfigurationOverwriteEnv(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 storage:
@@ -114,6 +120,8 @@ openshift:
 func TestConfigurationWithEmptyOpenshiftOverwriteEnv(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 storage:
@@ -122,6 +130,8 @@ storage:
 	testConfigurationOverwriteEnv(t, configYaml)
 }
 func TestDockerConfigurationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var badDockerConfigYamlV0_1 = `
@@ -139,6 +149,8 @@ storage:
 	}
 }
 func TestExtraConfigurationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var badExtraConfigYaml = `
@@ -161,6 +173,8 @@ openshift:
 func TestEmptyExtraConfigurationError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var emptyExtraConfigYaml = `
 version: 0.1
 http:
@@ -177,6 +191,8 @@ storage:
 	}
 }
 func TestExtraConfigurationVersionError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var badExtraConfigYaml = `
@@ -198,6 +214,8 @@ openshift:
 	}
 }
 func TestDefaultMiddleware(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	checks := []struct{ title, input, expect string }{{title: "miss all middlewares", input: `
@@ -416,6 +434,8 @@ middleware:
 func TestMiddlewareMigration(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var inputConfigYaml = `
 version: 0.1
 log:
@@ -522,6 +542,8 @@ openshift:
 func TestServerAddrEnvOrder(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -552,6 +574,8 @@ openshift:
 	}
 }
 func TestServerAddrConfigPriority(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var configYaml = `
@@ -588,6 +612,8 @@ openshift:
 func TestAudit(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -620,6 +646,8 @@ openshift:
 func testDisableInmemoryCacheName(t *testing.T, field string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -646,10 +674,14 @@ openshift:
 func testDisableInmemoryCache(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testDisableInmemoryCacheName(t, "layerinfo")
 	testDisableInmemoryCacheName(t, "blobdescriptor")
 }
 func testPreserveRedisCacheName(t *testing.T, field string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var configYaml = `
@@ -685,10 +717,14 @@ openshift:
 func TestPreserveRedisCache(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testPreserveRedisCacheName(t, "layerinfo")
 	testPreserveRedisCacheName(t, "blobdescriptor")
 }
 func TestDisabledMiddleware(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var inputConfigYaml = `

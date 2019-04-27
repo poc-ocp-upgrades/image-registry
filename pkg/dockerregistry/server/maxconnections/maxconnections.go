@@ -5,6 +5,8 @@ import "net/http"
 func defaultOverloadHandler(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Retry-After", "1")
 	http.Error(w, "Too many requests, please try again later.", http.StatusTooManyRequests)
 }
@@ -18,9 +20,13 @@ type Handler struct {
 func New(limiter Limiter, h http.Handler) *Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Handler{limiter: limiter, handler: h, OverloadHandler: http.HandlerFunc(defaultOverloadHandler)}
 }
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !h.limiter.Start(r.Context()) {

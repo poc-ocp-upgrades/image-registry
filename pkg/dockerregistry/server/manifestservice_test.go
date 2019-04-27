@@ -15,6 +15,8 @@ import (
 func TestManifestServiceExists(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	ctx = testutil.WithTestLogger(ctx, t)
 	namespace := "user"
@@ -36,6 +38,8 @@ func TestManifestServiceExists(t *testing.T) {
 	}
 }
 func TestManifestServicePut(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := context.Background()

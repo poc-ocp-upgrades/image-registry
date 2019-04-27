@@ -37,6 +37,8 @@ type prometheusSink struct{}
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prometheus.MustRegister(HTTPInFlightRequests)
 	prometheus.MustRegister(HTTPRequestsTotal)
 	prometheus.MustRegister(HTTPRequestDurationSeconds)
@@ -44,6 +46,8 @@ func init() {
 	prometheus.MustRegister(HTTPResponseSizeBytes)
 }
 func NewPrometheusSink() Sink {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prometheusOnce.Do(func() {
@@ -61,9 +65,13 @@ func NewPrometheusSink() Sink {
 func (s prometheusSink) RequestDuration(funcname string) Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return requestDurationSeconds.WithLabelValues(funcname)
 }
 func (s prometheusSink) PullthroughBlobstoreCacheRequests(resultType string) Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return pullthroughBlobstoreCacheRequestsTotal.WithLabelValues(resultType)
@@ -71,9 +79,13 @@ func (s prometheusSink) PullthroughBlobstoreCacheRequests(resultType string) Cou
 func (s prometheusSink) PullthroughRepositoryDuration(registry, funcname string) Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return pullthroughRepositoryDurationSeconds.WithLabelValues(registry, funcname)
 }
 func (s prometheusSink) PullthroughRepositoryErrors(registry, funcname, errcode string) Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return pullthroughRepositoryErrorsTotal.WithLabelValues(registry, funcname, errcode)
@@ -81,9 +93,13 @@ func (s prometheusSink) PullthroughRepositoryErrors(registry, funcname, errcode 
 func (s prometheusSink) StorageDuration(funcname string) Observer {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return storageDurationSeconds.WithLabelValues(funcname)
 }
 func (s prometheusSink) StorageErrors(funcname, errcode string) Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return storageErrorsTotal.WithLabelValues(funcname, errcode)
@@ -91,9 +107,13 @@ func (s prometheusSink) StorageErrors(funcname, errcode string) Counter {
 func (s prometheusSink) DigestCacheRequests(resultType string) Counter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return digestCacheRequestsTotal.WithLabelValues(resultType)
 }
 func (s prometheusSink) DigestCacheScopedRequests(resultType string) Counter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return digestCacheScopedRequestsTotal.WithLabelValues(resultType)

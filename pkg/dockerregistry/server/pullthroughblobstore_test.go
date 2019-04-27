@@ -32,6 +32,8 @@ import (
 func TestPullthroughServeBlob(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	ctx = testutil.WithTestLogger(ctx, t)
 	req, err := http.NewRequest("GET", "https://not.used.com", nil)
@@ -138,6 +140,8 @@ func TestPullthroughServeBlob(t *testing.T) {
 func TestPullthroughServeNotSeekableBlob(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repoName := "foorepo"
 	blob, err := testutil.CreateRandomTarFile()
 	if err != nil {
@@ -202,6 +206,8 @@ func TestPullthroughServeNotSeekableBlob(t *testing.T) {
 	}
 }
 func TestPullthroughServeBlobInsecure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "user"
@@ -376,6 +382,8 @@ func TestPullthroughServeBlobInsecure(t *testing.T) {
 func TestPullthroughMetrics(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	ctx = testutil.WithTestLogger(ctx, t)
 	req, err := http.NewRequest("GET", "https://not.used.com", nil)
@@ -438,6 +446,8 @@ const (
 func makeDigestFromBytes(data []byte) digest.Digest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return digest.Digest(fmt.Sprintf("sha256:%x", sha256.Sum256(data)))
 }
 
@@ -455,6 +465,8 @@ var _ distribution.BlobStore = &testBlobStore{}
 func newTestBlobStore(blobDescriptors blobDescriptors, blobs blobContents) *testBlobStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bs := make(map[digest.Digest][]byte)
 	for d, content := range blobs {
 		bs[d] = content
@@ -466,6 +478,8 @@ func newTestBlobStore(blobDescriptors blobDescriptors, blobs blobContents) *test
 	return &testBlobStore{blobDescriptors: bds, blobs: bs, calls: make(map[string]int)}
 }
 func (t *testBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Stat"]++
@@ -482,6 +496,8 @@ func (t *testBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribut
 func (t *testBlobStore) Get(ctx context.Context, dgst digest.Digest) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Get"]++
 	content, exists := t.blobs[dgst]
 	if !exists {
@@ -490,6 +506,8 @@ func (t *testBlobStore) Get(ctx context.Context, dgst digest.Digest) ([]byte, er
 	return content, nil
 }
 func (t *testBlobStore) Open(ctx context.Context, dgst digest.Digest) (distribution.ReadSeekCloser, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Open"]++
@@ -502,10 +520,14 @@ func (t *testBlobStore) Open(ctx context.Context, dgst digest.Digest) (distribut
 func (t *testBlobStore) Put(ctx context.Context, mediaType string, p []byte) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Put"]++
 	return distribution.Descriptor{}, fmt.Errorf("method not implemented")
 }
 func (t *testBlobStore) Create(ctx context.Context, options ...distribution.BlobCreateOption) (distribution.BlobWriter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Create"]++
@@ -514,10 +536,14 @@ func (t *testBlobStore) Create(ctx context.Context, options ...distribution.Blob
 func (t *testBlobStore) Resume(ctx context.Context, id string) (distribution.BlobWriter, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Resume"]++
 	return nil, fmt.Errorf("method not implemented")
 }
 func (t *testBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, req *http.Request, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["ServeBlob"]++
@@ -538,6 +564,8 @@ func (t *testBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, re
 func (t *testBlobStore) Delete(ctx context.Context, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Delete"]++
 	return fmt.Errorf("method not implemented")
 }
@@ -553,6 +581,8 @@ var _ distribution.ReadSeekCloser = &testBlobFileReader{}
 func (fr *testBlobFileReader) Read(p []byte) (n int, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fr.bs.calls["ReadSeakCloser.Read"]++
 	n = copy(p, fr.content[fr.offset:])
 	fr.offset += int64(n)
@@ -560,6 +590,8 @@ func (fr *testBlobFileReader) Read(p []byte) (n int, err error) {
 	return n, nil
 }
 func (fr *testBlobFileReader) Seek(offset int64, whence int) (int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fr.bs.calls["ReadSeakCloser.Seek"]++
@@ -581,6 +613,8 @@ func (fr *testBlobFileReader) Seek(offset int64, whence int) (int64, error) {
 	return fr.offset, err
 }
 func (fr *testBlobFileReader) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fr.bs.calls["ReadSeakCloser.Close"]++

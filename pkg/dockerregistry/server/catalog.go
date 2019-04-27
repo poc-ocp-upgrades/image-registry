@@ -29,6 +29,8 @@ var _ RepositoryEnumerator = &cachingRepositoryEnumerator{}
 func NewCachingRepositoryEnumerator(client client.RegistryClient, cache *cache.LRUExpireCache) RepositoryEnumerator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cachingRepositoryEnumerator{client: client, cache: cache}
 }
 
@@ -38,6 +40,8 @@ var errNoSpaceInSlice = errors.New("no space in slice")
 var errEnumerationFinished = errors.New("enumeration finished")
 
 func (re *cachingRepositoryEnumerator) EnumerateRepositories(ctx context.Context, repos []string, last string) (n int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(repos) == 0 {
@@ -61,6 +65,8 @@ func (re *cachingRepositoryEnumerator) EnumerateRepositories(ctx context.Context
 	return
 }
 func (r *cachingRepositoryEnumerator) enumerateImageStreams(ctx context.Context, limit int64, last string, handler isHandlerFunc) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (

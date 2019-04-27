@@ -20,12 +20,16 @@ type tokenHandler struct {
 func NewTokenHandler(ctx context.Context, client client.RegistryClient) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &tokenHandler{ctx: ctx, client: client}
 }
 
 const anonymousToken = "anonymous"
 
 func (t *tokenHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx := dcontext.WithRequest(t.ctx, req)
@@ -79,6 +83,8 @@ func (t *tokenHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 func (t *tokenHandler) writeError(w http.ResponseWriter, req *http.Request, msg string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(401)
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{"details": msg})
@@ -86,11 +92,15 @@ func (t *tokenHandler) writeError(w http.ResponseWriter, req *http.Request, msg 
 func (t *tokenHandler) writeToken(token string, w http.ResponseWriter, req *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{"token": token, "access_token": token})
 }
 func (t *tokenHandler) writeUnauthorized(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")

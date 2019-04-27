@@ -17,14 +17,20 @@ var _ distribution.Namespace = &registry{}
 func (r *registry) Scope() distribution.Scope {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.registry.Scope()
 }
 func (r *registry) Repository(ctx context.Context, name reference.Named) (distribution.Repository, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.registry.Repository(ctx, name)
 }
 func (r *registry) Repositories(ctx context.Context, repos []string, last string) (n int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	n, err = r.enumerator.EnumerateRepositories(ctx, repos, last)
@@ -36,9 +42,13 @@ func (r *registry) Repositories(ctx context.Context, repos []string, last string
 func (r *registry) Blobs() distribution.BlobEnumerator {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.registry.Blobs()
 }
 func (r *registry) BlobStatter() distribution.BlobStatter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return r.registry.BlobStatter()

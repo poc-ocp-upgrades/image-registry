@@ -32,6 +32,8 @@ var _ Pruner = &DryRunPruner{}
 func (p *DryRunPruner) DeleteRepository(ctx context.Context, reponame string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(ctx)
 	logger.Printf("Would delete repository: %s", reponame)
 	return nil
@@ -39,11 +41,15 @@ func (p *DryRunPruner) DeleteRepository(ctx context.Context, reponame string) er
 func (p *DryRunPruner) DeleteManifestLink(ctx context.Context, svc distribution.ManifestService, reponame string, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(ctx)
 	logger.Printf("Would delete manifest link: %s@%s", reponame, dgst)
 	return nil
 }
 func (p *DryRunPruner) DeleteBlob(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(ctx)
@@ -58,6 +64,8 @@ var _ Pruner = &RegistryPruner{}
 func (p *RegistryPruner) DeleteRepository(ctx context.Context, reponame string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vacuum := storage.NewVacuum(ctx, p.StorageDriver)
 	if err := vacuum.RemoveRepository(reponame); err != nil {
 		return fmt.Errorf("unable to remove the repository %s: %v", reponame, err)
@@ -65,6 +73,8 @@ func (p *RegistryPruner) DeleteRepository(ctx context.Context, reponame string) 
 	return nil
 }
 func (p *RegistryPruner) DeleteManifestLink(ctx context.Context, svc distribution.ManifestService, reponame string, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(ctx)
@@ -75,6 +85,8 @@ func (p *RegistryPruner) DeleteManifestLink(ctx context.Context, svc distributio
 	return nil
 }
 func (p *RegistryPruner) DeleteBlob(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vacuum := storage.NewVacuum(ctx, p.StorageDriver)
@@ -96,6 +108,8 @@ type garbageCollector struct {
 func (gc *garbageCollector) AddRepository(repoName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := gc.Collect(); err != nil {
 		return err
 	}
@@ -103,6 +117,8 @@ func (gc *garbageCollector) AddRepository(repoName string) error {
 	return nil
 }
 func (gc *garbageCollector) AddManifestLink(svc distribution.ManifestService, repoName string, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if err := gc.Collect(); err != nil {
@@ -114,6 +130,8 @@ func (gc *garbageCollector) AddManifestLink(svc distribution.ManifestService, re
 	return nil
 }
 func (gc *garbageCollector) Collect() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(gc.manifestLink) > 0 {
@@ -133,6 +151,8 @@ func (gc *garbageCollector) Collect() error {
 func imageStreamHasManifestDigest(is *imageapiv1.ImageStream, dgst digest.Digest) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tagEventList := range is.Status.Tags {
 		for _, tagEvent := range tagEventList.Items {
 			if tagEvent.Image == string(dgst) {
@@ -149,6 +169,8 @@ type Summary struct {
 }
 
 func Prune(ctx context.Context, registry distribution.Namespace, registryClient client.RegistryClient, pruner Pruner) (Summary, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(ctx)

@@ -49,6 +49,8 @@ type signatureHandler struct {
 func NewSignatureDispatcher(isImageClient client.ImageStreamImagesNamespacer) func(*handlers.Context, *http.Request) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(ctx *handlers.Context, r *http.Request) http.Handler {
 		reference, _ := imageapi.ParseDockerImageReference(dcontext.GetStringValue(ctx, "vars.name") + "@" + dcontext.GetStringValue(ctx, "vars.digest"))
 		signatureHandler := &signatureHandler{ctx: ctx, isImageClient: isImageClient, reference: reference}
@@ -56,6 +58,8 @@ func NewSignatureDispatcher(isImageClient client.ImageStreamImagesNamespacer) fu
 	}
 }
 func (s *signatureHandler) Put(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(s.ctx).Debugf("(*signatureHandler).Put")
@@ -112,6 +116,8 @@ func (s *signatureHandler) Put(w http.ResponseWriter, r *http.Request) {
 func (s *signatureHandler) Get(w http.ResponseWriter, req *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(s.ctx).Debugf("(*signatureHandler).Get")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	if len(s.reference.String()) == 0 {
@@ -146,6 +152,8 @@ func (s *signatureHandler) Get(w http.ResponseWriter, req *http.Request) {
 	}
 }
 func (s *signatureHandler) handleError(ctx context.Context, err error, w http.ResponseWriter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rerrors.Handle(ctx, "signature response completed with error", err)

@@ -13,6 +13,8 @@ import (
 func TestGlobalProviderStat(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := time.Now()
 	clock := clock.NewFakeClock(now)
 	cache, err := NewBlobDigest(5, 3, ttl1m, metrics.NewNoopMetrics())
@@ -66,6 +68,8 @@ func TestGlobalProviderStat(t *testing.T) {
 func TestGlobalProviderClear(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := time.Now()
 	clock := clock.NewFakeClock(now)
 	cache, err := NewBlobDigest(5, 3, ttl1m, metrics.NewNoopMetrics())
@@ -99,6 +103,8 @@ func TestGlobalProviderClear(t *testing.T) {
 	}
 }
 func TestRepositoryScopedProviderStat(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	now := time.Now()

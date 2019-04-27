@@ -17,15 +17,21 @@ const (
 func appMiddlewareFrom(ctx context.Context) appMiddleware {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	am, _ := ctx.Value(appMiddlewareKey).(appMiddleware)
 	return am
 }
 func withUserClient(parent context.Context, userClient client.Interface) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return context.WithValue(parent, userClientKey, userClient)
 }
 func userClientFrom(ctx context.Context) (client.Interface, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	userClient, ok := ctx.Value(userClientKey).(client.Interface)
@@ -34,9 +40,13 @@ func userClientFrom(ctx context.Context) (client.Interface, bool) {
 func withAuthPerformed(parent context.Context) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return context.WithValue(parent, authPerformedKey, true)
 }
 func authPerformed(ctx context.Context) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	authPerformed, ok := ctx.Value(authPerformedKey).(bool)
@@ -45,9 +55,13 @@ func authPerformed(ctx context.Context) bool {
 func withDeferredErrors(parent context.Context, errs deferredErrors) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return context.WithValue(parent, deferredErrorsKey, errs)
 }
 func deferredErrorsFrom(ctx context.Context) (deferredErrors, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	errs, ok := ctx.Value(deferredErrorsKey).(deferredErrors)

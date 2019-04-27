@@ -16,6 +16,8 @@ var _ distribution.BlobStatter = &BlobStatter{}
 func (bs *BlobStatter) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	desc, err := bs.Cache.Get(dgst)
 	if err == nil || err != distribution.ErrBlobUnknown || bs.Svc == nil {
 		return desc, err

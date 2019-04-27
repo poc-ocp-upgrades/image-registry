@@ -24,14 +24,20 @@ type testRegistryClient struct{ client client.Interface }
 func (rc *testRegistryClient) Client() (client.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rc.client, nil
 }
 func (rc *testRegistryClient) ClientFromToken(token string) (client.Interface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rc.client, nil
 }
 func newTestRegistry(ctx context.Context, osClient registryclient.Interface, storageDriver driver.StorageDriver, blobrepositorycachettl time.Duration, useBlobDescriptorCacheProvider bool) (distribution.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cfg := &configuration.Configuration{Server: &configuration.Server{Addr: "localhost:5000"}, Pullthrough: &configuration.Pullthrough{Enabled: true}, Cache: &configuration.Cache{BlobRepositoryTTL: blobrepositorycachettl}}

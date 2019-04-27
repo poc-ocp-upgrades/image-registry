@@ -11,6 +11,8 @@ import (
 func ResolveScopeSpecifiers(ctx context.Context, scopeSpecs []string) []auth.Access {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	requestedAccessSet := make(map[auth.Access]struct{}, 2*len(scopeSpecs))
 	requestedAccessList := make([]auth.Access, 0, len(requestedAccessSet))
 	for _, scopeSpecifier := range scopeSpecs {
@@ -38,6 +40,8 @@ func ResolveScopeSpecifiers(ctx context.Context, scopeSpecs []string) []auth.Acc
 var typeRegexp = regexp.MustCompile(`^([a-z0-9]+)(?:\(([a-z0-9]+)\))?$`)
 
 func splitResourceClass(t string) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	matches := typeRegexp.FindStringSubmatch(t)

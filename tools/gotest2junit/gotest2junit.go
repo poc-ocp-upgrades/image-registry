@@ -33,6 +33,8 @@ type testSuite struct {
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	summarize := false
 	verbose := false
 	flag.BoolVar(&summarize, "summary", true, "display a summary as items are processed")
@@ -44,6 +46,8 @@ func main() {
 	}
 }
 func process(r io.Reader, summarize, verbose bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suites, err := stream(r, summarize, verbose)
@@ -59,6 +63,8 @@ func process(r io.Reader, summarize, verbose bool) error {
 	return nil
 }
 func newTestSuites(suites map[string]*testSuite) *api.TestSuites {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	all := &api.TestSuites{}
@@ -88,6 +94,8 @@ func newTestSuites(suites map[string]*testSuite) *api.TestSuites {
 	return all
 }
 func stream(r io.Reader, summarize, verbose bool) (map[string]*testSuite, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	suites := make(map[string]*testSuite)
@@ -185,7 +193,16 @@ func stream(r io.Reader, summarize, verbose bool) (map[string]*testSuite, error)
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

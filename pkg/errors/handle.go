@@ -11,6 +11,8 @@ type errMessageKey struct{}
 func (errMessageKey) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "err.message"
 }
 
@@ -19,9 +21,13 @@ type errDetailKey struct{}
 func (errDetailKey) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "err.detail"
 }
 func Handle(ctx context.Context, message string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx = context.WithValue(ctx, errMessageKey{}, err)

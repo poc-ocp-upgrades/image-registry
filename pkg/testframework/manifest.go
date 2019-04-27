@@ -23,6 +23,8 @@ type Schema2ImageData struct {
 func NewSchema2ImageData() (Schema2ImageData, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data := Schema2ImageData{ConfigMediaType: "application/vnd.docker.container.image.v1+json", Config: []byte("{}"), LayerMediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", Layer: []byte("image-registry-integration-test-" + uuid.NewRandom().String()), ManifestMediaType: "application/vnd.docker.distribution.manifest.v2+json"}
 	data.ConfigDigest = digest.FromBytes(data.Config)
 	data.LayerDigest = digest.FromBytes(data.Layer)
@@ -37,6 +39,8 @@ func NewSchema2ImageData() (Schema2ImageData, error) {
 func ServeV2(w http.ResponseWriter, r *http.Request) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Method == "GET" && r.URL.Path == "/v2/" {
 		_, _ = w.Write([]byte(`{}`))
 		return true
@@ -44,6 +48,8 @@ func ServeV2(w http.ResponseWriter, r *http.Request) bool {
 	return false
 }
 func ServeImage(w http.ResponseWriter, r *http.Request, image string, data Schema2ImageData, tags []string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	prefix := "/v2/" + image

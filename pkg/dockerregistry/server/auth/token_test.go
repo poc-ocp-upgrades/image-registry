@@ -10,12 +10,16 @@ import (
 func checkResolveScopeSpecifiers(t *testing.T, scopes []string, expectedAuth []auth.Access) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := ResolveScopeSpecifiers(context.Background(), scopes)
 	if !reflect.DeepEqual(res, expectedAuth) {
 		t.Fatalf("%q: expected: %#v, got: %#v", scopes, expectedAuth, res)
 	}
 }
 func TestSimpleScope(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	checkResolveScopeSpecifiers(t, []string{"repository:namespace/name:pull"}, []auth.Access{{Resource: auth.Resource{Type: "repository", Class: "", Name: "namespace/name"}, Action: "pull"}})
@@ -27,14 +31,20 @@ func TestSimpleScope(t *testing.T) {
 func TestScopeWithClass(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checkResolveScopeSpecifiers(t, []string{"repository(plugin):namespace/name:pull"}, []auth.Access{{Resource: auth.Resource{Type: "repository", Class: "plugin", Name: "namespace/name"}, Action: "pull"}})
 }
 func TestMultiScopes(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checkResolveScopeSpecifiers(t, []string{"repository(plugin):namespace/name:pull", "repository(plugin):namespace/name:push", "repository(plugin):namespace/name:pull"}, []auth.Access{{Resource: auth.Resource{Type: "repository", Class: "plugin", Name: "namespace/name"}, Action: "pull"}, {Resource: auth.Resource{Type: "repository", Class: "plugin", Name: "namespace/name"}, Action: "push"}})
 }
 func TestInvalidScope(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	checkResolveScopeSpecifiers(t, []string{"repository"}, []auth.Access{})

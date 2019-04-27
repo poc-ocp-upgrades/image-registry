@@ -16,14 +16,20 @@ var _ storagedriver.StorageDriver = &storageDriver{}
 func NewStorageDriver(driver storagedriver.StorageDriver, wrapper SimpleWrapper) storagedriver.StorageDriver {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &storageDriver{storageDriver: driver, wrapper: wrapper}
 }
 func (d *storageDriver) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.storageDriver.Name()
 }
 func (d *storageDriver) GetContent(ctx context.Context, path string) (content []byte, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.GetContent", func() error {
@@ -35,11 +41,15 @@ func (d *storageDriver) GetContent(ctx context.Context, path string) (content []
 func (d *storageDriver) PutContent(ctx context.Context, path string, content []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.wrapper("StorageDriver.PutContent", func() error {
 		return d.storageDriver.PutContent(ctx, path, content)
 	})
 }
 func (d *storageDriver) Reader(ctx context.Context, path string, offset int64) (r io.ReadCloser, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.Reader", func() error {
@@ -54,6 +64,8 @@ func (d *storageDriver) Reader(ctx context.Context, path string, offset int64) (
 func (d *storageDriver) Writer(ctx context.Context, path string, append bool) (w storagedriver.FileWriter, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.Writer", func() error {
 		w, err = d.storageDriver.Writer(ctx, path, append)
 		if err == nil {
@@ -66,6 +78,8 @@ func (d *storageDriver) Writer(ctx context.Context, path string, append bool) (w
 func (d *storageDriver) Stat(ctx context.Context, path string) (fi storagedriver.FileInfo, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.Stat", func() error {
 		fi, err = d.storageDriver.Stat(ctx, path)
 		return err
@@ -73,6 +87,8 @@ func (d *storageDriver) Stat(ctx context.Context, path string) (fi storagedriver
 	return
 }
 func (d *storageDriver) List(ctx context.Context, path string) (entries []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.List", func() error {
@@ -84,11 +100,15 @@ func (d *storageDriver) List(ctx context.Context, path string) (entries []string
 func (d *storageDriver) Move(ctx context.Context, sourcePath string, destPath string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.wrapper("StorageDriver.Move", func() error {
 		return d.storageDriver.Move(ctx, sourcePath, destPath)
 	})
 }
 func (d *storageDriver) Delete(ctx context.Context, path string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return d.wrapper("StorageDriver.Delete", func() error {
@@ -98,6 +118,8 @@ func (d *storageDriver) Delete(ctx context.Context, path string) error {
 func (d *storageDriver) URLFor(ctx context.Context, path string, options map[string]interface{}) (url string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = d.wrapper("StorageDriver.URLFor", func() error {
 		url, err = d.storageDriver.URLFor(ctx, path, options)
 		return err
@@ -105,6 +127,8 @@ func (d *storageDriver) URLFor(ctx context.Context, path string, options map[str
 	return
 }
 func (d *storageDriver) Walk(ctx context.Context, path string, f storagedriver.WalkFn) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return d.wrapper("StorageDriver.Walk", func() error {

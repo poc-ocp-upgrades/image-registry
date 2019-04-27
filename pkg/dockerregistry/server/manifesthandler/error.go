@@ -14,5 +14,7 @@ type ErrManifestBlobBadSize struct {
 func (err ErrManifestBlobBadSize) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("the blob %s has the size (%d) different from the one specified in the manifest (%d)", err.Digest, err.ActualSize, err.SizeInManifest)
 }

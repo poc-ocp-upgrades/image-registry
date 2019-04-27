@@ -12,10 +12,14 @@ type mockKeyring struct{ calls []string }
 func (k *mockKeyring) Lookup(image string) ([]credentialprovider.LazyAuthConfiguration, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k.calls = append(k.calls, image)
 	return nil, false
 }
 func TestHubFallback(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	k := &mockKeyring{}
@@ -25,6 +29,8 @@ func TestHubFallback(t *testing.T) {
 	}
 }
 func Test_BasicFromKeyring(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fn := func(host string, entry credentialprovider.DockerConfigEntry) credentialprovider.DockerKeyring {

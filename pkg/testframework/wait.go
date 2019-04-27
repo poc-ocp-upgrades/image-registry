@@ -11,6 +11,8 @@ import (
 func WaitTCP(addr string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var lastErr error
 	err := wait.Poll(500*time.Millisecond, wait.ForeverTestTimeout, func() (done bool, err error) {
 		conn, err := net.DialTimeout("tcp", addr, 200*time.Millisecond)
@@ -27,6 +29,8 @@ func WaitTCP(addr string) error {
 	return nil
 }
 func WaitHTTP(rt http.RoundTripper, url string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var lastErr error

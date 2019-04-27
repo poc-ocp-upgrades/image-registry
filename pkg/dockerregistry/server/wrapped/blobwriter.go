@@ -13,9 +13,13 @@ type blobWriter struct {
 func NewBlobWriter(bw distribution.BlobWriter, wrapper Wrapper) distribution.BlobWriter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &blobWriter{BlobWriter: bw, wrapper: wrapper}
 }
 func (bw *blobWriter) Commit(ctx context.Context, provisional distribution.Descriptor) (canonical distribution.Descriptor, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err = bw.wrapper(ctx, "BlobWriter.Commit", func(ctx context.Context) error {
@@ -25,6 +29,8 @@ func (bw *blobWriter) Commit(ctx context.Context, provisional distribution.Descr
 	return
 }
 func (bw *blobWriter) Cancel(ctx context.Context) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return bw.wrapper(ctx, "BlobWriter.Cancel", func(ctx context.Context) error {

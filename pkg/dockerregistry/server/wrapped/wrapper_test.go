@@ -11,6 +11,8 @@ import (
 func zeroIn(typ reflect.Type) []reflect.Value {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var args []reflect.Value
 	for i := 0; i < typ.NumIn(); i++ {
 		if i == typ.NumIn()-1 && typ.IsVariadic() {
@@ -22,6 +24,8 @@ func zeroIn(typ reflect.Type) []reflect.Value {
 	return args
 }
 func TestWrapper(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	exclude := map[string]bool{"BlobWriter.Close": true, "BlobWriter.ID": true, "BlobWriter.ReadFrom": true, "BlobWriter.Size": true, "BlobWriter.StartedAt": true, "BlobWriter.Write": true, "StorageDriver.Name": true, "FileWriter.Size": true}

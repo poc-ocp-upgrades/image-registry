@@ -32,10 +32,14 @@ var codecs = serializer.NewCodecFactory(scheme)
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizationapi.AddToScheme(scheme)
 	userapi.AddToScheme(scheme)
 }
 func sarResponse(ns string, allowed bool, reason string) *authorizationapi.SelfSubjectAccessReview {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resp := &authorizationapi.SelfSubjectAccessReview{}
@@ -44,6 +48,8 @@ func sarResponse(ns string, allowed bool, reason string) *authorizationapi.SelfS
 	return resp
 }
 func TestVerifyImageStreamAccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -74,6 +80,8 @@ func TestVerifyImageStreamAccess(t *testing.T) {
 	}
 }
 func TestAccessController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const addr = "https://openshift-example.com/osapi"
@@ -186,6 +194,8 @@ type response struct {
 }
 
 func simulateOpenShiftMaster(responses []response) (*httptest.Server, *[]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	i := 0

@@ -19,6 +19,8 @@ type fakeBlobDescriptorService struct {
 func (bs *fakeBlobDescriptorService) lazyInit() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if bs.digests == nil {
 		bs.digests = make(map[digest.Digest]distribution.Descriptor)
 	}
@@ -32,6 +34,8 @@ func (bs *fakeBlobDescriptorService) lazyInit() {
 	}
 }
 func (bs *fakeBlobDescriptorService) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	bs.mu.Lock()
@@ -50,6 +54,8 @@ func (bs *fakeBlobDescriptorService) Stat(ctx context.Context, dgst digest.Diges
 func (bs *fakeBlobDescriptorService) Clear(ctx context.Context, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bs.mu.Lock()
 	defer bs.mu.Unlock()
 	bs.lazyInit()
@@ -58,6 +64,8 @@ func (bs *fakeBlobDescriptorService) Clear(ctx context.Context, dgst digest.Dige
 	return nil
 }
 func (bs *fakeBlobDescriptorService) SetDescriptor(ctx context.Context, dgst digest.Digest, desc distribution.Descriptor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	bs.mu.Lock()

@@ -9,6 +9,8 @@ import (
 func TestCounter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := New()
 	mustEqual := func(expected M) {
 		if diff := c.Diff(expected); diff != nil {

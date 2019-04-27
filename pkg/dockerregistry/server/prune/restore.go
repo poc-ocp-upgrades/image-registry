@@ -34,10 +34,14 @@ var _ Restore = &DryRunRestore{}
 func (r *DryRunRestore) BrokenImage(image imageapiv1.Image, err error) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Printf("Broken image %q: %s\n", image.Name, err)
 	return nil
 }
 func (r *DryRunRestore) BrokenImageStreamTag(is imageapiv1.ImageStream, event imageapiv1.NamedTagEventList, pos int, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ref := is.Namespace + "/" + is.Name + ":" + event.Tag
@@ -56,6 +60,8 @@ func (r *DryRunRestore) BrokenImageStreamTag(is imageapiv1.ImageStream, event im
 func (r *DryRunRestore) ImageStreamTag(imageStream imagestream.ImageStream, image *imageapiv1.Image, tagName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Printf("Would add image %q to imagestream %q with tag %q\n", image.Name, imageStream.Reference(), tagName)
 	return nil
 }
@@ -71,6 +77,8 @@ var _ Restore = &StorageRestore{}
 func (r *StorageRestore) ImageStreamTag(imageStream imagestream.ImageStream, image *imageapiv1.Image, tagName string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return imageStream.CreateImageStreamMapping(r.Ctx, r.Client, tagName, image)
 }
 
@@ -81,6 +89,8 @@ type statter struct {
 }
 
 func (s *statter) exists(ctx context.Context, dgst digest.Digest) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s.mu.Lock()
@@ -107,6 +117,8 @@ type ErrImage struct {
 func (err ErrImage) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return err.Problem.Error()
 }
 
@@ -119,6 +131,8 @@ type Fsck struct {
 }
 
 func (r *Fsck) checkImage(image *imageapiv1.Image, blobStatter *statter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !imagestream.IsImageManaged(image) {
@@ -167,6 +181,8 @@ func (r *Fsck) checkImage(image *imageapiv1.Image, blobStatter *statter) error {
 	return nil
 }
 func (r *Fsck) Database(namespace string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	listIS, err := r.Client.ImageStreams(namespace).List(metav1.ListOptions{})
@@ -234,6 +250,8 @@ func (r *Fsck) Database(namespace string) error {
 	return nil
 }
 func (r *Fsck) Storage(namespace string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	logger := dcontext.GetLogger(r.Ctx)

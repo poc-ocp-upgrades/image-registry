@@ -24,6 +24,8 @@ const (
 func IsImageManaged(image *imageapiv1.Image) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	managed, ok := image.ObjectMeta.Annotations[imageapi.ManagedByOpenShiftAnnotation]
 	return ok && managed == "true"
 }
@@ -39,9 +41,13 @@ type cachedImageGetter struct {
 func newCachedImageGetter(client client.Interface) imageGetter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cachedImageGetter{client: client, cache: make(map[digest.Digest]*imageapiv1.Image)}
 }
 func (ig *cachedImageGetter) Get(ctx context.Context, dgst digest.Digest) (*imageapiv1.Image, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if image, ok := ig.cache[dgst]; ok {

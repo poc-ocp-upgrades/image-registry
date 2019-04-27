@@ -15,6 +15,8 @@ var _ cache.BlobDescriptorCacheProvider = &Provider{}
 func (c *Provider) RepositoryScoped(repo string) (distribution.BlobDescriptorService, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := reference.WithName(repo); err != nil {
 		return nil, err
 	}
@@ -23,14 +25,20 @@ func (c *Provider) RepositoryScoped(repo string) (distribution.BlobDescriptorSer
 func (c *Provider) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Cache.Get(dgst)
 }
 func (c *Provider) SetDescriptor(ctx context.Context, dgst digest.Digest, desc distribution.Descriptor) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Cache.Add(dgst, &DigestValue{desc: &desc})
 }
 func (c *Provider) Clear(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return c.Cache.Remove(dgst)

@@ -24,15 +24,21 @@ type deferredErrors map[string]error
 func (d deferredErrors) Add(ref string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d[ref] = err
 }
 func (d deferredErrors) Get(ref string) (error, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err, exists := d[ref]
 	return err, exists
 }
 func (d deferredErrors) Empty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return len(d) == 0
@@ -43,6 +49,8 @@ const (
 )
 
 func WithUserInfoLogger(ctx context.Context, username, userid string) context.Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ctx = context.WithValue(ctx, audit.AuditUserEntry, username)
@@ -88,6 +96,8 @@ var (
 func (app *App) Auth(options map[string]interface{}) (registryauth.AccessController, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tokenRealm, err := configuration.TokenRealm(app.config.Auth.TokenRealm)
 	if err != nil {
 		return nil, err
@@ -97,9 +107,13 @@ func (app *App) Auth(options map[string]interface{}) (registryauth.AccessControl
 func (ac *authChallenge) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ac.err.Error()
 }
 func (ac *authChallenge) SetHeaders(w http.ResponseWriter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	str := fmt.Sprintf("Basic realm=%s", ac.realm)
@@ -111,9 +125,13 @@ func (ac *authChallenge) SetHeaders(w http.ResponseWriter) {
 func (ac *tokenAuthChallenge) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ac.err.Error()
 }
 func (ac *tokenAuthChallenge) SetHeaders(w http.ResponseWriter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	str := fmt.Sprintf("Bearer realm=%q", ac.realm)
@@ -123,6 +141,8 @@ func (ac *tokenAuthChallenge) SetHeaders(w http.ResponseWriter) {
 	w.Header().Set("WWW-Authenticate", str)
 }
 func (ac *AccessController) wrapErr(ctx context.Context, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch err {
@@ -153,6 +173,8 @@ func (ac *AccessController) wrapErr(ctx context.Context, err error) error {
 	}
 }
 func (ac *AccessController) Authorized(ctx context.Context, accessRecords ...registryauth.Access) (context.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req, err := dcontext.GetRequest(ctx)
@@ -291,6 +313,8 @@ func (ac *AccessController) Authorized(ctx context.Context, accessRecords ...reg
 func getOpenShiftAPIToken(req *http.Request) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	token := ""
 	authParts := strings.SplitN(req.Header.Get("Authorization"), " ", 2)
 	if len(authParts) != 2 {
@@ -316,6 +340,8 @@ func getOpenShiftAPIToken(req *http.Request) (string, error) {
 func verifyOpenShiftUser(ctx context.Context, c client.UsersInterfacer) (string, string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userInfo, err := c.Users().Get("~", metav1.GetOptions{})
 	if err != nil {
 		dcontext.GetLogger(ctx).Errorf("Get user failed with error: %s", err)
@@ -327,6 +353,8 @@ func verifyOpenShiftUser(ctx context.Context, c client.UsersInterfacer) (string,
 	return userInfo.GetName(), string(userInfo.GetUID()), nil
 }
 func verifyWithSAR(ctx context.Context, resource, namespace, name, verb string, c client.SelfSubjectAccessReviewsNamespacer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sar := authorizationapi.SelfSubjectAccessReview{Spec: authorizationapi.SelfSubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Namespace: namespace, Verb: verb, Group: imageapi.GroupName, Resource: resource, Name: name}}}
@@ -347,6 +375,8 @@ func verifyWithSAR(ctx context.Context, resource, namespace, name, verb string, 
 func verifyWithGlobalSAR(ctx context.Context, resource, subresource, verb string, c client.SelfSubjectAccessReviewsNamespacer) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sar := authorizationapi.SelfSubjectAccessReview{Spec: authorizationapi.SelfSubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Verb: verb, Group: imageapi.GroupName, Resource: resource, Subresource: subresource}}}
 	response, err := c.SelfSubjectAccessReviews().Create(&sar)
 	if err != nil {
@@ -365,9 +395,13 @@ func verifyWithGlobalSAR(ctx context.Context, resource, subresource, verb string
 func verifyImageStreamAccess(ctx context.Context, namespace, imageRepo, verb string, c client.SelfSubjectAccessReviewsNamespacer) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return verifyWithSAR(ctx, "imagestreams/layers", namespace, imageRepo, verb, c)
 }
 func verifyImageSignatureAccess(ctx context.Context, namespace, imageRepo string, c client.SelfSubjectAccessReviewsNamespacer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return verifyWithSAR(ctx, "imagesignatures", namespace, imageRepo, "create", c)
@@ -375,14 +409,20 @@ func verifyImageSignatureAccess(ctx context.Context, namespace, imageRepo string
 func verifyPruneAccess(ctx context.Context, c client.SelfSubjectAccessReviewsNamespacer) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return verifyWithGlobalSAR(ctx, "images", "", "delete", c)
 }
 func verifyCatalogAccess(ctx context.Context, c client.SelfSubjectAccessReviewsNamespacer) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return verifyWithGlobalSAR(ctx, "imagestreams", "", "list", c)
 }
 func verifyMetricsAccess(ctx context.Context, metrics configuration.Metrics, token string, c client.SelfSubjectAccessReviewsNamespacer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !metrics.Enabled {
@@ -400,6 +440,8 @@ func verifyMetricsAccess(ctx context.Context, metrics configuration.Metrics, tok
 	return nil
 }
 func isMetricsBearerToken(metrics configuration.Metrics, token string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if metrics.Enabled {

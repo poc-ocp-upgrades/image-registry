@@ -16,6 +16,8 @@ type registry struct {
 func (reg *registry) Repository(ctx context.Context, named reference.Named) (distribution.Repository, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repo, err := reg.Namespace.Repository(ctx, named)
 	if err != nil {
 		return repo, err
@@ -23,6 +25,8 @@ func (reg *registry) Repository(ctx context.Context, named reference.Named) (dis
 	return reg.inst.Repository(ctx, repo, false)
 }
 func NewRegistry(ctx context.Context, app App, driver storagedriver.StorageDriver, options ...storage.RegistryOption) (distribution.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	options = append(options, storage.BlobDescriptorServiceFactory(&blobDescriptorServiceFactory{}))

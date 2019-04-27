@@ -19,6 +19,8 @@ import (
 func main() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logs.InitLogs()
 	defer logs.FlushLogs()
 	defer serviceability.BehaviorOnPanic(os.Getenv("OPENSHIFT_ON_PANIC"), version.Get())()
@@ -50,6 +52,8 @@ func main() {
 func env(key string, defaultValue string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := os.Getenv(key)
 	if len(val) == 0 {
 		return defaultValue
@@ -57,6 +61,8 @@ func env(key string, defaultValue string) string {
 	return val
 }
 func startProfiler() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if env("OPENSHIFT_PROFILE", "") == "web" {

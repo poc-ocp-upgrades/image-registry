@@ -16,6 +16,8 @@ import (
 func TestTagGet(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := "user"
 	repo := "app"
 	tag := "latest"
@@ -57,6 +59,8 @@ func TestTagGet(t *testing.T) {
 func TestTagGetWithoutImageStream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := "user"
 	repo := "app"
 	tag := "latest"
@@ -75,6 +79,8 @@ func TestTagGetWithoutImageStream(t *testing.T) {
 	}
 }
 func TestTagGetAll(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "user"
@@ -104,6 +110,8 @@ func TestTagGetAll(t *testing.T) {
 func TestTagGetAllWithoutImageStream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := "user"
 	repo := "app"
 	ctx := context.Background()
@@ -121,6 +129,8 @@ func TestTagGetAllWithoutImageStream(t *testing.T) {
 	}
 }
 func TestTagLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "user"
@@ -158,6 +168,8 @@ func TestTagLookup(t *testing.T) {
 func TestTagLookupWithoutImageStream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := "user"
 	repo := "app"
 	tag := "latest"
@@ -185,6 +197,8 @@ type testTagService struct {
 func newTestTagService(data map[string]distribution.Descriptor) *testTagService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := make(map[string]distribution.Descriptor)
 	for d, content := range data {
 		b[d] = content
@@ -192,6 +206,8 @@ func newTestTagService(data map[string]distribution.Descriptor) *testTagService 
 	return &testTagService{data: b, calls: make(map[string]int)}
 }
 func (t *testTagService) Get(ctx context.Context, tag string) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Get"]++
@@ -204,11 +220,15 @@ func (t *testTagService) Get(ctx context.Context, tag string) (distribution.Desc
 func (t *testTagService) Tag(ctx context.Context, tag string, desc distribution.Descriptor) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Tag"]++
 	t.data[tag] = desc
 	return nil
 }
 func (t *testTagService) Untag(ctx context.Context, tag string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Untag"]++
@@ -222,6 +242,8 @@ func (t *testTagService) Untag(ctx context.Context, tag string) error {
 func (t *testTagService) All(ctx context.Context) (tags []string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["All"]++
 	for tag := range t.data {
 		tags = append(tags, tag)
@@ -229,6 +251,8 @@ func (t *testTagService) All(ctx context.Context) (tags []string, err error) {
 	return
 }
 func (t *testTagService) Lookup(ctx context.Context, desc distribution.Descriptor) (tags []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Lookup"]++

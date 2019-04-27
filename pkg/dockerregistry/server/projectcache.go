@@ -15,9 +15,13 @@ var _ imagestream.ProjectObjectListStore = &projectObjectListCache{}
 func newProjectObjectListCache(ttl time.Duration) imagestream.ProjectObjectListStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &projectObjectListCache{store: cache.NewTTLStore(metaProjectObjectListKeyFunc, ttl)}
 }
 func (c *projectObjectListCache) Add(namespace string, obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if namespace == "" {
@@ -27,6 +31,8 @@ func (c *projectObjectListCache) Add(namespace string, obj runtime.Object) error
 	return c.store.Add(no)
 }
 func (c *projectObjectListCache) Get(namespace string) (runtime.Object, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	entry, exists, err := c.store.GetByKey(namespace)
@@ -49,6 +55,8 @@ type namespacedObject struct {
 }
 
 func metaProjectObjectListKeyFunc(obj interface{}) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if key, ok := obj.(cache.ExplicitKey); ok {

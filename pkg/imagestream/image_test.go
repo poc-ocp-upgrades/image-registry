@@ -18,6 +18,8 @@ import (
 func TestCachedImageGetter(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:0000000000000000000000000000000000000000000000000000000000000001")
 	dockerImageReference := "localhost:5000/random/string"
 	ctx := context.Background()

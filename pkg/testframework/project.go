@@ -14,6 +14,8 @@ import (
 func CreateProject(t *testing.T, clientConfig *rest.Config, namespace string, adminUser string) *projectapiv1.Project {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projectClient := projectv1.NewForConfigOrDie(clientConfig)
 	project, err := projectClient.ProjectRequests().Create(&projectapiv1.ProjectRequest{ObjectMeta: metav1.ObjectMeta{Name: namespace}})
 	if err != nil {
@@ -28,6 +30,8 @@ func CreateProject(t *testing.T, clientConfig *rest.Config, namespace string, ad
 	return project
 }
 func DeleteProject(t *testing.T, clientConfig *rest.Config, name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	projectClient := projectv1.NewForConfigOrDie(clientConfig)

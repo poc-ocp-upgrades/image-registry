@@ -17,6 +17,8 @@ const (
 func ParseImageStreamImageName(input string) (name string, id string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	segments := strings.SplitN(input, "@", 3)
 	switch len(segments) {
 	case 2:
@@ -33,6 +35,8 @@ func ParseImageStreamImageName(input string) (name string, id string, err error)
 func IsRegistryDockerHub(registry string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch registry {
 	case DockerDefaultRegistry, DockerDefaultV1Registry, DockerDefaultV2Registry:
 		return true
@@ -41,6 +45,8 @@ func IsRegistryDockerHub(registry string) bool {
 	}
 }
 func ParseDockerImageReference(spec string) (DockerImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var ref DockerImageReference
@@ -58,6 +64,8 @@ func ParseDockerImageReference(spec string) (DockerImageReference, error) {
 func (r DockerImageReference) DockerClientDefaults() DockerImageReference {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Registry) == 0 {
 		r.Registry = DockerDefaultRegistry
 	}
@@ -72,11 +80,15 @@ func (r DockerImageReference) DockerClientDefaults() DockerImageReference {
 func (r DockerImageReference) AsRepository() DockerImageReference {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Tag = ""
 	r.ID = ""
 	return r
 }
 func (r DockerImageReference) RepositoryName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r.Tag = ""
@@ -87,9 +99,13 @@ func (r DockerImageReference) RepositoryName() string {
 func (r DockerImageReference) RegistryURL() *url.URL {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &url.URL{Scheme: "https", Host: r.AsV2().Registry}
 }
 func (r DockerImageReference) AsV2() DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch r.Registry {
@@ -99,6 +115,8 @@ func (r DockerImageReference) AsV2() DockerImageReference {
 	return r
 }
 func (r DockerImageReference) NameString() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	switch {
@@ -121,6 +139,8 @@ func (r DockerImageReference) NameString() string {
 func (r DockerImageReference) Exact() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := r.NameString()
 	if len(name) == 0 {
 		return name
@@ -137,12 +157,16 @@ func (r DockerImageReference) Exact() string {
 func (r DockerImageReference) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Namespace) == 0 && IsRegistryDockerHub(r.Registry) {
 		r.Namespace = DockerDefaultNamespace
 	}
 	return r.Exact()
 }
 func SplitImageStreamTag(nameAndTag string) (name string, tag string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	parts := strings.SplitN(nameAndTag, ":", 2)
@@ -158,6 +182,8 @@ func SplitImageStreamTag(nameAndTag string) (name string, tag string, ok bool) {
 func JoinImageStreamTag(name, tag string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tag) == 0 {
 		tag = DefaultImageTag
 	}
@@ -166,9 +192,13 @@ func JoinImageStreamTag(name, tag string) string {
 func JoinImageStreamImage(name, id string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s@%s", name, id)
 }
 func DigestOrImageMatch(image, imageID string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if d, err := digest.Parse(image); err == nil {

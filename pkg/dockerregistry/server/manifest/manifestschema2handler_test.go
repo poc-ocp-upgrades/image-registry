@@ -13,6 +13,8 @@ import (
 func TestUnmarshalManifestSchema2(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name			string
 		manifestString		string

@@ -15,6 +15,8 @@ type tagService struct {
 func (t tagService) Get(ctx context.Context, tag string) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ok, err := t.imageStream.Exists(ctx)
 	if err != nil {
 		return distribution.Descriptor{}, err
@@ -35,6 +37,8 @@ func (t tagService) Get(ctx context.Context, tag string) (distribution.Descripto
 func (t tagService) All(ctx context.Context) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ok, err := t.imageStream.Exists(ctx)
 	if err != nil {
 		return nil, err
@@ -53,6 +57,8 @@ func (t tagService) All(ctx context.Context) ([]string, error) {
 	return tagList, nil
 }
 func (t tagService) Lookup(ctx context.Context, desc distribution.Descriptor) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ok, err := t.imageStream.Exists(ctx)
@@ -78,9 +84,13 @@ func (t tagService) Lookup(ctx context.Context, desc distribution.Descriptor) ([
 func (t tagService) Tag(ctx context.Context, tag string, desc distribution.Descriptor) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (t tagService) Untag(ctx context.Context, tag string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil

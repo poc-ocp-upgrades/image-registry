@@ -19,6 +19,8 @@ const (
 func TestDigestCacheAddDigest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
 	repo := "foo"
 	now := time.Now()
@@ -46,6 +48,8 @@ func TestDigestCacheAddDigest(t *testing.T) {
 func TestDigestCacheRemoveDigest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
 	desc := distribution.Descriptor{Size: 10, Digest: dgst}
 	cache, err := NewBlobDigest(5, 3, ttl1m, metrics.NewNoopMetrics())
@@ -69,6 +73,8 @@ func TestDigestCacheRemoveDigest(t *testing.T) {
 func TestDigestCacheAddRepository(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
 	repos := []string{"foo", "bar", "baz"}
 	cache, err := NewBlobDigest(5, 1, ttl1m, metrics.NewNoopMetrics())
@@ -84,6 +90,8 @@ func TestDigestCacheAddRepository(t *testing.T) {
 	}
 }
 func TestDigestCacheScopedRemove(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")
@@ -118,6 +126,8 @@ func TestDigestCacheScopedRemove(t *testing.T) {
 func TestDigestCacheInvalidDigest(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cache, err := NewBlobDigest(5, 3, ttl1m, metrics.NewNoopMetrics())
 	if err != nil {
 		t.Fatal(err)
@@ -140,6 +150,8 @@ func TestDigestCacheInvalidDigest(t *testing.T) {
 	}
 }
 func TestDigestCacheDigestMigration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dgst256 := digest.Digest("sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865")

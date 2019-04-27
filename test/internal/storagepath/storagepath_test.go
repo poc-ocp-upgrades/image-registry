@@ -23,9 +23,13 @@ var _ storagedriver.StorageDriver = &storageDriver{}
 func (sd *storageDriver) Name() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sd.storageDriver.Name()
 }
 func (sd *storageDriver) GetContent(ctx context.Context, path string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sd.logger.Printf("GET %s", path)
@@ -34,10 +38,14 @@ func (sd *storageDriver) GetContent(ctx context.Context, path string) ([]byte, e
 func (sd *storageDriver) PutContent(ctx context.Context, path string, content []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sd.logger.Printf("PUT %s", path)
 	return sd.storageDriver.PutContent(ctx, path, content)
 }
 func (sd *storageDriver) Reader(ctx context.Context, path string, offset int64) (io.ReadCloser, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sd.logger.Printf("READ %s", path)
@@ -46,10 +54,14 @@ func (sd *storageDriver) Reader(ctx context.Context, path string, offset int64) 
 func (sd *storageDriver) Writer(ctx context.Context, path string, append bool) (storagedriver.FileWriter, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sd.logger.Printf("WRITE %s", path)
 	return sd.storageDriver.Writer(ctx, path, append)
 }
 func (sd *storageDriver) Stat(ctx context.Context, path string) (storagedriver.FileInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sd.logger.Printf("STAT %s", path)
@@ -58,10 +70,14 @@ func (sd *storageDriver) Stat(ctx context.Context, path string) (storagedriver.F
 func (sd *storageDriver) List(ctx context.Context, path string) ([]string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sd.logger.Printf("LIST %s", path)
 	return sd.storageDriver.List(ctx, path)
 }
 func (sd *storageDriver) Move(ctx context.Context, sourcePath string, destPath string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sd.logger.Printf("MOVE %s %s", sourcePath, destPath)
@@ -70,10 +86,14 @@ func (sd *storageDriver) Move(ctx context.Context, sourcePath string, destPath s
 func (sd *storageDriver) Delete(ctx context.Context, path string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sd.logger.Printf("DELETE %s", path)
 	return sd.storageDriver.Delete(ctx, path)
 }
 func (sd *storageDriver) URLFor(ctx context.Context, path string, options map[string]interface{}) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sd.logger.Printf("URL %s", path)
@@ -82,10 +102,14 @@ func (sd *storageDriver) URLFor(ctx context.Context, path string, options map[st
 func (sd *storageDriver) Walk(ctx context.Context, path string, f storagedriver.WalkFn) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sd.logger.Printf("WALK %s", path)
 	return sd.storageDriver.Walk(ctx, path, f)
 }
 func TestManifest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const reponame = "foo/bar"

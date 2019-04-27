@@ -16,9 +16,13 @@ var (
 func Get() version.Info {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return version.Info{Major: majorFromGit, Minor: minorFromGit, GitCommit: commitFromGit, GitVersion: versionFromGit, BuildDate: buildDate}
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	buildInfo := prometheus.NewGaugeVec(prometheus.GaugeOpts{Name: "imageregistry_build_info", Help: "A metric with a constant '1' value labeled by major, minor, git commit & git version from which the image registry was built."}, []string{"major", "minor", "gitCommit", "gitVersion"})

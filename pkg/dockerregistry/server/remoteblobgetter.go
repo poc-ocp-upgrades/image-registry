@@ -30,9 +30,13 @@ type digestBlobStoreCache struct {
 func newDigestBlobStoreCache(m metrics.Pullthrough) *digestBlobStoreCache {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &digestBlobStoreCache{data: make(map[string]distribution.BlobStore), metrics: m.DigestBlobStoreCache()}
 }
 func (c *digestBlobStoreCache) Get(dgst digest.Digest) (bs distribution.BlobStore, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	func() {
@@ -44,6 +48,8 @@ func (c *digestBlobStoreCache) Get(dgst digest.Digest) (bs distribution.BlobStor
 	return
 }
 func (c *digestBlobStoreCache) Put(dgst digest.Digest, bs distribution.BlobStore) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	c.mu.Lock()
@@ -64,9 +70,13 @@ var _ BlobGetterService = &remoteBlobGetterService{}
 func NewBlobGetterService(imageStream imagestream.ImageStream, secretsGetter secretsGetter, cache cache.RepositoryDigest, m metrics.Pullthrough) BlobGetterService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &remoteBlobGetterService{imageStream: imageStream, getSecrets: secretsGetter, cache: cache, digestToStore: newDigestBlobStoreCache(m), metrics: m}
 }
 func (rbgs *remoteBlobGetterService) findBlobStore(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, distribution.BlobStore, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ok, err := rbgs.imageStream.Exists(ctx)
@@ -111,6 +121,8 @@ func (rbgs *remoteBlobGetterService) findBlobStore(ctx context.Context, dgst dig
 func (rbgs *remoteBlobGetterService) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*remoteBlobGetterService).Stat: starting with dgst=%s", dgst)
 	bs, ok := rbgs.digestToStore.Get(dgst)
 	if ok {
@@ -130,6 +142,8 @@ func (rbgs *remoteBlobGetterService) Stat(ctx context.Context, dgst digest.Diges
 func (rbgs *remoteBlobGetterService) Open(ctx context.Context, dgst digest.Digest) (distribution.ReadSeekCloser, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*remoteBlobGetterService).Open: starting with dgst=%s", dgst)
 	bs, ok := rbgs.digestToStore.Get(dgst)
 	if !ok {
@@ -145,6 +159,8 @@ func (rbgs *remoteBlobGetterService) Open(ctx context.Context, dgst digest.Diges
 func (rbgs *remoteBlobGetterService) ServeBlob(ctx context.Context, w http.ResponseWriter, req *http.Request, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*remoteBlobGetterService).ServeBlob: starting with dgst=%s", dgst)
 	bs, ok := rbgs.digestToStore.Get(dgst)
 	if !ok {
@@ -158,6 +174,8 @@ func (rbgs *remoteBlobGetterService) ServeBlob(ctx context.Context, w http.Respo
 	return bs.ServeBlob(ctx, w, req, dgst)
 }
 func (rbgs *remoteBlobGetterService) proxyStat(ctx context.Context, retriever registryclient.RepositoryRetriever, spec *imagestream.ImagePullthroughSpec, dgst digest.Digest) (distribution.Descriptor, distribution.BlobStore, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ref := spec.DockerImageReference
@@ -184,6 +202,8 @@ func (rbgs *remoteBlobGetterService) proxyStat(ctx context.Context, retriever re
 func (rbgs *remoteBlobGetterService) Get(ctx context.Context, dgst digest.Digest) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*remoteBlobGetterService).Get: starting with dgst=%s", dgst.String())
 	bs, ok := rbgs.digestToStore.Get(dgst)
 	if !ok {
@@ -197,6 +217,8 @@ func (rbgs *remoteBlobGetterService) Get(ctx context.Context, dgst digest.Digest
 	return bs.Get(ctx, dgst)
 }
 func (rbgs *remoteBlobGetterService) findCandidateRepository(ctx context.Context, repositoryCandidates []string, search map[string]imagestream.ImagePullthroughSpec, cachedRepos []string, dgst digest.Digest, retriever registryclient.RepositoryRetriever) (distribution.Descriptor, distribution.BlobStore, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(search) == 0 {

@@ -31,6 +31,8 @@ type manifestService struct {
 func (m *manifestService) Exists(ctx context.Context, dgst digest.Digest) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*manifestService).Exists")
 	image, err := m.imageStream.GetImageOfImageStream(ctx, dgst)
 	if err != nil {
@@ -46,6 +48,8 @@ func (m *manifestService) Exists(ctx context.Context, dgst digest.Digest) (bool,
 	return image != nil, nil
 }
 func (m *manifestService) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*manifestService).Get")
@@ -73,6 +77,8 @@ func (m *manifestService) Get(ctx context.Context, dgst digest.Digest, options .
 	return manifest, nil
 }
 func (m *manifestService) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*manifestService).Put")
@@ -135,6 +141,8 @@ func (m *manifestService) Put(ctx context.Context, manifest distribution.Manifes
 	return dgst, nil
 }
 func (m *manifestService) Delete(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*manifestService).Delete")

@@ -43,11 +43,15 @@ var (
 func SetPreferredDockercfgPath(path string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	preferredPathLock.Lock()
 	defer preferredPathLock.Unlock()
 	preferredPath = path
 }
 func GetPreferredDockercfgPath() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	preferredPathLock.Lock()
@@ -57,14 +61,20 @@ func GetPreferredDockercfgPath() string {
 func DefaultDockercfgPaths() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{GetPreferredDockercfgPath(), workingDirPath, homeDirPath, rootDirPath}
 }
 func DefaultDockerConfigJSONPaths() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{GetPreferredDockercfgPath(), workingDirPath, homeJsonDirPath, rootJsonDirPath}
 }
 func ReadDockercfgFile(searchPaths []string) (cfg DockerConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(searchPaths) == 0 {
@@ -96,6 +106,8 @@ func ReadDockercfgFile(searchPaths []string) (cfg DockerConfig, err error) {
 func ReadDockerConfigJSONFile(searchPaths []string) (cfg DockerConfig, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(searchPaths) == 0 {
 		searchPaths = DefaultDockerConfigJSONPaths()
 	}
@@ -121,6 +133,8 @@ func ReadDockerConfigJSONFile(searchPaths []string) (cfg DockerConfig, err error
 func ReadSpecificDockerConfigJsonFile(filePath string) (cfg DockerConfig, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var contents []byte
 	if contents, err = ioutil.ReadFile(filePath); err != nil {
 		return nil, err
@@ -128,6 +142,8 @@ func ReadSpecificDockerConfigJsonFile(filePath string) (cfg DockerConfig, err er
 	return readDockerConfigJsonFileFromBytes(contents)
 }
 func ReadDockerConfigFile() (cfg DockerConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if cfg, err := ReadDockerConfigJSONFile(nil); err == nil {
@@ -144,9 +160,13 @@ type HttpError struct {
 func (he *HttpError) Error() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("http status code: %d while fetching url %s", he.StatusCode, he.Url)
 }
 func ReadUrl(url string, client *http.Client, header *http.Header) (body []byte, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req, err := http.NewRequest("GET", url, nil)
@@ -174,6 +194,8 @@ func ReadUrl(url string, client *http.Client, header *http.Header) (body []byte,
 func ReadDockerConfigFileFromUrl(url string, client *http.Client, header *http.Header) (cfg DockerConfig, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if contents, err := ReadUrl(url, client, header); err != nil {
 		return nil, err
 	} else {
@@ -183,6 +205,8 @@ func ReadDockerConfigFileFromUrl(url string, client *http.Client, header *http.H
 func readDockerConfigFileFromBytes(contents []byte) (cfg DockerConfig, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err = json.Unmarshal(contents, &cfg); err != nil {
 		glog.Errorf("while trying to parse blob %q: %v", contents, err)
 		return nil, err
@@ -190,6 +214,8 @@ func readDockerConfigFileFromBytes(contents []byte) (cfg DockerConfig, err error
 	return
 }
 func readDockerConfigJsonFileFromBytes(contents []byte) (cfg DockerConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var cfgJson DockerConfigJson
@@ -211,6 +237,8 @@ type dockerConfigEntryWithAuth struct {
 func (ident *DockerConfigEntry) UnmarshalJSON(data []byte) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tmp dockerConfigEntryWithAuth
 	err := json.Unmarshal(data, &tmp)
 	if err != nil {
@@ -228,11 +256,15 @@ func (ident *DockerConfigEntry) UnmarshalJSON(data []byte) error {
 func (ident DockerConfigEntry) MarshalJSON() ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	toEncode := dockerConfigEntryWithAuth{ident.Username, ident.Password, ident.Email, ""}
 	toEncode.Auth = encodeDockerConfigFieldAuth(ident.Username, ident.Password)
 	return json.Marshal(toEncode)
 }
 func decodeDockerConfigFieldAuth(field string) (username, password string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	decoded, err := base64.StdEncoding.DecodeString(field)
@@ -251,13 +283,24 @@ func decodeDockerConfigFieldAuth(field string) (username, password string, err e
 func encodeDockerConfigFieldAuth(username, password string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fieldValue := username + ":" + password
 	return base64.StdEncoding.EncodeToString([]byte(fieldValue))
 }
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

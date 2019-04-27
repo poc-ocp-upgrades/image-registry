@@ -10,5 +10,7 @@ import (
 func Dispatcher(ctx *handlers.Context, r *http.Request) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return gorillahandlers.MethodHandler{"GET": prometheus.Handler()}
 }

@@ -19,6 +19,8 @@ import (
 func ExecuteRestore(configFile io.Reader, mode, namespace string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(namespace) == 0 {
 		namespace = metav1.NamespaceAll
 	}

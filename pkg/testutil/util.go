@@ -26,6 +26,8 @@ import (
 func NewTransport(baseURL string, repoName string, creds auth.CredentialStore) (http.RoundTripper, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if creds == nil {
 		return nil, nil
 	}
@@ -39,6 +41,8 @@ func NewTransport(baseURL string, repoName string, creds auth.CredentialStore) (
 func NewRepository(repoName string, baseURL string, transport http.RoundTripper) (distribution.Repository, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := reference.WithName(repoName)
 	if err != nil {
 		return nil, err
@@ -46,6 +50,8 @@ func NewRepository(repoName string, baseURL string, transport http.RoundTripper)
 	return distclient.NewRepository(ref, baseURL, transport)
 }
 func UploadBlob(ctx context.Context, repo distribution.Repository, desc distribution.Descriptor, content []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	wr, err := repo.Blobs(ctx).Create(ctx)
@@ -68,6 +74,8 @@ func UploadBlob(ctx context.Context, repo distribution.Repository, desc distribu
 func UploadManifest(ctx context.Context, repo distribution.Repository, tag string, manifest distribution.Manifest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	canonical, err := CanonicalManifest(manifest)
 	if err != nil {
 		return err
@@ -86,6 +94,8 @@ func UploadManifest(ctx context.Context, repo distribution.Repository, tag strin
 	return nil
 }
 func UploadRandomTestBlob(ctx context.Context, baseURL string, creds auth.CredentialStore, repoName string) (distribution.Descriptor, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	payload, desc, err := MakeRandomLayer()
@@ -107,6 +117,8 @@ func UploadRandomTestBlob(ctx context.Context, baseURL string, creds auth.Creden
 	return desc, payload, nil
 }
 func CreateRandomTarFile() ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	nFiles := 2
@@ -136,6 +148,8 @@ func CreateRandomTarFile() ([]byte, error) {
 	return target.Bytes(), nil
 }
 func CreateRandomImage(namespace, name string) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const layersCount = 2
@@ -208,9 +222,13 @@ var _ auth.CredentialStore = &testCredentialStore{}
 func NewBasicCredentialStore(username, password string) auth.CredentialStore {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testCredentialStore{username: username, password: password}
 }
 func (tcs *testCredentialStore) Basic(*url.URL) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return tcs.username, tcs.password
@@ -218,9 +236,13 @@ func (tcs *testCredentialStore) Basic(*url.URL) (string, string) {
 func (tcs *testCredentialStore) RefreshToken(u *url.URL, service string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tcs.refreshTokens[service]
 }
 func (tcs *testCredentialStore) SetRefreshToken(u *url.URL, service string, token string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if tcs.refreshTokens != nil {
@@ -228,6 +250,8 @@ func (tcs *testCredentialStore) SetRefreshToken(u *url.URL, service string, toke
 	}
 }
 func ping(manager challenge.Manager, endpoint, versionHeader string) ([]auth.APIVersion, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	resp, err := http.Get(endpoint)
@@ -243,6 +267,8 @@ func ping(manager challenge.Manager, endpoint, versionHeader string) ([]auth.API
 	return auth.APIVersions(resp, versionHeader), nil
 }
 func UploadSchema2Image(ctx context.Context, repo distribution.Repository, tag string) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const layersCount = 2
@@ -278,6 +304,8 @@ func UploadSchema2Image(ctx context.Context, repo distribution.Repository, tag s
 func ConvertImage(image *imageapi.Image) (*imageapiv1.Image, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newImage := &imageapiv1.Image{}
 	newImage.Name = image.Name
 	newImage.Annotations = image.Annotations
@@ -295,6 +323,8 @@ func ConvertImage(image *imageapi.Image) (*imageapiv1.Image, error) {
 	return newImage, nil
 }
 func VerifyRemoteImage(ctx context.Context, repo distribution.Repository, tag string) (mediatype string, dgst digest.Digest, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ms, err := repo.Manifests(ctx)

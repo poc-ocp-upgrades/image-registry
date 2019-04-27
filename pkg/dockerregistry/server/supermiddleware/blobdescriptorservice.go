@@ -18,6 +18,8 @@ var _ distribution.BlobDescriptorServiceFactory = blobDescriptorServiceFactoryFu
 func (f blobDescriptorServiceFactoryFunc) BlobAccessController(svc distribution.BlobDescriptorService) distribution.BlobDescriptorService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(svc)
 }
 
@@ -26,9 +28,13 @@ type blobDescriptorServiceFactoryContextKey struct{}
 func withBlobDescriptorServiceFactory(ctx context.Context, f distribution.BlobDescriptorServiceFactory) context.Context {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return context.WithValue(ctx, blobDescriptorServiceFactoryContextKey{}, f)
 }
 func blobDescriptorServiceFactoryFrom(ctx context.Context) distribution.BlobDescriptorServiceFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	f, _ := ctx.Value(blobDescriptorServiceFactoryContextKey{}).(distribution.BlobDescriptorServiceFactory)
@@ -40,6 +46,8 @@ type blobDescriptorServiceFactory struct{}
 var _ distribution.BlobDescriptorServiceFactory = &blobDescriptorServiceFactory{}
 
 func (f *blobDescriptorServiceFactory) BlobAccessController(svc distribution.BlobDescriptorService) distribution.BlobDescriptorService {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &blobDescriptorService{upstream: svc}
@@ -55,6 +63,8 @@ var _ distribution.BlobDescriptorService = &blobDescriptorService{}
 func (bds *blobDescriptorService) getImpl(ctx context.Context) distribution.BlobDescriptorService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if bds.impl == nil {
 		bds.impl = bds.upstream
 		if factory := blobDescriptorServiceFactoryFrom(ctx); factory != nil {
@@ -66,9 +76,13 @@ func (bds *blobDescriptorService) getImpl(ctx context.Context) distribution.Blob
 func (bds *blobDescriptorService) Stat(ctx context.Context, dgst digest.Digest) (distribution.Descriptor, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return bds.getImpl(ctx).Stat(ctx, dgst)
 }
 func (bds *blobDescriptorService) SetDescriptor(ctx context.Context, dgst digest.Digest, desc distribution.Descriptor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return bds.getImpl(ctx).SetDescriptor(ctx, dgst, desc)
@@ -76,9 +90,13 @@ func (bds *blobDescriptorService) SetDescriptor(ctx context.Context, dgst digest
 func (bds *blobDescriptorService) Clear(ctx context.Context, dgst digest.Digest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return bds.getImpl(ctx).Clear(ctx, dgst)
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := registrymw.RegisterOptions(storage.BlobDescriptorServiceFactory(&blobDescriptorServiceFactory{}))
@@ -89,11 +107,15 @@ func init() {
 func newBlobDescriptorServiceRepository(repo distribution.Repository, factory distribution.BlobDescriptorServiceFactory) distribution.Repository {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wrapped.NewRepository(repo, func(ctx context.Context, funcname string, f func(ctx context.Context) error) error {
 		return f(withBlobDescriptorServiceFactory(ctx, factory))
 	})
 }
 func effectiveCreateOptions(options []distribution.BlobCreateOption) (*distribution.CreateOptions, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := &distribution.CreateOptions{}
@@ -111,6 +133,8 @@ type blobDescriptorServiceBlobStore struct {
 }
 
 func (bs blobDescriptorServiceBlobStore) Create(ctx context.Context, options ...distribution.BlobCreateOption) (distribution.BlobWriter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts, err := effectiveCreateOptions(options)
@@ -141,6 +165,8 @@ type blobDescriptorServiceRepository struct {
 }
 
 func (r blobDescriptorServiceRepository) Blobs(ctx context.Context) distribution.BlobStore {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return blobDescriptorServiceBlobStore{BlobStore: r.Repository.Blobs(ctx), inst: r.inst}

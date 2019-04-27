@@ -29,12 +29,16 @@ import (
 func createTestRegistryServer(t *testing.T, ctx context.Context) *httptest.Server {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &configuration.Configuration{Loglevel: "debug", Storage: configuration.Storage{"inmemory": configuration.Parameters{}, "cache": configuration.Parameters{"blobdescriptor": "inmemory"}, "delete": configuration.Parameters{"enabled": true}, "maintenance": configuration.Parameters{"uploadpurging": map[interface{}]interface{}{"enabled": false}}}}
 	config.Compatibility.Schema1.Enabled = true
 	remoteRegistryApp := handlers.NewApp(ctx, config)
 	return httptest.NewServer(remoteRegistryApp)
 }
 func TestPullthroughManifests(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "fuser"
@@ -138,6 +142,8 @@ func TestPullthroughManifests(t *testing.T) {
 	}
 }
 func TestPullthroughManifestInsecure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "fuser"
@@ -275,6 +281,8 @@ func TestPullthroughManifestInsecure(t *testing.T) {
 func TestPullthroughManifestDockerReference(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := "user"
 	repo1 := "repo1"
 	repo2 := "repo2"
@@ -361,6 +369,8 @@ var _ distribution.ManifestService = &testManifestService{}
 func newTestManifestService(name string, data map[digest.Digest]distribution.Manifest) *testManifestService {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := make(map[digest.Digest]distribution.Manifest)
 	for d, content := range data {
 		b[d] = content
@@ -370,11 +380,15 @@ func newTestManifestService(name string, data map[digest.Digest]distribution.Man
 func (t *testManifestService) Exists(ctx context.Context, dgst digest.Digest) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Exists"]++
 	_, exists := t.data[dgst]
 	return exists, nil
 }
 func (t *testManifestService) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Get"]++
@@ -387,6 +401,8 @@ func (t *testManifestService) Get(ctx context.Context, dgst digest.Digest, optio
 func (t *testManifestService) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (digest.Digest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.calls["Put"]++
 	_, payload, err := manifest.Payload()
 	if err != nil {
@@ -397,6 +413,8 @@ func (t *testManifestService) Put(ctx context.Context, manifest distribution.Man
 	return dgst, nil
 }
 func (t *testManifestService) Delete(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t.calls["Delete"]++
@@ -415,15 +433,21 @@ var _ distribution.ManifestService = &putWaiterManifestService{}
 func (ms *putWaiterManifestService) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, distribution.ErrManifestUnknownRevision{Name: "unnamed", Revision: dgst}
 }
 func (ms *putWaiterManifestService) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	close(ms.done)
 	return "", fmt.Errorf("put aborted")
 }
 func TestPullthroughManifestMirroring(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const timeout = 5 * time.Second
@@ -483,6 +507,8 @@ func TestPullthroughManifestMirroring(t *testing.T) {
 	}
 }
 func TestPullthroughManifestMetrics(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	namespace := "myproject"

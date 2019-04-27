@@ -28,6 +28,8 @@ var _ distribution.ManifestService = &pullthroughManifestService{}
 func (m *pullthroughManifestService) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*pullthroughManifestService).Get: starting with dgst=%s", dgst.String())
 	manifest, err := m.ManifestService.Get(ctx, dgst, options...)
 	if _, ok := err.(distribution.ErrManifestUnknownRevision); ok {
@@ -36,6 +38,8 @@ func (m *pullthroughManifestService) Get(ctx context.Context, dgst digest.Digest
 	return manifest, err
 }
 func (m *pullthroughManifestService) remoteGet(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("(*pullthroughManifestService).remoteGet: starting with dgst=%s", dgst.String())
@@ -83,6 +87,8 @@ func (m *pullthroughManifestService) remoteGet(ctx context.Context, dgst digest.
 func (m *pullthroughManifestService) mirrorManifest(ctx context.Context, manifest distribution.Manifest) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localManifestService, err := m.newLocalManifestService(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to create local manifest service: %v", err)
@@ -91,6 +97,8 @@ func (m *pullthroughManifestService) mirrorManifest(ctx context.Context, manifes
 	return err
 }
 func (m *pullthroughManifestService) getRemoteRepositoryClient(ctx context.Context, ref *imageapi.DockerImageReference, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Repository, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	retriever, impErr := getImportContext(ctx, m.imageStream.GetSecrets, m.metrics)

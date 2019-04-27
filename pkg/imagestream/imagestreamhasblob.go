@@ -11,6 +11,8 @@ import (
 func (is *imageStream) HasBlob(ctx context.Context, dgst digest.Digest) (bool, *imageapiv1.ImageStreamLayers, *imageapiv1.Image) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dcontext.GetLogger(ctx).Debugf("verifying presence of blob %q in image stream %s", dgst.String(), is.Reference())
 	started := time.Now()
 	logFound := func(found bool, layers *imageapiv1.ImageStreamLayers, image *imageapiv1.Image) (bool, *imageapiv1.ImageStreamLayers, *imageapiv1.Image) {

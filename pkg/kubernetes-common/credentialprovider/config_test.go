@@ -12,6 +12,8 @@ import (
 func TestReadDockerConfigFile(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configJsonFileName := "config.json"
 	var fileInfo *os.File
 	inputDockerconfigJsonFile := "{ \"auths\": { \"http://foo.example.com\":{\"auth\":\"Zm9vOmJhcgo=\",\"email\":\"foo@example.com\"}}}"
@@ -43,6 +45,8 @@ func TestReadDockerConfigFile(t *testing.T) {
 func TestDockerConfigJsonJSONDecode(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := []byte(`{"auths": {"http://foo.example.com":{"username": "foo", "password": "bar", "email": "foo@example.com"}, "http://bar.example.com":{"username": "bar", "password": "baz", "email": "bar@example.com"}}}`)
 	expect := DockerConfigJson{Auths: DockerConfig(map[string]DockerConfigEntry{"http://foo.example.com": {Username: "foo", Password: "bar", Email: "foo@example.com"}, "http://bar.example.com": {Username: "bar", Password: "baz", Email: "bar@example.com"}})}
 	var output DockerConfigJson
@@ -57,6 +61,8 @@ func TestDockerConfigJsonJSONDecode(t *testing.T) {
 func TestDockerConfigJSONDecode(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := []byte(`{"http://foo.example.com":{"username": "foo", "password": "bar", "email": "foo@example.com"}, "http://bar.example.com":{"username": "bar", "password": "baz", "email": "bar@example.com"}}`)
 	expect := DockerConfig(map[string]DockerConfigEntry{"http://foo.example.com": {Username: "foo", Password: "bar", Email: "foo@example.com"}, "http://bar.example.com": {Username: "bar", Password: "baz", Email: "bar@example.com"}})
 	var output DockerConfig
@@ -69,6 +75,8 @@ func TestDockerConfigJSONDecode(t *testing.T) {
 	}
 }
 func TestDockerConfigEntryJSONDecode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -88,6 +96,8 @@ func TestDockerConfigEntryJSONDecode(t *testing.T) {
 	}
 }
 func TestDecodeDockerConfigFieldAuth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {
@@ -110,6 +120,8 @@ func TestDecodeDockerConfigFieldAuth(t *testing.T) {
 	}
 }
 func TestDockerConfigEntryJSONCompatibleEncode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tests := []struct {

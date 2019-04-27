@@ -12,6 +12,8 @@ import (
 func TestCatalog(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const blobRepoCacheTTL = time.Millisecond * 500
 	type isMeta struct{ namespace, name string }
 	for _, tc := range []struct {

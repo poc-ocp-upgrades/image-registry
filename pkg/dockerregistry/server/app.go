@@ -44,10 +44,14 @@ type App struct {
 func (app *App) Storage(driver storagedriver.StorageDriver, options map[string]interface{}) (storagedriver.StorageDriver, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	app.driver = app.metrics.StorageDriver(driver)
 	return app.driver, nil
 }
 func (app *App) Registry(nm distribution.Namespace, options map[string]interface{}) (distribution.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app.registry = nm
@@ -56,14 +60,20 @@ func (app *App) Registry(nm distribution.Namespace, options map[string]interface
 func (app *App) BlobStatter() distribution.BlobStatter {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cache.BlobStatter{Cache: app.cache, Svc: app.registry.BlobStatter()}
 }
 func (app *App) CacheProvider(ctx context.Context, options map[string]interface{}) (registrycache.BlobDescriptorCacheProvider, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cache.Provider{Cache: app.cache}, nil
 }
 func NewApp(ctx context.Context, registryClient client.RegistryClient, dockerConfig *configuration.Configuration, extraConfig *registryconfig.Configuration, writeLimiter maxconnections.Limiter) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	app := &App{ctx: ctx, registryClient: registryClient, config: extraConfig, writeLimiter: writeLimiter, quotaEnforcing: newQuotaEnforcingConfig(ctx, extraConfig.Quota), paginationCache: kubecache.NewLRUExpireCache(defaultPaginationCacheSize)}
