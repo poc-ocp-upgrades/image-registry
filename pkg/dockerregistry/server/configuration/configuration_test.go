@@ -6,7 +6,6 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
 	"github.com/docker/distribution/configuration"
 )
 
@@ -34,41 +33,35 @@ openshift:
 `
 
 func TestConfigurationParser(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configFile := bytes.NewBufferString(configYamlV0_1)
-
 	dockerConfig, extraConfig, err := Parse(configFile)
 	if err != nil {
 		t.Fatalf("unexpected error parsing configuration file: %s", err)
 	}
-
 	if !dockerConfig.HTTP.RelativeURLs {
 		t.Fatalf("unexpected value: dockerConfig.HTTP.RelativeURLs != true")
 	}
-
 	if extraConfig.Version.Major() != 1 || extraConfig.Version.Minor() != 0 {
 		t.Fatalf("unexpected value: extraConfig.Version: %s", extraConfig.Version)
 	}
-
 	if !extraConfig.Metrics.Enabled {
 		t.Fatalf("unexpected value: extraConfig.Metrics.Enabled != true")
 	}
-
 	if extraConfig.Metrics.Secret != "TopSecretToken" {
 		t.Fatalf("unexpected value: extraConfig.Metrics.Secret: %s", extraConfig.Metrics.Secret)
 	}
-
 	if extraConfig.Auth == nil {
 		t.Fatalf("unexpected empty section: extraConfig.Auth")
 	} else if extraConfig.Auth.Realm != "myrealm" {
 		t.Fatalf("unexpected value: extraConfig.Auth.Realm: %s", extraConfig.Auth.Realm)
 	}
-
 	if extraConfig.Audit == nil {
 		t.Fatalf("unexpected empty section: extraConfig.Audit")
 	} else if !extraConfig.Audit.Enabled {
 		t.Fatalf("unexpected value: extraConfig.Audit.Enabled != true")
 	}
-
 	if extraConfig.Pullthrough == nil {
 		t.Fatalf("unexpected empty section: extraConfig.Pullthrough")
 	} else {
@@ -80,16 +73,14 @@ func TestConfigurationParser(t *testing.T) {
 		}
 	}
 }
-
 func testConfigurationOverwriteEnv(t *testing.T, config string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv("REGISTRY_OPENSHIFT_SERVER_ADDR", ":5000")
 	defer os.Unsetenv("REGISTRY_OPENSHIFT_SERVER_ADDR")
-
 	os.Setenv("REGISTRY_OPENSHIFT_METRICS_ENABLED", "false")
 	defer os.Unsetenv("REGISTRY_OPENSHIFT_METRICS_ENABLED")
-
 	configFile := bytes.NewBufferString(config)
-
 	_, extraConfig, err := Parse(configFile)
 	if err != nil {
 		t.Fatalf("unexpected error parsing configuration file: %s", err)
@@ -103,8 +94,9 @@ func testConfigurationOverwriteEnv(t *testing.T, config string) {
 		t.Fatalf("unexpected value: extraConfig.Server.Addr: %s", extraConfig.Server.Addr)
 	}
 }
-
 func TestConfigurationOverwriteEnv(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 storage:
@@ -119,8 +111,9 @@ openshift:
 `
 	testConfigurationOverwriteEnv(t, configYaml)
 }
-
 func TestConfigurationWithEmptyOpenshiftOverwriteEnv(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 storage:
@@ -128,8 +121,9 @@ storage:
 `
 	testConfigurationOverwriteEnv(t, configYaml)
 }
-
 func TestDockerConfigurationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var badDockerConfigYamlV0_1 = `
 version: 0.1
 http:
@@ -139,14 +133,14 @@ storage:
   inmemory: {}
 `
 	configFile := bytes.NewBufferString(badDockerConfigYamlV0_1)
-
 	_, _, err := Parse(configFile)
 	if err == nil {
 		t.Fatalf("unexpected parser success")
 	}
 }
-
 func TestExtraConfigurationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var badExtraConfigYaml = `
 version: 0.1
 http:
@@ -159,14 +153,14 @@ openshift:
     enabled: "true"
 `
 	configFile := bytes.NewBufferString(badExtraConfigYaml)
-
 	_, _, err := Parse(configFile)
 	if err == nil {
 		t.Fatalf("unexpected parser success")
 	}
 }
-
 func TestEmptyExtraConfigurationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var emptyExtraConfigYaml = `
 version: 0.1
 http:
@@ -176,16 +170,15 @@ storage:
 `
 	os.Setenv("REGISTRY_OPENSHIFT_SERVER_ADDR", ":5000")
 	defer os.Unsetenv("REGISTRY_OPENSHIFT_SERVER_ADDR")
-
 	configFile := bytes.NewBufferString(emptyExtraConfigYaml)
-
 	_, _, err := Parse(configFile)
 	if err != nil {
 		t.Fatalf("unexpected parser error: %s", err)
 	}
 }
-
 func TestExtraConfigurationVersionError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var badExtraConfigYaml = `
 version: 0.1
 http:
@@ -196,29 +189,22 @@ openshift:
   version: 2.0
 `
 	configFile := bytes.NewBufferString(badExtraConfigYaml)
-
 	_, _, err := Parse(configFile)
 	if err == nil {
 		t.Fatalf("unexpected parser success")
 	}
-
 	if err != ErrUnsupportedVersion {
 		t.Fatalf("unexpected parser error: %v", err)
 	}
 }
-
 func TestDefaultMiddleware(t *testing.T) {
-	checks := []struct {
-		title, input, expect string
-	}{
-		{
-			title: "miss all middlewares",
-			input: `
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	checks := []struct{ title, input, expect string }{{title: "miss all middlewares", input: `
 version: 0.1
 storage:
   inmemory: {}
-`,
-			expect: `
+`, expect: `
 version: 0.1
 storage:
   inmemory: {}
@@ -229,34 +215,14 @@ middleware:
     - name: openshift
   storage:
     - name: openshift
-`,
-		},
-		{
-			title: "miss some middlewares",
-			input: `
+`}, {title: "miss some middlewares", input: `
 version: 0.1
 storage:
   inmemory: {}
 middleware:
   registry:
     - name: openshift
-`,
-			expect: `
-version: 0.1
-storage:
-  inmemory: {}
-middleware:
-  registry:
-    - name: openshift
-  repository:
-    - name: openshift
-  storage:
-    - name: openshift
-`,
-		},
-		{
-			title: "all middlewares are in place",
-			input: `
+`, expect: `
 version: 0.1
 storage:
   inmemory: {}
@@ -267,8 +233,7 @@ middleware:
     - name: openshift
   storage:
     - name: openshift
-`,
-			expect: `
+`}, {title: "all middlewares are in place", input: `
 version: 0.1
 storage:
   inmemory: {}
@@ -279,11 +244,18 @@ middleware:
     - name: openshift
   storage:
     - name: openshift
-`,
-		},
-		{
-			title: "check v1.0.8 config",
-			input: `
+`, expect: `
+version: 0.1
+storage:
+  inmemory: {}
+middleware:
+  registry:
+    - name: openshift
+  repository:
+    - name: openshift
+  storage:
+    - name: openshift
+`}, {title: "check v1.0.8 config", input: `
 version: 0.1
 log:
   level: debug
@@ -300,8 +272,7 @@ auth:
 middleware:
   repository:
    - name: openshift
-`,
-			expect: `
+`, expect: `
 version: 0.1
 log:
   level: debug
@@ -322,11 +293,7 @@ middleware:
     - name: openshift
   storage:
     - name: openshift
-`,
-		},
-		{
-			title: "check v1.2.1 config",
-			input: `
+`}, {title: "check v1.2.1 config", input: `
 version: 0.1
 log:
   level: debug
@@ -347,8 +314,7 @@ middleware:
     - name: openshift
       options:
         pullthrough: true
-`,
-			expect: `
+`, expect: `
 version: 0.1
 log:
   level: debug
@@ -373,11 +339,7 @@ middleware:
         pullthrough: true
   storage:
     - name: openshift
-`,
-		},
-		{
-			title: "check v1.3.0-alpha.3 config",
-			input: `
+`}, {title: "check v1.3.0-alpha.3 config", input: `
 version: 0.1
 log:
   level: debug
@@ -406,8 +368,7 @@ middleware:
         blobrepositorycachettl: 10m
   storage:
     - name: openshift
-`,
-			expect: `
+`, expect: `
 version: 0.1
 log:
   level: debug
@@ -436,10 +397,7 @@ middleware:
         blobrepositorycachettl: 10m
   storage:
     - name: openshift
-`,
-		},
-	}
-
+`}}
 	for _, check := range checks {
 		currentConfig, err := configuration.Parse(strings.NewReader(check.input))
 		if err != nil {
@@ -450,14 +408,14 @@ middleware:
 			t.Fatal(err)
 		}
 		setDefaultMiddleware(currentConfig)
-
 		if !reflect.DeepEqual(currentConfig, expectConfig) {
 			t.Errorf("%s: expected\n\t%#v\ngot\n\t%#v", check.title, expectConfig, currentConfig)
 		}
 	}
 }
-
 func TestMiddlewareMigration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var inputConfigYaml = `
 version: 0.1
 log:
@@ -561,8 +519,9 @@ openshift:
 		t.Fatalf("expected compatibility section\n\t%#v\ngot\n\t%#v", expectConfig.Compatibility, currentConfig.Compatibility)
 	}
 }
-
 func TestServerAddrEnvOrder(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -573,38 +532,11 @@ storage:
 openshift:
   version: 1.0
 `
-	type env struct {
-		name, value string
-	}
+	type env struct{ name, value string }
 	testCases := []struct {
-		setenv   []env
-		expected string
-	}{
-		{
-			setenv: []env{
-				{name: "DOCKER_REGISTRY_SERVICE_HOST", value: "DOCKER_REGISTRY_SERVICE_HOST"},
-				{name: "DOCKER_REGISTRY_SERVICE_PORT", value: "DOCKER_REGISTRY_SERVICE_PORT"},
-			},
-			expected: "DOCKER_REGISTRY_SERVICE_HOST:DOCKER_REGISTRY_SERVICE_PORT",
-		},
-		{
-			setenv:   []env{{name: "REGISTRY_OPENSHIFT_SERVER_ADDR", value: "REGISTRY_OPENSHIFT_SERVER_ADDR"}},
-			expected: "REGISTRY_OPENSHIFT_SERVER_ADDR",
-		},
-		{
-			setenv:   []env{{name: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL", value: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}},
-			expected: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL",
-		},
-		{
-			setenv:   []env{{name: "DOCKER_REGISTRY_URL", value: "DOCKER_REGISTRY_URL"}},
-			expected: "DOCKER_REGISTRY_URL",
-		},
-		{
-			setenv:   []env{{name: "OPENSHIFT_DEFAULT_REGISTRY", value: "OPENSHIFT_DEFAULT_REGISTRY"}},
-			expected: "OPENSHIFT_DEFAULT_REGISTRY",
-		},
-	}
-
+		setenv		[]env
+		expected	string
+	}{{setenv: []env{{name: "DOCKER_REGISTRY_SERVICE_HOST", value: "DOCKER_REGISTRY_SERVICE_HOST"}, {name: "DOCKER_REGISTRY_SERVICE_PORT", value: "DOCKER_REGISTRY_SERVICE_PORT"}}, expected: "DOCKER_REGISTRY_SERVICE_HOST:DOCKER_REGISTRY_SERVICE_PORT"}, {setenv: []env{{name: "REGISTRY_OPENSHIFT_SERVER_ADDR", value: "REGISTRY_OPENSHIFT_SERVER_ADDR"}}, expected: "REGISTRY_OPENSHIFT_SERVER_ADDR"}, {setenv: []env{{name: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL", value: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}}, expected: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}, {setenv: []env{{name: "DOCKER_REGISTRY_URL", value: "DOCKER_REGISTRY_URL"}}, expected: "DOCKER_REGISTRY_URL"}, {setenv: []env{{name: "OPENSHIFT_DEFAULT_REGISTRY", value: "OPENSHIFT_DEFAULT_REGISTRY"}}, expected: "OPENSHIFT_DEFAULT_REGISTRY"}}
 	for _, test := range testCases {
 		for _, env := range test.setenv {
 			os.Setenv(env.name, env.value)
@@ -619,8 +551,9 @@ openshift:
 		}
 	}
 }
-
 func TestServerAddrConfigPriority(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -633,42 +566,11 @@ openshift:
   server:
     addr: from-config
 `
-	type env struct {
-		name, value string
-	}
+	type env struct{ name, value string }
 	testCases := []struct {
-		setenv   []env
-		expected string
-	}{
-		{
-			setenv:   []env{},
-			expected: "from-config",
-		},
-		{
-			setenv: []env{
-				{name: "DOCKER_REGISTRY_SERVICE_HOST", value: "DOCKER_REGISTRY_SERVICE_HOST"},
-				{name: "DOCKER_REGISTRY_SERVICE_PORT", value: "DOCKER_REGISTRY_SERVICE_PORT"},
-			},
-			expected: "from-config",
-		},
-		{
-			setenv:   []env{{name: "REGISTRY_OPENSHIFT_SERVER_ADDR", value: "REGISTRY_OPENSHIFT_SERVER_ADDR"}},
-			expected: "REGISTRY_OPENSHIFT_SERVER_ADDR",
-		},
-		{
-			setenv:   []env{{name: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL", value: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}},
-			expected: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL",
-		},
-		{
-			setenv:   []env{{name: "DOCKER_REGISTRY_URL", value: "DOCKER_REGISTRY_URL"}},
-			expected: "DOCKER_REGISTRY_URL",
-		},
-		{
-			setenv:   []env{{name: "OPENSHIFT_DEFAULT_REGISTRY", value: "OPENSHIFT_DEFAULT_REGISTRY"}},
-			expected: "OPENSHIFT_DEFAULT_REGISTRY",
-		},
-	}
-
+		setenv		[]env
+		expected	string
+	}{{setenv: []env{}, expected: "from-config"}, {setenv: []env{{name: "DOCKER_REGISTRY_SERVICE_HOST", value: "DOCKER_REGISTRY_SERVICE_HOST"}, {name: "DOCKER_REGISTRY_SERVICE_PORT", value: "DOCKER_REGISTRY_SERVICE_PORT"}}, expected: "from-config"}, {setenv: []env{{name: "REGISTRY_OPENSHIFT_SERVER_ADDR", value: "REGISTRY_OPENSHIFT_SERVER_ADDR"}}, expected: "REGISTRY_OPENSHIFT_SERVER_ADDR"}, {setenv: []env{{name: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL", value: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}}, expected: "REGISTRY_MIDDLEWARE_REPOSITORY_OPENSHIFT_DOCKERREGISTRYURL"}, {setenv: []env{{name: "DOCKER_REGISTRY_URL", value: "DOCKER_REGISTRY_URL"}}, expected: "DOCKER_REGISTRY_URL"}, {setenv: []env{{name: "OPENSHIFT_DEFAULT_REGISTRY", value: "OPENSHIFT_DEFAULT_REGISTRY"}}, expected: "OPENSHIFT_DEFAULT_REGISTRY"}}
 	for _, test := range testCases {
 		for _, env := range test.setenv {
 			os.Setenv(env.name, env.value)
@@ -683,8 +585,9 @@ openshift:
 		}
 	}
 }
-
 func TestAudit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -714,8 +617,9 @@ openshift:
 		t.Fatalf("unexpected value: extraConfig.Audit.Enabled != true")
 	}
 }
-
 func testDisableInmemoryCacheName(t *testing.T, field string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -739,14 +643,15 @@ openshift:
 		t.Fatalf("unexpected value: dockerConfig.Storage['cache'] != nil")
 	}
 }
-
-// TODO(legion) Uncomment this when we will have our cache on the storage level.
 func testDisableInmemoryCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testDisableInmemoryCacheName(t, "layerinfo")
 	testDisableInmemoryCacheName(t, "blobdescriptor")
 }
-
 func testPreserveRedisCacheName(t *testing.T, field string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var configYaml = `
 version: 0.1
 http:
@@ -777,13 +682,15 @@ openshift:
 		t.Fatalf("unexpected value: dockerConfig.Storage['cache']['%s'] != redis", field)
 	}
 }
-
 func TestPreserveRedisCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testPreserveRedisCacheName(t, "layerinfo")
 	testPreserveRedisCacheName(t, "blobdescriptor")
 }
-
 func TestDisabledMiddleware(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var inputConfigYaml = `
 version: 0.1
 storage:

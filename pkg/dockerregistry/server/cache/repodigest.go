@@ -7,26 +7,23 @@ type RepositoryDigest interface {
 	ContainsRepository(dgst digest.Digest, repository string) bool
 	Repositories(dgst digest.Digest) []string
 }
-
-type repositoryDigest struct {
-	Cache DigestCache
-}
+type repositoryDigest struct{ Cache DigestCache }
 
 var _ RepositoryDigest = &repositoryDigest{}
 
 func NewRepositoryDigest(cache DigestCache) RepositoryDigest {
-	return &repositoryDigest{
-		Cache: cache,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &repositoryDigest{Cache: cache}
 }
-
 func (rd *repositoryDigest) AddDigest(dgst digest.Digest, repository string) error {
-	return rd.Cache.Add(dgst, &DigestValue{
-		repo: &repository,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return rd.Cache.Add(dgst, &DigestValue{repo: &repository})
 }
-
 func (rd *repositoryDigest) ContainsRepository(dgst digest.Digest, repository string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, repo := range rd.Cache.Repositories(dgst) {
 		if repo == repository {
 			return true
@@ -34,7 +31,8 @@ func (rd *repositoryDigest) ContainsRepository(dgst digest.Digest, repository st
 	}
 	return false
 }
-
 func (rd *repositoryDigest) Repositories(dgst digest.Digest) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rd.Cache.Repositories(dgst)
 }

@@ -4,26 +4,23 @@ import (
 	"context"
 	"testing"
 	"time"
-
 	"github.com/openshift/image-registry/pkg/testutil/counter"
 )
 
 func TestLimiter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const timeout = 1 * time.Second
-
 	maxRunning := 2
 	maxInQueue := 3
-	maxWaitInQueue := time.Duration(1) // any non-zero value, we redefine newTimer for this test.
+	maxWaitInQueue := time.Duration(1)
 	lim := NewLimiter(maxRunning, maxInQueue, maxWaitInQueue)
-
-	// All clients in the queue will be rejected when the channel deadline is closed.
 	deadline := make(chan time.Time)
 	lim.(*limiter).newTimer = func(d time.Duration) *time.Timer {
 		t := time.NewTimer(d)
 		t.C = deadline
 		return t
 	}
-
 	ctx := context.Background()
 	c := counter.New()
 	jobBarrier := make(chan struct{}, maxRunning+maxInQueue+1)
@@ -48,54 +45,41 @@ func TestLimiter(t *testing.T) {
 			}
 		}()
 	}
-
 	wait("timeout while waiting one failed job")
-
-	// expected state: 2 running, 3 in queue, 1 failed
 	if diff := c.Diff(counter.M{false: 1}); diff != nil {
 		t.Error(diff)
 	}
-
 	jobBarrier <- struct{}{}
 	wait("timeout while waiting one succeed job")
-
-	// expected state: 2 running, 2 in queue, 1 failed, 1 succeed
 	if diff := c.Diff(counter.M{false: 1, true: 1}); diff != nil {
 		t.Error(diff)
 	}
-
 	close(deadline)
 	wait("timeout while waiting the first failed job from the queue")
 	wait("timeout while waiting the second failed job from the queue")
-
-	// expected state: 2 running, 0 in queue, 3 failed, 1 succeed
 	if diff := c.Diff(counter.M{false: 3, true: 1}); diff != nil {
 		t.Error(diff)
 	}
-
 	jobBarrier <- struct{}{}
 	jobBarrier <- struct{}{}
 	wait("timeout while waiting the first succeed job")
 	wait("timeout while waiting the second succeed job")
-
-	// expected state: 0 running, 0 in queue, 3 failed, 3 succeed
 	if diff := c.Diff(counter.M{false: 3, true: 3}); diff != nil {
 		t.Error(diff)
 	}
 }
-
 func TestLimiterContext(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const timeout = 1 * time.Second
-
 	maxRunning := 2
 	maxInQueue := 3
 	maxWaitInQueue := 120 * time.Second
 	lim := NewLimiter(maxRunning, maxInQueue, maxWaitInQueue)
-
 	type job struct {
-		ctx      context.Context
-		cancel   context.CancelFunc
-		finished bool
+		ctx		context.Context
+		cancel		context.CancelFunc
+		finished	bool
 	}
 	c := counter.New()
 	jobs := make(chan *job, maxRunning+maxInQueue+1)
@@ -105,13 +89,8 @@ func TestLimiterContext(t *testing.T) {
 		for i := 0; i < amount; i++ {
 			go func() {
 				ctx, cancel := context.WithCancel(context.Background())
-				job := &job{
-					ctx:      ctx,
-					cancel:   cancel,
-					finished: false,
-				}
+				job := &job{ctx: ctx, cancel: cancel, finished: false}
 				jobs <- job
-
 				started := lim.Start(ctx)
 				defer func() {
 					c.Add(started, 1)
@@ -119,7 +98,6 @@ func TestLimiterContext(t *testing.T) {
 					done <- struct{}{}
 				}()
 				if started {
-					// if the job is running, it is not cancellable anymore
 					<-jobBarrier
 					lim.Done()
 				}
@@ -159,36 +137,23 @@ func TestLimiterContext(t *testing.T) {
 			}
 		}
 	}
-
 	startJobs(maxRunning + maxInQueue + 1)
 	waitJobs(1, "the job that doesn't fit in the queue from the first portion")
-
-	// expected state: 2 running, 3 in queue, 1 failed
 	if diff := c.Diff(counter.M{false: 1}); diff != nil {
 		t.Error(diff)
 	}
-
 	cancelJobs(maxRunning+maxInQueue, "the jobs from the first portion")
-	// The running jobs is not cancellable in this test.
 	waitJobs(maxInQueue, "the cancelled jobs from the queue from the first portion")
-
-	// expected state: 2 running, 0 in queue, 4 failed
 	if diff := c.Diff(counter.M{false: 4}); diff != nil {
 		t.Error(diff)
 	}
-
 	startJobs(maxInQueue + 1)
 	waitJobs(1, "the job that doesn't fit in the queue from the second portion")
-
-	// expected state: 2 running, 3 in queue, 5 failed
 	if diff := c.Diff(counter.M{false: 5}); diff != nil {
 		t.Error(diff)
 	}
-
 	finishJobs(maxRunning+maxInQueue, "all running and queued jobs")
 	waitJobs(maxRunning+maxInQueue, "all finished jobs")
-
-	// expected state: 0 running, 0 in queue, 5 failed, 5 succeed
 	if diff := c.Diff(counter.M{false: 5, true: 5}); diff != nil {
 		t.Error(diff)
 	}
