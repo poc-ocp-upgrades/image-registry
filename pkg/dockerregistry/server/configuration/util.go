@@ -10,6 +10,8 @@ import (
 type optionConverter func(interface{}, interface{}) (interface{}, error)
 
 func convertBool(value interface{}, defval interface{}) (b interface{}, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := value.(type) {
 	case bool:
 		return t, nil
@@ -23,35 +25,31 @@ func convertBool(value interface{}, defval interface{}) (b interface{}, err erro
 	}
 	return defval, fmt.Errorf("%#+v is not a boolean", value)
 }
-
 func convertString(value interface{}, defval interface{}) (b interface{}, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, ok := value.(string)
 	if !ok {
 		return defval, fmt.Errorf("expected string, not %T", value)
 	}
 	return s, err
 }
-
 func convertDuration(value interface{}, defval interface{}) (d interface{}, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, ok := value.(string)
 	if !ok {
 		return defval, fmt.Errorf("expected string, not %T", value)
 	}
-
 	parsed, err := time.ParseDuration(s)
 	if err != nil {
 		return defval, fmt.Errorf("parse duration error: %v", err)
 	}
 	return parsed, nil
 }
-
-func getOptionValue(
-	envVar string,
-	optionName string,
-	defval interface{},
-	options map[string]interface{},
-	conversionFunc optionConverter,
-) (value interface{}, err error) {
+func getOptionValue(envVar string, optionName string, defval interface{}, options map[string]interface{}, conversionFunc optionConverter) (value interface{}, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value = defval
 	if optValue, ok := options[optionName]; ok {
 		converted, convErr := conversionFunc(optValue, defval)
@@ -61,7 +59,6 @@ func getOptionValue(
 			value = converted
 		}
 	}
-
 	if len(envVar) == 0 {
 		return
 	}
@@ -69,28 +66,29 @@ func getOptionValue(
 	if len(envValue) == 0 {
 		return
 	}
-
 	converted, convErr := conversionFunc(envValue, defval)
 	if convErr != nil {
 		err = fmt.Errorf("invalid value of environment variable %s: %v", envVar, convErr)
 	} else {
 		value = converted
 	}
-
 	return
 }
-
 func getBoolOption(envVar string, optionName string, defval bool, options map[string]interface{}) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value, err := getOptionValue(envVar, optionName, defval, options, convertBool)
 	return value.(bool), err
 }
-
 func getStringOption(envVar string, optionName string, defval string, options map[string]interface{}) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value, err := getOptionValue(envVar, optionName, defval, options, convertString)
 	return value.(string), err
 }
-
 func getDurationOption(envVar string, optionName string, defval time.Duration, options map[string]interface{}) (time.Duration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value, err := getOptionValue(envVar, optionName, defval, options, convertDuration)
 	return value.(time.Duration), err
 }

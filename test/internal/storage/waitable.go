@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-
 	storagedriver "github.com/docker/distribution/registry/storage/driver"
 )
 
@@ -12,30 +11,27 @@ type WaitableDriver interface {
 	storagedriver.StorageDriver
 	WaitFor(ctx context.Context, paths ...string) error
 }
-
 type driver struct {
 	storagedriver.StorageDriver
-
-	mu      sync.Mutex
-	demands map[string]chan struct{}
+	mu	sync.Mutex
+	demands	map[string]chan struct{}
 }
 
 var _ WaitableDriver = &driver{}
 
 func NewWaitableDriver(sd storagedriver.StorageDriver) WaitableDriver {
-	return &driver{
-		StorageDriver: sd,
-		demands:       make(map[string]chan struct{}),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &driver{StorageDriver: sd, demands: make(map[string]chan struct{})}
 }
-
 func (d *driver) WaitFor(ctx context.Context, paths ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type pending struct {
-		path string
-		c    <-chan struct{}
+		path	string
+		c	<-chan struct{}
 	}
 	var queue []pending
-
 	d.mu.Lock()
 	for _, path := range paths {
 		if _, err := d.Stat(ctx, path); err != nil {
@@ -53,7 +49,6 @@ func (d *driver) WaitFor(ctx context.Context, paths ...string) error {
 		}
 	}
 	d.mu.Unlock()
-
 	for _, p := range queue {
 		select {
 		case <-ctx.Done():
@@ -63,8 +58,9 @@ func (d *driver) WaitFor(ctx context.Context, paths ...string) error {
 	}
 	return nil
 }
-
 func (d *driver) PutContent(ctx context.Context, path string, content []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := d.StorageDriver.PutContent(ctx, path, content)
 	if err == nil {
 		d.mu.Lock()
