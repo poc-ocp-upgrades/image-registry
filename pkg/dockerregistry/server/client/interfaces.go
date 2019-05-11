@@ -4,57 +4,40 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	coreclientv1 "k8s.io/client-go/kubernetes/typed/core/v1"
-
 	imageapiv1 "github.com/openshift/api/image/v1"
 	userapiv1 "github.com/openshift/api/user/v1"
 	authapiv1 "k8s.io/api/authorization/v1"
-
 	imageclientv1 "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1"
 	userclientv1 "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
-
 	authclientv1 "k8s.io/client-go/kubernetes/typed/authorization/v1"
 )
 
-type UsersInterfacer interface {
-	Users() UserInterface
-}
-
-type ImagesInterfacer interface {
-	Images() ImageInterface
-}
-
+type UsersInterfacer interface{ Users() UserInterface }
+type ImagesInterfacer interface{ Images() ImageInterface }
 type ImageSignaturesInterfacer interface {
 	ImageSignatures() ImageSignatureInterface
 }
-
 type ImageStreamImagesNamespacer interface {
 	ImageStreamImages(namespace string) ImageStreamImageInterface
 }
-
 type ImageStreamsNamespacer interface {
 	ImageStreams(namespace string) ImageStreamInterface
 }
-
 type ImageStreamMappingsNamespacer interface {
 	ImageStreamMappings(namespace string) ImageStreamMappingInterface
 }
-
 type ImageStreamSecretsNamespacer interface {
 	ImageStreamSecrets(namespace string) ImageStreamSecretInterface
 }
-
 type ImageStreamTagsNamespacer interface {
 	ImageStreamTags(namespace string) ImageStreamTagInterface
 }
-
 type LimitRangesGetter interface {
 	LimitRanges(namespace string) LimitRangeInterface
 }
-
 type LocalSubjectAccessReviewsNamespacer interface {
 	LocalSubjectAccessReviews(namespace string) LocalSubjectAccessReviewInterface
 }
-
 type SelfSubjectAccessReviewsNamespacer interface {
 	SelfSubjectAccessReviews() SelfSubjectAccessReviewInterface
 }

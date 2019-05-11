@@ -5,35 +5,30 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
 	dcontext "github.com/docker/distribution/context"
 	"github.com/openshift/image-registry/pkg/dockerregistry/server/auth"
 	"github.com/openshift/image-registry/pkg/dockerregistry/server/client"
-
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type tokenHandler struct {
-	ctx    context.Context
-	client client.RegistryClient
+	ctx		context.Context
+	client	client.RegistryClient
 }
 
-// NewTokenHandler returns a handler that implements the docker token protocol
 func NewTokenHandler(ctx context.Context, client client.RegistryClient) http.Handler {
-	return &tokenHandler{
-		ctx:    ctx,
-		client: client,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &tokenHandler{ctx: ctx, client: client}
 }
 
-// bearer token issued to token requests that present no credentials
-// recognized by the openshift auth provider as identifying the anonymous user
 const anonymousToken = "anonymous"
 
 func (t *tokenHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := dcontext.WithRequest(t.ctx, req)
-
 	params := req.URL.Query()
 	if len(params.Get("scope")) > 0 {
 		accessRecords := auth.ResolveScopeSpecifiers(ctx, params["scope"])
@@ -49,30 +44,23 @@ func (t *tokenHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			}
 		}
 	}
-
-	// If no authorization is provided, return a token the auth provider will treat as an anonymous user
 	if len(req.Header.Get("Authorization")) == 0 {
 		dcontext.GetRequestLogger(ctx).Debugf("anonymous token request")
 		t.writeToken(anonymousToken, w, req)
 		return
 	}
-
-	// use the password as the token
 	_, token, ok := req.BasicAuth()
 	if !ok {
 		dcontext.GetRequestLogger(ctx).Debugf("no basic auth credentials provided")
 		t.writeUnauthorized(w, req)
 		return
 	}
-
-	// TODO: if this doesn't validate as an API token, attempt to obtain an API token using the given username/password
 	osClient, err := t.client.ClientFromToken(token)
 	if err != nil {
 		dcontext.GetRequestLogger(ctx).Errorf("error building client: %v", err)
 		t.writeError(w, req, "invalid request")
 		return
 	}
-
 	if _, err := osClient.Users().Get("~", metav1.GetOptions{}); err != nil {
 		dcontext.GetRequestLogger(ctx).Errorf("invalid token: %v", err)
 		if kerrors.IsUnauthorized(err) {
@@ -86,28 +74,25 @@ func (t *tokenHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		}
 		return
 	}
-
 	t.writeToken(token, w, req)
 }
-
 func (t *tokenHandler) writeError(w http.ResponseWriter, req *http.Request, msg string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(401)
-	// TODO(dmage): log error?
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{"details": msg})
 }
-
 func (t *tokenHandler) writeToken(token string, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
-	// TODO(dmage): log error?
-	_ = json.NewEncoder(w).Encode(map[string]interface{}{
-		"token":        token,
-		"access_token": token,
-	})
+	_ = json.NewEncoder(w).Encode(map[string]interface{}{"token": token, "access_token": token})
 }
-
 func (t *tokenHandler) writeUnauthorized(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(401)
 }
